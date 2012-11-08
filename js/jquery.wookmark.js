@@ -21,8 +21,8 @@ $.fn.wookmark = function(options) {
   } else if(options) {
     this.wookmarkOptions = $.extend(this.wookmarkOptions, options);
   }
-  
-  // Layout variables.
+
+  // Layout variables. 초기화 시켜줌
   if(!this.wookmarkColumns) {
     this.wookmarkColumns = null;
     this.wookmarkContainerWidth = null;
@@ -31,17 +31,24 @@ $.fn.wookmark = function(options) {
   // Main layout function.
   this.wookmarkLayout = function() {
     // Calculate basic layout parameters.
+    // 아이템 한칸의 길이
     var columnWidth = this.wookmarkOptions.itemWidth + this.wookmarkOptions.offset;
+    // 현재 페이지 가로길이
     var containerWidth = this.wookmarkOptions.container.width();
+    // 아이템이 배치될 기둥 수 
     var columns = Math.floor((containerWidth+this.wookmarkOptions.offset)/columnWidth);
+    // 아이템이 시작할 가로위치
     var offset = Math.round((containerWidth - (columns*columnWidth-this.wookmarkOptions.offset))/2);
     
     // If container and column count hasn't changed, we can only update the columns.
+    // 위에서 필요한 길이들을 계산하고 여기서 레이아웃 함수 호출
     var bottom = 0;
     if(this.wookmarkColumns != null && this.wookmarkColumns.length == columns) {
-      bottom = this.wookmarkLayoutColumns(columnWidth, offset);
+		// 재계산한 기둥수와 현재 기둥수가 일치할때
+        bottom = this.wookmarkLayoutColumns(columnWidth, offset);
     } else {
-      bottom = this.wookmarkLayoutFull(columnWidth, columns, offset);
+		// 맨처음 or 나중에 새로 배치할때
+        bottom = this.wookmarkLayoutFull(columnWidth, columns, offset);
     }
     
     // Set container height to height of the grid.
@@ -58,34 +65,35 @@ $.fn.wookmark = function(options) {
       heights.push(0);
     }
     
-    // Store column data.
+    // Store column data. 기둥의 갯수를 구함
     this.wookmarkColumns = [];
     while(this.wookmarkColumns.length < columns) {
       this.wookmarkColumns.push([]);
     }
     
-    // Loop over items.             갯수
-    var item, top, left, i=0, k=0, length=this.length, shortest=null, bottom = 0;
+    // Loop over items.             리스트 아이템 갯수
+    var item, top, left, i=0, k=0, length=this.length, bottom = 0;
     
     for(; i<length; i++ ) {
-      item = $(this[i]);
+		item = $(this[i]);
       
-      shortest = null;
-      for(k=0; k<columns; k++) {
-        // Postion the item.
-        item.css({
-          position: 'absolute',
-          top: shortest+'px',
-          left: (k*columnWidth + offset)+'px' // offset은 왼쪽에서부터 거리
-        });
-
-        // Update column height.
-        if(columns - k < 0) shortest = 0;
-        else shortest = heights[columns - k];
-        heights[k] = shortest + item.outerHeight() + this.wookmarkOptions.offset;
-        bottom = Math.max(bottom, heights[k]);
-      }
-      this.wookmarkColumns[i % columns].push(item); // 기둥만큼 줄을 가지고 있어서 해당 기둥에 넣어주는 코드
+		// 각각의 기둥에 대해서
+		if(i < columns) //첫행의 위치는 0
+			shortest = 0;
+		else // 다음행의 위치는 각각의 기둥의 높이
+			shortest = heights[i % columns];
+		
+		// Postion the item.
+		item.css({
+			position: 'absolute',
+			top: shortest + 'px',
+			left: ((i % columns)*columnWidth + offset)+'px' // offset은 왼쪽에서부터 거리
+		});
+		
+		// 지금 기둥의 높이는 현재높이 + 아이템의 높이 + 아이템간 간격
+		heights[i % columns] = shortest + item.outerHeight() + this.wookmarkOptions.offset;
+		bottom = Math.max(bottom, heights[i % columns]);
+		this.wookmarkColumns[i % columns].push(item); // 기둥만큼 줄을 가지고 있어서 해당 기둥에 넣어주는 코드
     }
     
     return bottom;
@@ -97,6 +105,7 @@ $.fn.wookmark = function(options) {
    */
   this.wookmarkLayoutColumns = function(columnWidth, offset) {
     var heights = [];
+
     while(heights.length < this.wookmarkColumns.length) {
       heights.push(0);
     }

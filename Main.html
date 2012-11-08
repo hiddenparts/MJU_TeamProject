@@ -2,47 +2,96 @@
 <html lang="ko">
     <head>
     	<meta charset="utf-8">
-	    <title>사진 게시판</title>
+	    <title>D_2조 팀프로젝트</title>
 	    <script src="js/jquery-1.8.2.js"></script>
 	    <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
 
     <body>
+        <div id="titlebar">
+            <span>검색</span>
+            <span>타이틀로고</span>
+            <span>소개 로그인 가입</span>
+        </div>
+
+        <div id="menubar">
+            메뉴바
+        </div>
 
         <div id="list">
             <ul id="tiles">
             <!-- These are our grid blocks -->
-                <li><img src="images/image_1.jpg" width="200" height="283"><p>1</p></li>
-                <li><img src="images/image_2.jpg" width="200" height="300"><p>2</p></li>
-                <li><img src="images/image_3.jpg" width="200" height="252"><p>3</p></li>
-                <li><img src="images/image_4.jpg" width="200" height="158"><p>4</p></li>
-                <li><img src="images/image_5.jpg" width="200" height="300"><p>5</p></li>
-                <li><img src="images/image_6.jpg" width="200" height="297"><p>6</p></li>
-                <li><img src="images/image_7.jpg" width="200" height="200"><p>7</p></li>
-                <li><img src="images/image_8.jpg" width="200" height="200"><p>8</p></li>
-                <li><img src="images/image_9.jpg" width="200" height="398"><p>9</p></li>
-                <li><img src="images/image_10.jpg" width="200" height="267"><p>10</p></li>
-                <li><img src="images/image_1.jpg" width="200" height="283"><p>11</p></li>
-                <li><img src="images/image_2.jpg" width="200" height="300"><p>12</p></li>
-                <li><img src="images/image_3.jpg" width="200" height="252"><p>13</p></li>
-                <li><img src="images/image_4.jpg" width="200" height="158"><p>14</p></li>
-                <li><img src="images/image_5.jpg" width="200" height="300"><p>15</p></li>
-                <li><img src="images/image_6.jpg" width="200" height="297"><p>16</p></li>
-                <li><img src="images/image_7.jpg" width="200" height="200"><p>17</p></li>
-                <li><img src="images/image_8.jpg" width="200" height="200"><p>18</p></li>
-                <li><img src="images/image_9.jpg" width="200" height="398"><p>19</p></li>
-                <li><img src="images/image_10.jpg" width="200" height="267"><p>20</p></li>
-                <li><img src="images/image_1.jpg" width="200" height="283"><p>21</p></li>
-                <li><img src="images/image_2.jpg" width="200" height="300"><p>22</p></li>
-                <li><img src="images/image_3.jpg" width="200" height="252"><p>23</p></li>
-                <li><img src="images/image_4.jpg" width="200" height="158"><p>24</p></li>
-                <li><img src="images/image_5.jpg" width="200" height="300"><p>25</p></li>
-                <li><img src="images/image_6.jpg" width="200" height="297"><p>26</p></li>
-                <li><img src="images/image_7.jpg" width="200" height="200"><p>27</p></li>
-                <li><img src="images/image_8.jpg" width="200" height="200"><p>28</p></li>
-                <li><img src="images/image_9.jpg" width="200" height="398"><p>29</p></li>
-                <li><img src="images/image_10.jpg" width="200" height="267"><p>30</p></li>
+                <li><img src="images/image_1.jpg"><p>1</p></li>
+				<li><img src="images/image_2.jpg"><p>2</p></li>
+				<li><img src="images/image_3.jpg"><p>3</p></li>
+				<li><img src="images/image_4.jpg"><p>4</p></li>
+				<li><img src="images/image_5.jpg"><p>5</p></li>
+				<li><img src="images/image_6.jpg"><p>6</p></li>
+				<li><img src="images/image_7.jpg"><p>7</p></li>
+				<li><img src="images/image_8.jpg"><p>8</p></li>
+				<li><img src="images/image_9.jpg"><p>9</p></li>
+				<li><img src="images/image_10.jpg"><p>10</p></li>
+				<li><img src="images/image_1.jpg"><p>11</p></li>
+				<li><img src="images/image_2.jpg"><p>12</p></li>
+				<li><img src="images/image_3.jpg"><p>13</p></li>
+				<li><img src="images/image_4.jpg"><p>14</p></li>
+				<li><img src="images/image_5.jpg"><p>15</p></li>
+				<li><img src="images/image_6.jpg"><p>16</p></li>
+				<li><img src="images/image_7.jpg"><p>17</p></li>
+				<li><img src="images/image_8.jpg"><p>18</p></li>
+				<li><img src="images/image_9.jpg"><p>19</p></li>
+				<li><img src="images/image_10.jpg"><p>20</p></li>
+				<li><img src="images/image_1.jpg"><p>21</p></li>
+				<li><img src="images/image_2.jpg"><p>22</p></li>
+				<li><img src="images/image_3.jpg"><p>23</p></li>
+				<li><img src="images/image_4.jpg"><p>24</p></li>
+				<li><img src="images/image_5.jpg"><p>25</p></li>
+				<li><img src="images/image_6.jpg"><p>26</p></li>
+				<li><img src="images/image_7.jpg"><p>27</p></li>
+				<li><img src="images/image_8.jpg"><p>28</p></li>
+				<li><img src="images/image_9.jpg"><p>29</p></li>
+				<li><img src="images/image_10.jpg"><p>30</p></li>
+				<li><img src="images/image_1.jpg"><p>31</p></li>
+				<li><img src="images/image_2.jpg"><p>32</p></li>
+				<li><img src="images/image_3.jpg"><p>33</p></li>
+				<li><img src="images/image_4.jpg"><p>34</p></li>
+				<li><img src="images/image_5.jpg"><p>35</p></li>
+				<li><img src="images/image_6.jpg"><p>36</p></li>
+				<li><img src="images/image_7.jpg"><p>37</p></li>
+				<li><img src="images/image_8.jpg"><p>38</p></li>
+				<li><img src="images/image_9.jpg"><p>39</p></li>
+				<li><img src="images/image_10.jpg"><p>40</p></li>
+				<li><img src="images/image_1.jpg"><p>41</p></li>
+				<li><img src="images/image_2.jpg"><p>42</p></li>
+				<li><img src="images/image_3.jpg"><p>43</p></li>
+				<li><img src="images/image_4.jpg"><p>44</p></li>
+				<li><img src="images/image_5.jpg"><p>45</p></li>
+				<li><img src="images/image_6.jpg"><p>46</p></li>
+				<li><img src="images/image_7.jpg"><p>47</p></li>
+				<li><img src="images/image_8.jpg"><p>48</p></li>
+				<li><img src="images/image_9.jpg"><p>49</p></li>
+				<li><img src="images/image_10.jpg"><p>50</p></li>
+				<li><img src="images/image_1.jpg"><p>51</p></li>
+				<li><img src="images/image_2.jpg"><p>52</p></li>
+				<li><img src="images/image_3.jpg"><p>53</p></li>
+				<li><img src="images/image_4.jpg"><p>54</p></li>
+				<li><img src="images/image_5.jpg"><p>55</p></li>
+				<li><img src="images/image_6.jpg"><p>56</p></li>
+				<li><img src="images/image_7.jpg"><p>57</p></li>
+				<li><img src="images/image_8.jpg"><p>58</p></li>
+				<li><img src="images/image_9.jpg"><p>59</p></li>
+				<li><img src="images/image_10.jpg"><p>60</p></li>
+				<li><img src="images/image_1.jpg"><p>61</p></li>
+				<li><img src="images/image_2.jpg"><p>62</p></li>
+				<li><img src="images/image_3.jpg"><p>63</p></li>
+				<li><img src="images/image_4.jpg"><p>64</p></li>
+				<li><img src="images/image_5.jpg"><p>65</p></li>
+				<li><img src="images/image_6.jpg"><p>66</p></li>
+				<li><img src="images/image_7.jpg"><p>67</p></li>
+				<li><img src="images/image_8.jpg"><p>68</p></li>
+				<li><img src="images/image_9.jpg"><p>69</p></li>
+				<li><img src="images/image_10.jpg"><p>70</p></li>
             <!-- End of grid blocks -->
             </ul>
 
@@ -55,10 +104,13 @@
 
   <!-- Include the plug-in -->
   <script src="js/jquery.wookmark.js"></script>
+
+  <!-- Include the imagesLoaded plug-in -->
+  <script src="js/jquery.imagesloaded.js"></script>
   
   <!-- Once the page is loaded, initalize the plug-in. -->
   <script type="text/javascript">
-    $(document).ready(new function() {
+    $('#tiles').imagesLoaded(function() {
       // Prepare layout options.
       var options = {
         autoResize: true, // This will auto-update the layout when the browser window is resized.
@@ -74,33 +126,6 @@
       handler.wookmark(options);
     });
     
-    /**
-     * When scrolled all the way to the bottom, add more tiles.
-     */
-    function onScroll(event) {
-      // Check if we're within 100 pixels of the bottom edge of the broser window.
-      var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
-      if(closeToBottom) {
-        // Get the first then items from the grid, clone them, and add them to the bottom of the grid.
-        var items = $('#tiles li');
-        var firstTen = items.slice(0, 10);
-        $('#tiles').append(firstTen.clone());
-        
-        // Clear our previous layout handler.
-        if(handler) handler.wookmarkClear();
-        
-        // Create a new layout handler.
-        handler = $('#tiles li');
-        handler.wookmark(options);
-      }
-    };
-  
-    $(document).ready(new function() {
-      // Capture scroll event.
-      $(document).bind('scroll', onScroll);
-      
-      // Call the layout function.
-      handler = $('#tiles li');
-      handler.wookmark(options);
-    });
   </script>
+  
+  
