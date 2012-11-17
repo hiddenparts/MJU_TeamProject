@@ -33,7 +33,7 @@
 					</ul>
 				</div>
 				<div class="pull-right">
-					<a class="brand pull-right" href="main.html">Home</a>
+					<a class="brand pull-right" href="main.html">go Home</a>
 				</div>
 			</div>
 		</div>

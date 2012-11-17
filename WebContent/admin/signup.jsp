@@ -116,7 +116,16 @@
 				<div class="control-group">
 					<label class="control-label" for="website">프로필 사진</label>
 					<div class="controls">
-						<input type="file" name="profilephoto"> 사진의 크기는 최대 2MB까지 가능합니다.
+						<c:choose>
+							<c:when test="${empty user.profilephoto}">
+								<input type="file" name="profilephoto"> 
+							</c:when>
+							<c:otherwise>
+								<input type="file" name="profilephoto" value="${user.profilephoto}"> 
+								<p>등록된 사진 <c:out value="${user.profilephoto}"/> 이 있습니다.</p>
+							</c:otherwise>
+						</c:choose>
+						<p>사진의 크기는 최대 2MB까지 가능합니다.</p>
 					</div>
 				</div>
 
@@ -135,13 +144,13 @@
 				<div class="form-actions">
 					<a href="admin" class="btn">목록으로</a>
 					<c:choose>
-					  <c:when test="${method=='POST'}">
-  						<input type="submit" class="btn btn-primary" value="가입">
-  					</c:when>
-  					<c:otherwise>
-  						<input type="submit" class="btn btn-primary" value="수정">
-  					</c:otherwise>
-  				</c:choose>
+						 <c:when test="${method=='POST'}">
+	  						<input type="submit" class="btn btn-primary" value="가입">
+	  					</c:when>
+	  					<c:otherwise>
+	  						<input type="submit" class="btn btn-primary" value="수정">
+	  					</c:otherwise>
+  					</c:choose>
 				</div>
 			</fieldset>
 		  </form>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*"  import="java.sql.*" 
-    import="org.apache.commons.lang3.StringUtils"%>
+    pageEncoding="UTF-8" import="java.util.*"  import="java.sql.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <!DOCTYPE html>
 <html>
@@ -19,9 +18,9 @@
 
  <div class="container">
     <div>
-      <h3><c:out value="${user.lastname}"/><c:out value="${user.firstname}"/></h3>
+      <h3><img class="media-object" src="image/sm${user.profilephoto}"/><c:out value="${user.lastname}"/> <c:out value="${user.firstname}"/></h3>
       <ul>
-        <li>프로필사진: </li>
+        <li>프로필사진: <c:out value="${user.profilephoto}"/></li>
         <li>ID: <c:out value="${user.userid}"/></li>
         <li>Email: <a href="mailto:${user.email}"><c:out value="${user.email}"/></a></li>
         <li>별명: ${user.nickname }</li>

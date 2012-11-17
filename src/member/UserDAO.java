@@ -185,7 +185,7 @@ public class UserDAO {
 			stmt.setString(2,  user.getFirstname());
 			stmt.setString(3,  user.getNickname());
 			stmt.setString(4,  user.getProfilephoto());
-			stmt.setString(5,  user.getGender()); //?
+			stmt.setString(5,  user.getGender());
 			stmt.setString(6,  user.getEmail());
 			stmt.setString(7,  user.getIntroduce());
 			stmt.setString(8,  user.getWebsite());
