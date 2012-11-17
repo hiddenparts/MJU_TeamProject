@@ -45,16 +45,16 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach var="user" items="${users.list }">
+			<c:forEach var="user" items="${users.list }" varStatus="status">
 				<tr>
-					<td> </td>
+					<td>${status.index + (users.page-1) * 10 + 1 }</td>
 					<td><a href="admin?op=show&id=${user.userid}"><c:out value="${user.userid}"/></a></td>
 					<td><c:out value="${user.lastname}"/></td>
 					<td><c:out value="${user.firstname}"/></td>
 					<td><c:out value="${user.nickname}"/></td>
 					<td><c:out value="${user.email}"/></td>
 					<td><c:out value="${user.genderStr}"/></td>
-					<td>가입일 </td>
+					<td><c:out value="${user.registerdate}"/></td>
 					<td><c:out value="${user.level}"/></td>
 					<td> </td>
 					<td><a href="admin?op=update&id=${user.userid}"
@@ -68,7 +68,7 @@
 
     <jsp:include page="page.jsp">
       <jsp:param name="currentPage" value="${users.page}"/>
-      <jsp:param name="url" value="user"/>
+      <jsp:param name="url" value="admin"/>
       <jsp:param name="startPage" value="${users.startPageNo}"/>
       <jsp:param name="endPage" value="${users.endPageNo}"/>
       <jsp:param name="numPages" value="${users.numPages}"/>

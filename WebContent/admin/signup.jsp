@@ -115,6 +115,13 @@
 				</div>
 
 				<div class="control-group">
+					<label class="control-label" for="website">프로필 사진</label>
+					<div class="controls">
+						<input type="file" name="profilephoto">
+					</div>
+				</div>
+
+				<div class="control-group">
 					<label class="control-label">회원정보공개</label>
 					<div class="controls">
 					  <c:forEach var="info" items="${user.infoopen}">

@@ -127,7 +127,7 @@ public class UserServlet extends HttpServlet {
 		String lastname = request.getParameter("lastname");
 		String firstname = request.getParameter("firstname");
 		String nickname = request.getParameter("nickname");
-		//String profilephoto = request.getParameter("profilephoto");
+		String profilephoto = request.getParameter("profilephoto");
 		String email = request.getParameter("email");
 		String gender = request.getParameter("gender");
 		String website = request.getParameter("website");
@@ -178,6 +178,7 @@ public class UserServlet extends HttpServlet {
 		user.setLastname(lastname);
 		user.setFirstname(firstname);
 		user.setNickname(nickname);
+		user.setProfilephoto(profilephoto);
 		user.setEmail(email);
 		user.setGender(gender);
 		user.setIntroduce(introduce);
