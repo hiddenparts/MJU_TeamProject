@@ -15,7 +15,7 @@
 		<div class="container">
 			<a class="brand" href="">TeamProject</a>
 			<div class="row">
-				<div class="nav-collapse collapse">
+				<div class="nav-collapse collapse pull-left">
 					<ul class="nav">
 						<%
 								for (String[] menuItem : menu) {
@@ -32,7 +32,7 @@
 							%>
 					</ul>
 				</div>
-				<div class="span1">
+				<div class="pull-right">
 					<a class="brand pull-right" href="main.html">Home</a>
 				</div>
 			</div>

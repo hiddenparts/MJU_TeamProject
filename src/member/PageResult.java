@@ -6,10 +6,10 @@ public class PageResult<T> implements java.io.Serializable{
 	private static final long serialVersionUID = -1826830567659349558L;
 	
 	private List<T> list;
-	private int numItemsInPage;
-	private int numItems;
-	private int numPages;
-	private int page;
+	private int 	numItemsInPage;
+	private int 	numItems;
+	private int 	numPages;
+	private int 	page;
 	
 	private final static int delta = 5;
 	public List<T> getListUsers() {

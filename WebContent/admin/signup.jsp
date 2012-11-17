@@ -109,7 +109,6 @@
 				<div class="control-group">
 					<label class="control-label" for="introduce">자기소개</label>
 					<div class="controls">
-						<!--<input type="text" name="introduce" value="${user.introduce}">-->
 						<textarea rows="3" name="introduce">${user.introduce}</textarea>
 					</div>
 				</div>
@@ -117,7 +116,7 @@
 				<div class="control-group">
 					<label class="control-label" for="website">프로필 사진</label>
 					<div class="controls">
-						<input type="file" name="profilephoto">
+						<input type="file" name="profilephoto"> 사진의 크기는 최대 2MB까지 가능합니다.
 					</div>
 				</div>
 

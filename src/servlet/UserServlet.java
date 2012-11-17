@@ -60,8 +60,8 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String op = request.getParameter("op");
-		String actionUrl = "";
+		String 	op 			= request.getParameter("op");
+		String 	actionUrl 	= "";
 		boolean ret;
 		
 		String userid = request.getParameter("id");
@@ -125,83 +125,85 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean ret = false;
-		String actionUrl;
-		String msg;
-		Member user = new Member();
+		boolean ret 	= false;
+		String 	actionUrl;
+		String 	msg;
+		Member 	user 	= new Member();
 		
 		request.setCharacterEncoding("utf-8");
-		String userid = "";
-		String pwd = "";
-		String pwd_confirm = "";
-		String lastname = "";
-		String firstname = "";
-		String nickname = "";
+		String userid 		= "";
+		String pwd 			= "";
+		String pwd_confirm 	= "";
+		String lastname 	= "";
+		String firstname 	= "";
+		String nickname 	= "";
 		String profilephoto = "";
-		String email = "";
-		String gender = "";
-		String website = "";
-		String introduce = "";
-		String info = "";
+		String email 		= "";
+		String gender 		= "";
+		String website 		= "";
+		String introduce 	= "";
+		String info 		= "";
 		List<String> errorMsgs = new ArrayList<String>();
 		
 	/* image upload ============================================================== */	
 		String imagePath = request.getRealPath("image"); //실제로 업로드 될 폴더의 경로 설정
-		int size = 1 * 1024 * 1024; //업로드 사이즈 제한
+		int size = 2 * 1024 * 1024; //업로드 사이즈 제한. 2MB로 설정
 		
 		try {
 			// 이미지 업로드
 			// 실제 저장은 다른 경로에 저장되니 조심..여기서는 imagePath에 저장되니 이 경로를 추적하면 된다.
 			MultipartRequest multi = new MultipartRequest(request, imagePath, size, "utf-8", new DefaultFileRenamePolicy());
-
+			
 			/* POST로 설정된 form에서 값을 받아와서 임시로 저장함 */
 			/* MultipartRequest를 사용하면 request의 값은 소멸함.. 아오 빡쳐...*/
-			userid = multi.getParameter("userid");
-			pwd = multi.getParameter("pwd");
+			userid 		= multi.getParameter("userid");
+			pwd 		= multi.getParameter("pwd");
 			pwd_confirm = multi.getParameter("pwd_confirm");
-			lastname = multi.getParameter("lastname");
-			firstname = multi.getParameter("firstname");
-			nickname = multi.getParameter("nickname");
-			email = multi.getParameter("email");
-			gender = multi.getParameter("gender");
-			website = multi.getParameter("website");
-			introduce = multi.getParameter("introduce");
-			info = multi.getParameter("info");
+			lastname 	= multi.getParameter("lastname");
+			firstname 	= multi.getParameter("firstname");
+			nickname 	= multi.getParameter("nickname");
+			email 		= multi.getParameter("email");
+			gender 		= multi.getParameter("gender");
+			website		= multi.getParameter("website");
+			introduce 	= multi.getParameter("introduce");
+			info 		= multi.getParameter("info");
 			
 			//업로드 된 이미지 이름 얻어옴!
-			Enumeration files = multi.getFileNames();
-			String file = (String) files.nextElement();
-			profilephoto = multi.getFilesystemName(file);
+			Enumeration files 	= multi.getFileNames();
+			String 		file 	= (String) files.nextElement();
+			profilephoto 		= multi.getFilesystemName(file);
 		} catch (Exception e) {
 			System.out.println("에러" + e);
 			//e.printStackTrace();
 		}
 
-		// 이 클래스에 변환할 이미지를 담는다.(이미지는 ParameterBlock을 통해서만 담을수 있다.)
-		ParameterBlock pb = new ParameterBlock();
-		pb.add(imagePath + "\\" + profilephoto);
-		System.out.println(imagePath + "\\" + profilephoto);
-		
-		RenderedOp rOp = JAI.create("fileload", pb);
-
-		//불러온 이미지를 BuffedImage에 담는다.
-		BufferedImage bi = rOp.getAsBufferedImage();
-		//thumb라는 이미지 버퍼를 생성, 버퍼의 사이즈는 100*100으로 설정.
-		BufferedImage thumb = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-
-		//버퍼사이즈 100*100으로  맞춰  썸네일을 그림
-		Graphics2D g = thumb.createGraphics();
-		g.drawImage(bi, 0, 0, 100, 100, null);
-
-		/*출력할 위치와 파일이름을 설정하고 섬네일 이미지를 생성한다. 저장하는 타입을 jpg로 설정.*/
-		File file = new File(imagePath + "/sm_" + profilephoto);
-		ImageIO.write(thumb, "jpg", file);
+		if(profilephoto != null) {
+			// 이 클래스에 변환할 이미지를 담는다.(이미지는 ParameterBlock을 통해서만 담을수 있다.)
+			ParameterBlock pb = new ParameterBlock();
+			pb.add(imagePath + "\\" + profilephoto);
+			//System.out.println(imagePath + "\\" + profilephoto);
+			
+			RenderedOp rOp = JAI.create("fileload", pb);
+	
+			//불러온 이미지를 BuffedImage에 담는다.
+			BufferedImage bi = rOp.getAsBufferedImage();
+			//thumb라는 이미지 버퍼를 생성, 버퍼의 사이즈는 100*100으로 설정.
+			BufferedImage thumb = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+	
+			//버퍼사이즈 100*100으로  맞춰  썸네일을 그림
+			Graphics2D g = thumb.createGraphics();
+			g.drawImage(bi, 0, 0, 100, 100, null);
+	
+			/*출력할 위치와 파일이름을 설정하고 섬네일 이미지를 생성한다. 저장하는 타입을 jpg로 설정.*/
+			File file = new File(imagePath + "/sm_" + profilephoto);
+			ImageIO.write(thumb, "jpg", file);
+		}
 	/* image upload ============================================================== */
 		
 	/* sign.jsp에서 입력받은 데이타를  Member클래스의 인스턴스 user에 등록 */
 		//가입이면
 		if (isRegisterMode(request)) {
-			if (pwd == null || pwd.length() < 6) {
+			if (pwd.length() < 6 || pwd == null ) {
 				errorMsgs.add("비밀번호는 6자 이상 입력해주세요.");
 			} 
 			
@@ -235,6 +237,7 @@ public class UserServlet extends HttpServlet {
 			errorMsgs.add("정보 공개여부를 선택해주세요");
 		}
 		
+		/* sign.jsp에서 입력받은 데이터를  javabean인 Member 클래스의 인스턴스 user에 등록 */
 		user.setUserid(userid);
 		user.setRegisterdate(new Timestamp(System.currentTimeMillis()));
 		user.setLastname(lastname);
@@ -246,10 +249,9 @@ public class UserServlet extends HttpServlet {
 		user.setIntroduce(introduce);
 		user.setWebsite(website);
 		user.setInfo(info);
-	/* sign.jsp에서 입력받은 데이타를  Member클래스의 인스턴스 user에 등록 */
 		
 		try {
-			/* user를 가지고 DAO의 함수를 호출하여 DB처리를 함 */
+			/* bean인 user를 가지고 DAO의 함수를 호출하여 DB처리를 함 */
 			if (isRegisterMode(request)) {
 				ret = UserDAO.create(user);
 				msg = "<b>" + lastname + firstname + "</b>님의 사용자 정보가 등록되었습니다.";

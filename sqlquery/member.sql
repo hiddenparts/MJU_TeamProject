@@ -2,7 +2,7 @@ CREATE DATABASE project DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_
 
 GRANT ALL ON project.* TO 'webadmin'@'localhost' IDENTIFIED BY 'admin';
 
-use web2012;
+use project.* 
 
 CREATE TABLE member (
   `userid` VARCHAR(20),
