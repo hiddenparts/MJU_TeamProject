@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+    	<meta charset="utf-8">
+	    <title>Canvas</title>
+	    <script src="js/jquery-1.8.2.js"></script>
+	    <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+    	<canvas width="600" height="400" id="mycanvas" style="border: 1px solid">
+			보입니까?
+    	</canvas>
+    </body>
+
+</html>
+
+<script>
+	var canv = document.getElementById('mycanvas');
+	context = canv.getContext('2d');
+	
+	context.beginPath();
+	context.moveTo(10, 10);
+	content.lineTo(100, 100);
+	context.stroke();
+</script>
