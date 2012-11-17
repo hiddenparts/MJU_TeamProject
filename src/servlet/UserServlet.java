@@ -1,10 +1,19 @@
 package servlet;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.renderable.ParameterBlock;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.media.jai.JAI;
+import javax.media.jai.RenderedOp;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,21 +22,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//섬네일 이미지를 만들기 위한 JAI클래스, 그래픽 관련 클래스들
-import java.awt.Graphics2D;
-import java.awt.image.renderable.ParameterBlock;
-import java.awt.image.BufferedImage;
-import javax.media.jai.JAI;
-import javax.media.jai.RenderedOp;
-import javax.imageio.ImageIO;
+import member.Member;
+import member.PageResult;
+import member.UserDAO;
 
-//이미지 업로드 관련 클래스들 
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.oreilly.servlet.MultipartRequest;
-import java.io.File;
-import java.util.Enumeration;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import member.*;
 
 /**
  * Servlet implementation class User
@@ -112,7 +113,6 @@ public class UserServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
 		dispatcher.forward(request, response);
-		
 	}
 
 
@@ -150,7 +150,8 @@ public class UserServlet extends HttpServlet {
 		int size = 1 * 1024 * 1024; //업로드 사이즈 제한
 		
 		try {
-			//이미지 업로드
+			// 이미지 업로드
+			// 실제 저장은 다른 경로에 저장되니 조심..여기서는 imagePath에 저장되니 이 경로를 추적하면 된다.
 			MultipartRequest multi = new MultipartRequest(request, imagePath, size, "utf-8", new DefaultFileRenamePolicy());
 
 			/* POST로 설정된 form에서 값을 받아와서 임시로 저장함 */
@@ -166,18 +167,6 @@ public class UserServlet extends HttpServlet {
 			website = multi.getParameter("website");
 			introduce = multi.getParameter("introduce");
 			info = multi.getParameter("info");
-			
-			System.out.println(userid);
-			System.out.println(pwd);
-			System.out.println(pwd_confirm);
-			System.out.println(lastname);
-			System.out.println(firstname);
-			System.out.println(nickname);
-			System.out.println(email);
-			System.out.println(gender);
-			System.out.println(website);
-			System.out.println(introduce);
-			System.out.println(info);
 			
 			//업로드 된 이미지 이름 얻어옴!
 			Enumeration files = multi.getFileNames();
