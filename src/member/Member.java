@@ -1,9 +1,6 @@
 package member;
 
 import java.sql.Timestamp;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class Member implements java.io.Serializable {
 	private static final long serialVersionUID = 2193897931951340673L;
@@ -36,7 +33,7 @@ public class Member implements java.io.Serializable {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
-		this.setRegisterdate(registerdate);
+		this.registerdate = registerdate;
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.nickname = nickname;

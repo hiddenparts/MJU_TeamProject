@@ -14,7 +14,7 @@
 	<div class="navbar-inner">
 		<div class="container">
 			<a class="brand" href="">TeamProject</a>
-			<div class="row-fluid">
+			<div class="row">
 				<div class="nav-collapse collapse">
 					<ul class="nav">
 						<%

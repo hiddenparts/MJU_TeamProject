@@ -18,7 +18,7 @@
  
  <div class="container">
    <div>
-		  <form class="span7 form-horizontal" action="admin" method="POST">
+		  <form class="span7 form-horizontal" action="admin" method="POST" enctype="multipart/form-data">
 			<fieldset>
         <legend class="legend">Sign Up</legend>
         <c:if test="${method == 'PUT'}">
