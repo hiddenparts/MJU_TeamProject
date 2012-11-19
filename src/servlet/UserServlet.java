@@ -1,5 +1,9 @@
 package servlet;
 
+import bean.Member;
+import bean.PageResult;
+import dao.MemberDAO;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.renderable.ParameterBlock;
@@ -22,13 +26,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.Member;
-import member.PageResult;
-import member.UserDAO;
-
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 
 /**
@@ -71,23 +70,23 @@ public class UserServlet extends HttpServlet {
 			if (op == null || op.equals("index")) {
 				int page = getIntFromParameter(request.getParameter("page"), 1);
 				
-				PageResult<Member> users = UserDAO.getPage(page, 10);
+				PageResult<Member> users = MemberDAO.getPage(page, 10);
 				request.setAttribute("users", users);
 				request.setAttribute("page", page);
 				actionUrl = "admin/index.jsp";
 			} else if (op.equals("show")) {
-				Member user = UserDAO.findById(userid);
+				Member user = MemberDAO.findById(userid);
 				request.setAttribute("user", user);
 
 				actionUrl = "admin/show.jsp";
 			} else if (op.equals("update")) {
-				Member user = UserDAO.findById(userid);
+				Member user = MemberDAO.findById(userid);
 				request.setAttribute("user", user);
 				request.setAttribute("method", "PUT");
 				
 				actionUrl = "admin/signup.jsp";
 			} else if (op.equals("delete")) {
-				ret = UserDAO.remove(userid);
+				ret = MemberDAO.remove(userid);
 				request.setAttribute("result", ret);
 				
 				if (ret) {
@@ -261,10 +260,10 @@ public class UserServlet extends HttpServlet {
 		try {
 			/* bean인 user를 가지고 DAO의 함수를 호출하여 DB처리를 함 */
 			if (isRegisterMode(multi)) {
-				ret = UserDAO.create(user);
+				ret = MemberDAO.create(user);
 				msg = "<b>" + lastname + firstname + "</b>님의 사용자 정보가 등록되었습니다.";
 			} else {
-				ret = UserDAO.update(user);
+				ret = MemberDAO.update(user);
 				actionUrl = "admin/success.jsp";
 				msg = "<b>" + lastname + firstname + "</b>님의 사용자 정보가 수정되었습니다.";
 			}

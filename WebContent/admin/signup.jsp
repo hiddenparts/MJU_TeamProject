@@ -116,15 +116,10 @@
 				<div class="control-group">
 					<label class="control-label" for="website">프로필 사진</label>
 					<div class="controls">
-						<c:choose>
-							<c:when test="${empty user.profilephoto}">
-								<input type="file" name="profilephoto"> 
-							</c:when>
-							<c:otherwise>
-								<input type="file" name="profilephoto" value="${user.profilephoto}"> 
-								<p>등록된 사진 <c:out value="${user.profilephoto}"/> 이 있습니다.</p>
-							</c:otherwise>
-						</c:choose>
+						<input type="file" name="profilephoto">
+						<c:if test="${user.profilephoto != 'null'}">
+								<p>등록된 사진 <c:out value="${user.profilephoto}"/> 이 있습니다.</p> 
+						</c:if>
 						<p>사진의 크기는 최대 2MB까지 가능합니다.</p>
 					</div>
 				</div>

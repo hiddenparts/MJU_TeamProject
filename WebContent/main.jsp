@@ -11,12 +11,7 @@
     </head>
 
     <body>
-        <div id="titlebar">
-        <span>with JSP</span>
-            <span>검색</span>
-            <span>타이틀로고</span>
-            <span>소개 로그인 가입</span>
-        </div>
+        <jsp:include page="mainheader.jsp"/>
 
         <div id="menubar">
             메뉴바

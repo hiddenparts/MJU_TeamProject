@@ -32,6 +32,7 @@
 			<thead>
 				<tr>
 					<th>No</th>
+					
 					<th>ID</th>
 					<th>Last Name</th>
 					<th>First Name</th>
