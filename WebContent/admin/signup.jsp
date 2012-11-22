@@ -24,6 +24,7 @@
         <c:if test="${method == 'PUT'}">
           <input type="hidden" name="_method" value="PUT"/>
           <input type="hidden" name="userid" value="${user.userid }"/>
+          <input type="hidden" name="_pwd" value="${user.pwd }"/>
         </c:if>
 
 				<div class="control-group">
@@ -41,22 +42,19 @@
 					</div>
 				</div>
 
-				<c:if test="${method == 'POST'}">
-					<%-- 신규 가입일 때만 비밀번호 입력창을 나타냄 --%>
-					<div class="control-group">
-						<label class="control-label" for="pwd">비밀번호</label>
-						<div class="controls">
-							<input type="password" name="pwd">
-						</div>
+				<div class="control-group">
+					<label class="control-label" for="pwd">비밀번호</label>
+					<div class="controls">
+						<input type="password" name="pwd">
 					</div>
-	
-					<div class="control-group">
-						<label class="control-label" for="pwd_confirm">비밀번호 확인</label>
-						<div class="controls">
-							<input type="password" name="pwd_confirm">
-						</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="pwd_confirm">비밀번호 확인</label>
+					<div class="controls">
+						<input type="password" name="pwd_confirm">
 					</div>
-				</c:if>
+				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="lastname">성</label>
@@ -64,7 +62,6 @@
 						<input type="text" placeholder="김" name="lastname" value="${user.lastname}">
 					</div>
 				</div>
-
 
 				<div class="control-group">
 					<label class="control-label" for="firstname">이름</label>
@@ -117,7 +114,7 @@
 					<label class="control-label" for="website">프로필 사진</label>
 					<div class="controls">
 						<input type="file" name="profilephoto">
-						<c:if test="${user.profilephoto != 'null'}">
+						<c:if test="${user.profilephoto != null}">
 								<p>등록된 사진 <c:out value="${user.profilephoto}"/> 이 있습니다.</p> 
 						</c:if>
 						<p>사진의 크기는 최대 2MB까지 가능합니다.</p>
