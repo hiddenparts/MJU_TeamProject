@@ -22,6 +22,9 @@
           <input type="hidden" name="_method" value="PUT"/>
           <input type="hidden" name="userid" value="${user.userid }"/>
         </c:if>
+        <c:if test="${method == 'POST'}">
+          <input type="hidden" name="_method" value="POST"/>
+        </c:if>
 
 				<div class="control-group">
 					<label class="control-label" for="userid">ID</label>

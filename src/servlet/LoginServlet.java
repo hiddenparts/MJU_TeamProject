@@ -194,14 +194,15 @@ public class LoginServlet extends HttpServlet{
 				
 				ret = SignUpManager.SignUp(multi, response, user, imagePath, isRegisterMode(multi).toString()); 
 				if (user.getProfilephoto() == null) {
-					errorMsgs.add("사진 업로드에 문제가 발생하여 사진이 업로드 되지 않았습니다");
+					errorMsgs.add("이 메세지는 사진 업로드를 하지 않았거나 사진 업로드시 문제가 발생했을때 보이는 메세지입니다");
+					System.out.println("이 메세지는 사진 업로드를 하지 않았거나 사진 업로드시 문제가 발생했을때 보이는 메세지입니다" );
 				}
 				if(ret) {
 					System.out.println("회원가입이나 수정 잘됨");
 					actionUrl = "main.jsp";
 				} else {
 					System.out.println("회원가입이나 수정 잘안됨");
-					actionUrl = "signup.jsp";
+					actionUrl = "error.jsp";
 				}
 			} else if(res && (isRegisterMode(multi) == state.login)) {
 				user = MemberDAO.findById(userid);
