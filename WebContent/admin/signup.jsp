@@ -111,7 +111,7 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="website">프로필 사진</label>
+					<label class="control-label" for="profilephoto">프로필 사진</label>
 					<div class="controls">
 						<input type="file" name="profilephoto">
 						<c:if test="${user.profilephoto != null}">

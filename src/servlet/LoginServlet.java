@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet{
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-		
+
 		String op = request.getParameter("op");
 		String userid = (String) session.getAttribute("userid");
 		String actionUrl = "";

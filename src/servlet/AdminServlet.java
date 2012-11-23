@@ -65,7 +65,7 @@ public class AdminServlet extends HttpServlet {
 		boolean ret;
 
 		try {
-			if (op == null || op.equals("index")) {
+			if (op == null || op.equals("member")) {
 				int page = getIntFromParameter(request.getParameter("page"), 1);
 				
 				PageResult<Member> users = MemberDAO.getPage(page, 10);
@@ -98,6 +98,8 @@ public class AdminServlet extends HttpServlet {
 				request.setAttribute("method", "POST");
 				request.setAttribute("user", new Member());
 				actionUrl = "admin/signup.jsp";
+			}  else if (op.equals("article")) {
+				actionUrl = "admin/article.jsp";
 			} else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
 				actionUrl = "admin/error.jsp";

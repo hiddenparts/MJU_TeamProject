@@ -8,8 +8,8 @@ import bean.Member;
 import bean.PageResult;
 
 
-
 public class MemberDAO {
+	
 	public static DataSource getDataSource() throws NamingException {
 		Context initCtx = null;
 		Context envCtx = null;

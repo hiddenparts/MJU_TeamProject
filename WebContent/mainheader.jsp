@@ -20,9 +20,10 @@
             <span>소개</span>
             <c:choose> 
             	<c:when test="${sessionScope.userid != null}" >
-            		<span>글쓰기</span>
-	            	<span> [<img class="media-object" src="image/sm${sessionScope.profilephoto}" width="35px" height="35px"/> 
-	            		<a href="login?op=update&id=${sessionScope.usernickname}">${sessionScope.usernickname}님</a>] 
+            		<span> <a href="article?op=write">글쓰기</a> </span>
+	            	<span> [
+	            	<img class="media-object" src="image/sm${sessionScope.profilephoto}" width="35px" height="35px"/> 
+	            		<a href="login?op=update&id=${sessionScope.usernickname}">${sessionScope.usernickname}님</a> ] 
 	            	</span>
 	            	<span><a href="login?op=logout">로그아웃</a></span>
             	</c:when>

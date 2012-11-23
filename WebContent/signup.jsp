@@ -110,7 +110,7 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="website">프로필 사진</label>
+					<label class="control-label" for="profilephoto">프로필 사진</label>
 					<div class="controls">
 						<input type="file" name="profilephoto">
 						<c:if test="${user.profilephoto != null}">
@@ -133,7 +133,6 @@
 				</div>
 
 				<div class="form-actions">
-					<a href="javascript:history.go(-1);" class="btn">되돌아가기</a>
 					<c:choose>
 						 <c:when test="${method=='POST'}">
 	  						<input type="submit" class="btn btn-primary" value="가입">
@@ -142,6 +141,7 @@
 	  						<input type="submit" class="btn btn-primary" value="수정">
 	  					</c:otherwise>
   					</c:choose>
+  					<a href="javascript:history.go(-1);" class="btn">취소</a>
 				</div>
 			</fieldset>
 		  </form>
