@@ -41,9 +41,13 @@ public class LoginServlet extends HttpServlet{
 		HttpSession session = request.getSession(true);
 
 		String op = request.getParameter("op");
-		Member user = (Member) session.getAttribute("user"); 		
-		String userid = user.getUserid();
+		String userid = "";
 		String actionUrl = "";
+		
+		Member user = (Member) session.getAttribute("user"); 	
+		if(user != null) {
+			userid = user.getUserid();
+		}
 		
 		// op가 없는 경우 무조건 login이라고 인식시킴
 		if(op == null) {
@@ -52,13 +56,6 @@ public class LoginServlet extends HttpServlet{
 		
 		try{
 			if(op.equals("login")) { // 로그인을 시도하는 경우
-				if(session.isNew()) {
-					//세션이 새로 생겼을 경우에 시작시간을 저장함 (일단 책에 있는대로 쳐보는거임..)
-					long sessionstart = session.getCreationTime();
-					session.setAttribute("sessionstart", sessionstart);
-					System.out.println("session Start");
-				}
-				// 세션이 새로 생겼다는것은  로그인상태가 아니라는 것이기때문에 login.jsp로 이동하게 함
 				actionUrl="login.jsp";
 			} else if(op.equals("logout")) { // 로그아웃을 시도하는 경우
 				System.out.println(session.getAttribute("userid") + "님 로그아웃함");

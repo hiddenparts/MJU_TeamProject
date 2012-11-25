@@ -40,7 +40,6 @@ public class ArticleServlet extends HttpServlet {
      */
     public ArticleServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -50,8 +49,10 @@ public class ArticleServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		String op = request.getParameter("op");
-		Member user = (Member) session.getAttribute("user"); 		
-		String userid = user.getUserid();
+		/*Member user = (Member) session.getAttribute("user"); 
+		if(user != null) {
+			String userid = user.getUserid();
+		}*/
 		String actionUrl = "";
 		
 		if(op == null) {
@@ -99,7 +100,6 @@ public class ArticleServlet extends HttpServlet {
 		MultipartRequest multi = null;
 		
 		request.setCharacterEncoding("utf-8");
-		String 	msg;
 		List<String> errorMsgs = new ArrayList<String>();
 				
 		/* MultipartRequest를 사용하면 이미 request의 값은 소멸함.. 아오 빡쳐...*/
