@@ -41,7 +41,8 @@ public class LoginServlet extends HttpServlet{
 		HttpSession session = request.getSession(true);
 
 		String op = request.getParameter("op");
-		String userid = (String) session.getAttribute("userid");
+		Member user = (Member) session.getAttribute("user"); 		
+		String userid = user.getUserid();
 		String actionUrl = "";
 		
 		// op가 없는 경우 무조건 login이라고 인식시킴
@@ -67,7 +68,7 @@ public class LoginServlet extends HttpServlet{
 				request.setAttribute("user", new Member());
 				actionUrl="signup.jsp";
 			} else if (op.equals("update")) {
-				Member user = MemberDAO.findById(userid);
+				user = MemberDAO.findById(userid);
 				request.setAttribute("user", user);
 				request.setAttribute("method", "PUT");
 				actionUrl = "signup.jsp";
@@ -111,7 +112,7 @@ public class LoginServlet extends HttpServlet{
 		Member user = new Member();
 		
 		/* 업로드 처리 관련 */
-		String imagePath = getServletContext().getRealPath("image"); //실제로 업로드 될 폴더의 경로 설정
+		String imagePath = getServletContext().getRealPath("images/profile"); //실제로 업로드 될 폴더의 경로 설정
 		int size = 2 * 1024 * 1024; //업로드 사이즈 제한. 2MB로 설정
 		MultipartRequest multi = new MultipartRequest(request, imagePath, size, "utf-8", new DefaultFileRenamePolicy());	
 
@@ -192,10 +193,14 @@ public class LoginServlet extends HttpServlet{
 				user.setWebsite(website);
 				user.setInfo(info);
 				
+				System.out.println(isRegisterMode(multi).toString());
 				ret = SignUpManager.SignUp(multi, response, user, imagePath, isRegisterMode(multi).toString()); 
 				if (user.getProfilephoto() == null) {
 					errorMsgs.add("이 메세지는 사진 업로드를 하지 않았거나 사진 업로드시 문제가 발생했을때 보이는 메세지입니다");
-					System.out.println("이 메세지는 사진 업로드를 하지 않았거나 사진 업로드시 문제가 발생했을때 보이는 메세지입니다" );
+				}
+				if(isRegisterMode(multi) == state.update) {
+					// 정보업데이트를 하면 즉시 반영을 위해 세션을 다시 교체해줌
+					session.setAttribute("user", user);
 				}
 				if(ret) {
 					System.out.println("회원가입이나 수정 잘됨");
@@ -210,10 +215,11 @@ public class LoginServlet extends HttpServlet{
 				if(user != null) {
 					if( user.getUserid().equals(userid) && user.getPwd().equals(userpwd) ) {
 						//로그인성공
-						session.setAttribute("userid", user.getUserid());
-					    session.setAttribute("usernickname", user.getNickname());
-					    session.setAttribute("profilephoto", user.getProfilephoto());
-					    System.out.println("로그인성공!" + user.getUserid() + "님이 로그인하셨습니다.");
+						session.setAttribute("user", user);
+						//session.setAttribute("userid", user.getUserid());
+					    //session.setAttribute("usernickname", user.getNickname());
+					    //session.setAttribute("profilephoto", user.getProfilephoto());
+					    System.out.println("로그인성공! " + user.getUserid() + "님이 로그인하셨습니다.");
 						actionUrl = "main.jsp";
 						ret = true;
 					} else if(user.getPwd() != userpwd) {

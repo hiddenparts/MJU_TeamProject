@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+    	<meta charset="utf-8">
+	    <title>D_2조 팀프로젝트</title>
+	    <script src="jquery-1.8.2.js"></script>
+	    <script src="mwLogin.js"></script>
+        <link rel="stylesheet" href="mwLogin.css">
+    </head>
+
+    <body>
+    	<p><a href="#login" id="loginAnchor" class="loginTrigger" accesskey="L" title="Accesskey(L)">#2 LOG-IN</a></p>
+		<div class="mwLogin open"> <!-- class에 open을 추가하면 자동으로 팝업창이 생성됨. 해당 키워드가 open임 -->
+			<div class="bg"></div>
+			<div id="login" class="gLogin">
+				<a href="#loginAnchor" class="close" title="로그인 레이어 닫기">X</a>
+				<form action="" id="gLogin" class="gLogin">
+					<fieldset>
+						<legend>Login</legend>
+						<div class="item">
+							<label for="uid" class="iLabel">ID</label><input name="" type="text" value="" id="uid" class="iText uid" />
+						</div>
+						<div class="item">
+							<label for="upw" class="iLabel">PASSWORD</label><input name="" type="password" value="" id="upw" class="iText upw" />
+						</div>
+						<p class="keeping"><input name="" type="checkbox" value="" class="iCheck" id="keepid" /><label for="keepid">로그인 유지</label></p>
+						<p class="warning">브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다. 로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다. 단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.</p>
+						<span class="btnLogin"><input name="" type="submit" value="로그인" /></span>
+						<ul class="help">
+							<li class="first"><a href="#">아이디/비밀번호 찾기</a></li>
+							<li><a href="#">회원 가입</a></li>
+							<li><a href="#oLogin" class="oAnchor">Open ID</a></li>
+						</ul>
+					</fieldset>
+				</form>
+				<form action="" id="oLogin" class="oLogin">
+					<fieldset>
+						<legend>Open ID Login</legend>
+						<div class="item">
+							<label for="oid" class="iLabel">Open ID</label><input name="" type="text" value="" id="oid" class="iText oid" />
+						</div>
+						<span class="btnLogin"><input name="" type="submit" value="로그인" /></span>
+						<p class="help"><a href="#gLogin" class="gAnchor">일반 아이디 로그인</a></p>
+					</fieldset>
+				</form>
+				<a href="#loginAnchor" class="close" title="로그인 레이어 닫기">X</a>
+			</div>
+		</div>
+	</body>
+
+</html>

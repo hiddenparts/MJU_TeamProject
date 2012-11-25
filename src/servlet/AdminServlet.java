@@ -97,8 +97,14 @@ public class AdminServlet extends HttpServlet {
 			} else if (op.equals("signup")) {
 				request.setAttribute("method", "POST");
 				request.setAttribute("user", new Member());
+				
 				actionUrl = "admin/signup.jsp";
 			}  else if (op.equals("article")) {
+				int page = getIntFromParameter(request.getParameter("page"), 1);
+				
+				PageResult<Article> posts = ArticleDAO.getPage(page, 10); // 10개를 가져오는거던가..
+				request.setAttribute("page", page);
+				request.setAttribute("posts", posts);
 				actionUrl = "admin/article.jsp";
 			} else {
 				request.setAttribute("error", "알 수 없는 명령입니다");
@@ -135,7 +141,7 @@ public class AdminServlet extends HttpServlet {
 		List<String> errorMsgs = new ArrayList<String>();
 				
 		/* MultipartRequest를 사용하면 이미 request의 값은 소멸함.. 아오 빡쳐...*/
-		String imagePath = getServletContext().getRealPath("image"); //실제로 업로드 될 폴더의 경로 설정
+		String imagePath = getServletContext().getRealPath("images/profile"); //실제로 업로드 될 폴더의 경로 설정
 		int size = 2 * 1024 * 1024; //업로드 사이즈 제한. 2MB로 설정
 		
 		multi = new MultipartRequest(request, imagePath, size, "utf-8", new DefaultFileRenamePolicy());		

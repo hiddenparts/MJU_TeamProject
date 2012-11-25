@@ -48,7 +48,7 @@ public class ArticleDAO {
 			// users 테이블: user 수 페이지수 개산
 	 		rs = stmt.executeQuery("SELECT COUNT(*) FROM article");
 			rs.next();
-			
+
 			result.setNumItems(rs.getInt(1));
 			
 			rs.close();
@@ -70,7 +70,7 @@ public class ArticleDAO {
 												rs.getString("category"),
 												rs.getInt("hits"),
 												rs.getInt("likehits"),
-												rs.getInt("ipaddress")));
+												rs.getInt("postip")));
 			}
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
@@ -122,17 +122,17 @@ public class ArticleDAO {
 
 			// 질의 준비
 			stmt = conn.prepareStatement(
-					"INSERT INTO article(userid, albumid, photo, content, category, postdate, ipaddress) " +
+					"INSERT INTO article(userid, albumid, photo, content, category, postdate, postip) " +
 					"VALUES(?, ?, ?, ?, ?, ?, ?)"
 					);
 
 			stmt.setString(1, post.getUserid());
-			stmt.setInt(2, 1);
+			stmt.setInt(2, 1); //앨범명
 			stmt.setString(3, post.getPhoto());
 			stmt.setString(4, post.getContent());
 			stmt.setString(5, post.getCategory());
 			stmt.setTimestamp(6, post.getPostdate());
-			stmt.setInt(7, 123456789);
+			stmt.setInt(7, 123456789); // ip주소
 
 			// 수행
 			result = stmt.executeUpdate();

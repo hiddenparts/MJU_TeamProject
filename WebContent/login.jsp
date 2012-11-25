@@ -23,8 +23,8 @@
 	    </c:if>
 	<!-- 업로드때문에 multipart를 사용하여 로그인 자체도 multipart로 바꿈.. 로그인과 회원가입 자체를 아예 분리시켜보려는 노력을 해볼까? -->
 	<form method="post" action="login" enctype="multipart/form-data">
-		<input type="hidden" name="_method" value="login"/>
-		<p>ID: <input type="text" name="userid"> </p>
+		<input type="hidden" name="_method" value="login">
+		<p>ID: <input type="text" name="userid"/> </p>
 		<p>Password: <input type="password" name="pwd"> </p>
 		<p><input type="submit" value="login"> </p>
 	</form>

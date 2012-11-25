@@ -1,8 +1,5 @@
 package servlet;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -10,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.media.jai.JAI;
-import javax.media.jai.RenderedOp;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,15 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
 import bean.Article;
 import bean.Category;
 import bean.Member;
 import bean.PageResult;
+import bean.Post;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import dao.ArticleDAO;
-import dao.MemberDAO;
+import dao.PostDAO;
 
 
 /**
@@ -54,7 +50,8 @@ public class ArticleServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		String op = request.getParameter("op");
-		String userid = (String) session.getAttribute("userid");
+		Member user = (Member) session.getAttribute("user"); 		
+		String userid = user.getUserid();
 		String actionUrl = "";
 		
 		if(op == null) {
@@ -63,7 +60,7 @@ public class ArticleServlet extends HttpServlet {
 
 		try {
 			if(op.equals("write")) { 
-				Category list = ArticleDAO.getlist();
+				Category list = ArticleDAO.getlist(); // 카테고리 리스트를 받아옴
 
 				request.setAttribute("method", "POST");
 				request.setAttribute("article", new Article());
@@ -72,7 +69,7 @@ public class ArticleServlet extends HttpServlet {
 			} else if(op.equals("update")) {
 				
 			} else if(op.equals("list")) {
-				PageResult<Article> posts = ArticleDAO.getPage(1, 100);
+				PageResult<Post> posts = PostDAO.getPage(1, 10); // 10개를 가져오는거던가..
 				request.setAttribute("posts", posts);
 				actionUrl = "photolist.jsp";
 			}
@@ -106,7 +103,7 @@ public class ArticleServlet extends HttpServlet {
 		List<String> errorMsgs = new ArrayList<String>();
 				
 		/* MultipartRequest를 사용하면 이미 request의 값은 소멸함.. 아오 빡쳐...*/
-		String imagePath = getServletContext().getRealPath("photo"); //실제로 업로드 될 폴더의 경로 설정
+		String imagePath = getServletContext().getRealPath("images/photo"); //실제로 업로드 될 폴더의 경로 설정
 		int size = 5 * 1024 * 1024; //업로드 사이즈 제한. 5MB로 설정
 		
 		multi = new MultipartRequest(request, imagePath, size, "utf-8", new DefaultFileRenamePolicy());		
@@ -116,7 +113,9 @@ public class ArticleServlet extends HttpServlet {
 			int postid = Integer.parseInt(multi.getParameter("postid"));
 			post.setPostid(postid);
 		}
-		String userid = (String) session.getAttribute("userid");
+		
+		Member user = (Member) session.getAttribute("user"); 		
+		String userid = user.getUserid();
 		String photo = UploadPhoto(multi, response, imagePath);
 		String content = multi.getParameter("content");
 		//int album;
@@ -132,11 +131,10 @@ public class ArticleServlet extends HttpServlet {
 			res = false;
 		}
 		
-		
 		//post.setAlbumid();
 		post.setCategory(Category);
 		post.setContent(content);
-		post.setIpaddress(1);
+		post.setPostip(1);
 		post.setPhoto(photo);
 		post.setPostdate(new Timestamp(System.currentTimeMillis()));
 		post.setUserid(userid);
@@ -178,7 +176,7 @@ public class ArticleServlet extends HttpServlet {
 	
 		try {
 			// 이미지 업로드
-			photo = multi.getParameter("photo");
+			photo = multi.getParameter("images/photo");
 			
 			// 업로드 된 이미지 이름 얻어옴!
 			Enumeration files 	= multi.getFileNames();

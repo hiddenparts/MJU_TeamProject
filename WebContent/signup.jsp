@@ -44,7 +44,7 @@
 				<div class="control-group">
 					<label class="control-label" for="pwd">비밀번호</label>
 					<div class="controls">
-						<input type="password" name="pwd">
+						<input type="password" name="pwd"> <p>비밀번호는 현재 암호화되지 않기때문에 적당히 입력하세요 ;;</p>
 					</div>
 				</div>
 

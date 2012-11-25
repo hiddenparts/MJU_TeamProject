@@ -38,12 +38,16 @@ public class SignUpManager extends HttpServlet {
 		boolean ret 		= false;
 
 		user.setProfilephoto(UploadPhoto(multi, response, imagePath));
-		
+		System.out.println("사진여부 : " + user.getProfilephoto());
 		try {
-			if(state.equals("signup"))
+			if(state.equals("signup")) {
+				System.out.println("가입모드");
 				ret = MemberDAO.create(user);
-			else if(state.equals("update"))
+			}
+			else if(state.equals("update")) {
+				System.out.println("수정모드");
 				ret = MemberDAO.update(user);
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

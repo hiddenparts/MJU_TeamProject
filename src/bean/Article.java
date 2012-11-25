@@ -15,14 +15,14 @@ public class Article implements Serializable{
 	private String category;
 	private int hits;
 	private int likehit;
-	private int ipaddress;
+	private int postip;
 	
 	// No-arg constructor 가 있어야 한다.
 	public Article() {
 	}
 
 	public Article(int postid, String userid, int albumid, String photo, String content, Timestamp postdate, String category, 
-			int hits, int likehit, int ipaddress) {
+			int hits, int likehit, int postip) {
 		super();
 		this.postid = postid;
 		this.userid = userid;
@@ -33,7 +33,7 @@ public class Article implements Serializable{
 		this.category = category;
 		this.hits = hits;
 		this.likehit = likehit;
-		this.ipaddress = ipaddress;
+		this.postip = postip;
 	}
 
 	public int getPostid() { return postid; }
@@ -45,8 +45,8 @@ public class Article implements Serializable{
 	public String getCategory() { return category; }
 	public int getHits() { return hits; }
 	public int getLikehit() { return likehit; }
-	public int getIpaddress() { return ipaddress; }
-
+	public int getPostip() { return postip; }
+	
 	public void setPostid(int postid) { this.postid = postid; }
 	public void setUserid(String userid) { this.userid = userid; }
 	public void setAlbumid(int albumid) { this.albumid = albumid; }
@@ -56,6 +56,5 @@ public class Article implements Serializable{
 	public void setCategory(String category) { this.category = category; }
 	public void setHits(int hits) { this.hits = hits; }
 	public void setLikehit(int likehit) { this.likehit = likehit; }
-	public void setIpaddress(int ipaddress) { this.ipaddress = ipaddress; }
-	
+	public void setPostip(int postip) { this.postip = postip; }
 }

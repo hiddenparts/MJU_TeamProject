@@ -18,7 +18,7 @@
 
  <div class="container">
     <div>
-      <h3><img class="media-object" src="image/sm${user.profilephoto}"/><c:out value="${user.lastname}"/> <c:out value="${user.firstname}"/></h3>
+      <h3><img class="media-object" src="images/profile/sm${user.profilephoto}"/><c:out value="${user.lastname}"/> <c:out value="${user.firstname}"/></h3>
       <ul>
         <li>프로필사진: <c:out value="${user.profilephoto}"/></li>
         <li>ID: <c:out value="${user.userid}"/></li>

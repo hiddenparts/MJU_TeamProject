@@ -149,8 +149,12 @@ public class MemberDAO {
 			stmt.setString(4,  user.getLastname());
 			stmt.setString(5,  user.getFirstname());
 			stmt.setString(6,  user.getNickname());
-			stmt.setString(7,  user.getProfilephoto());
-			stmt.setString(8,  user.getGender()); //?
+			if(user.getProfilephoto() == null) {
+				stmt.setString(7,  "default.gif");
+			} else {
+				stmt.setString(7,  user.getProfilephoto());
+			}
+			stmt.setString(8,  user.getGender());
 			stmt.setString(9,  user.getEmail());
 			stmt.setString(10,  user.getIntroduce());
 			stmt.setString(11,  user.getWebsite());
@@ -207,13 +211,14 @@ public class MemberDAO {
 				stmt.setString(2,  user.getLastname());
 				stmt.setString(3,  user.getFirstname());
 				stmt.setString(4,  user.getNickname());
-				stmt.setString(5,  user.getGender());
-				stmt.setString(6,  user.getEmail());
-				stmt.setString(7,  user.getIntroduce());
-				stmt.setString(8,  user.getWebsite());
-				stmt.setString(9,  user.getInfo());
+				stmt.setString(5,  user.getProfilephoto());
+				stmt.setString(6,  user.getGender());
+				stmt.setString(7,  user.getEmail());
+				stmt.setString(8,  user.getIntroduce());
+				stmt.setString(9,  user.getWebsite());
+				stmt.setString(10,  user.getInfo());
 				//stmt.setInt(11,  user.getLevel()); 질의문에 level=? 추가
-				stmt.setString(10,  user.getUserid());
+				stmt.setString(11,  user.getUserid());
 			}
 			
 			// 수행
