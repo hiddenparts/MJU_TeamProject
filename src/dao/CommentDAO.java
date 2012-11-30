@@ -36,7 +36,7 @@ public class CommentDAO {
 			rs = stmt.executeQuery("select DISTINCT	comment.*, member.nickname, member.profilephoto " 
 								 + "from  comment join article, member "
 								 + "where comment.postid = " + postid 
-								 + " and comment.userid = member.userid");
+								 + " and comment.userid = member.userid order by comment.commentdate ");
 
 			while(rs.next()) {
 				list.add(new Comment(rs.getInt("commentid"), 

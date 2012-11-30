@@ -6,8 +6,8 @@ CREATE TABLE `project`.`article` (
   `content` TEXT NOT NULL,
   `postdate` DATETIME NOT NULL,
   `category` VARCHAR(20) NOT NULL,
-  `hits` INT(4) UNSIGNED NOT NULL,
-  `likehits` INT(4) UNSIGNED NOT NULL,
-  `ipaddress` INT(4) UNSIGNED NOT NULL,
+  `hits` int(4) unsigned NOT NULL DEFAULT '0',
+  `likehits` int(4) unsigned NOT NULL DEFAULT '0',
+  `postip` int(4) unsigned NOT NULL,
   PRIMARY KEY(postid)
 ) ENGINE=MyISAM;
