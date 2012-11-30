@@ -2,6 +2,8 @@ package bean;
 
 import java.sql.Timestamp;
 
+import org.json.simple.JSONObject;
+
 public class Member implements java.io.Serializable {
 	private static final long serialVersionUID = 2193897931951340673L;
 	
@@ -105,4 +107,24 @@ public class Member implements java.io.Serializable {
 	/* 회원레벨 */
 	public int getLevel() { return level; }
 	public void setLevel(int level) { this.level = level; }
+	
+	public JSONObject UsertoJson() {
+		JSONObject js = new JSONObject();
+		
+		js.put("userid", this.userid);
+		//js.put("pwd", this.pwd);
+		js.put("registerdate", this.registerdate.toString());
+		js.put("lastname", this.lastname);
+		js.put("firstname", this.firstname);
+		js.put("nickname", this.nickname);
+		js.put("profilephoto", this.profilephoto);
+		js.put("gender", this.gender);
+		js.put("email", this.email);
+		js.put("introduce", this.introduce);
+		js.put("website", this.website);
+		js.put("info", this.info);
+		//js.put("level", this.level);
+		
+		return js;
+	}
 }

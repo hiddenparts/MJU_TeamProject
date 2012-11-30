@@ -3,6 +3,8 @@ package bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -33,4 +35,11 @@ public class Post implements Serializable {
 	public void setArticle(Article article) { this.article = article; }
 	public void setMember(Member member) { this.member = member; }
 	public void setComment(ArrayList<Comment> comment) { this.comment = comment; }
+	
+	//json 형태로 출력
+	public JSONObject PosttoJson() {
+		JSONObject js = new JSONObject();
+		js.put("name", member.getNickname());
+		return js;
+	}
 }

@@ -3,6 +3,8 @@ package bean;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.json.simple.JSONObject;
+
 public class Article implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -57,4 +59,21 @@ public class Article implements Serializable{
 	public void setHits(int hits) { this.hits = hits; }
 	public void setLikehit(int likehit) { this.likehit = likehit; }
 	public void setPostip(int postip) { this.postip = postip; }
+	
+	public JSONObject ArtitoJson() {
+		JSONObject js = new JSONObject();
+		
+		js.put("postid", this.postid);
+		js.put("userid", this.userid);
+		js.put("albumid", this.albumid);
+		js.put("photo", this.photo);
+		js.put("content", this.content);
+		js.put("postdate", this.postdate.toString());
+		js.put("category", this.category);
+		js.put("hits", this.hits);
+		js.put("likehit", this.likehit);
+		js.put("postip", this.postip);
+		
+		return js;
+	}
 }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link href="css/photo.css" rel="stylesheet">
+		<script src="js/jquery-1.8.2.js"></script>
+	</head>
+
+	<body>
+		<a href="#CLICK" class="popupTrigger">TEST</a>
+		<div class="popup">
+			<div class="bg"></div>
+			<div id="photopage">
+				<div id="name">
+					<img src="images/profile/default.gif"> 
+					<p id="name_name">글쓴이 </p>
+					<p id="name_time">시간 </p>
+				</div>
+					
+				<div id="photo">
+					<a href="1.jpg" target="_blank"> <img src="1.jpg"/> </a>
+					<p id="photo_content"> 내용 </p>
+				</div>
+				
+				<div id="form">
+					<img src="images/profile/default.gif">
+					<form method="#" action="#">
+						<input type="hidden" name="postid" value="" /> 
+						<input type="text"name="comment"/>
+						<input type="submit" value="댓글"/> 
+					</form>
+				</div>
+				
+				<div id="comment">
+					<img src="images/profile/default.gif"> 
+					<p> 닉네임 </p>
+					<p> 내용 </p> 
+					<p> 날짜 </p> 
+				</div>
+			</div>
+		</div>
+		<div id="a"></div>
+	</body>
+</html>
+<script>
+$(function($){
+	var loginWindow = $('.popup');
+	
+	// Show Hide
+	$('.popupTrigger').click(function(){
+		loginWindow.addClass('open');
+		$('.bg').css('height', $(document).height());
+	});
+	// ESC Event
+	$(document).keydown(function(event){
+		if(event.keyCode != 27) return true;
+		if (loginWindow.hasClass('open')) {
+			loginWindow.removeClass('open');
+		}
+		return false;
+	});
+	// Hide Window
+	loginWindow.find('>.bg').mousedown(function(event){
+		loginWindow.removeClass('open');
+		return false;
+	});
+
+	var list;
+	$.get('AjaxServlet', {id : 123 }, function(data) {
+		list = data.post.length;
+		alert(list);
+	});
+	
+});
+</script>

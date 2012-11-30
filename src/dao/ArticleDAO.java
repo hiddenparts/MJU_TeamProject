@@ -3,6 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.naming.*;
 import javax.sql.*;
@@ -181,4 +182,45 @@ public class ArticleDAO {
 	}
 	/* 글삭제 부분 */
 	/* 글찾기 부분 */
+	
+	
+	
+	/* json 테스트용 */
+	public static List<Article> getalllist() throws SQLException, NamingException {
+		List<Article> list = new ArrayList<Article>();
+		
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;		
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+			
+	 		// users 테이블 SELECT
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT * FROM article");
+			
+			while(rs.next()) {
+				list.add(new Article(rs.getInt("postid"),
+									rs.getString("userid"),
+									rs.getInt("albumid"),
+									rs.getString("photo"),
+									rs.getString("content"),
+									rs.getTimestamp("postdate"),
+									rs.getString("category"),
+									rs.getInt("hits"),
+									rs.getInt("likehits"),
+									rs.getInt("postip")));
+			}
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return list;		
+	}
 }

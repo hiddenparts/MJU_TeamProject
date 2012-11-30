@@ -7,6 +7,8 @@ import java.util.Arrays;
 import javax.naming.*;
 import javax.sql.*;
 
+import org.apache.catalina.connector.Request;
+
 import bean.*;
 
 public class PostDAO {
@@ -98,4 +100,62 @@ public class PostDAO {
 		
 		return result;		
 	}	
+	
+	public static Post findByPostID(int id) throws SQLException, NamingException {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Comment> comment = new ArrayList<Comment>();
+		
+		Post post = new Post();
+		DataSource ds = getDataSource();
+		
+		try {
+			conn = ds.getConnection();
+			
+			stmt = conn.prepareStatement("select DISTINCT * from article, member where article.postid = ? and article.userid = member.userid");
+			stmt.setInt(1, id);
+			
+			rs = stmt.executeQuery();
+			
+			// 먼저 글의 목록을 받아온다
+			while(rs.next()) { 
+				post = new Post(new Member( rs.getString("userid"),
+											rs.getString("userpassword"),
+											rs.getTimestamp("registerdate"),
+											rs.getString("lastname"),
+											rs.getString("firstname"),
+											rs.getString("nickname"),
+											rs.getString("profilephoto"),
+											rs.getString("gender"),
+											rs.getString("email"),
+											rs.getString("introduce"),
+											rs.getString("website"),
+											rs.getString("info"),
+											rs.getInt("level")),
+								  new Article(rs.getInt("postid"),
+											rs.getString("userid"),
+											rs.getInt("albumid"),
+											rs.getString("photo"),
+											rs.getString("content"),
+											rs.getTimestamp("postdate"),
+											rs.getString("category"),
+											rs.getInt("hits"),
+											rs.getInt("likehits"),
+											rs.getInt("postip")),
+									new ArrayList<Comment>());
+			}
+			
+			comment = CommentDAO.getCommentList(id);			
+			post.setComment(comment);
+			
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return post;		
+	}
 }
