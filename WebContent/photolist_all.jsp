@@ -38,23 +38,18 @@
 
 						<article id="itemcontents">
 							<!-- 글 사진 및 내용 -->
-							<a href="#${post.article.postid }" class="popupTrigger">
-							<img src="images/photo/sm${post.article.photo }">
-							<p>${post.article.content }</p>
-							</a>
+							<img class="popupTrigger" src="images/photo/sm${post.article.photo }" >
+							<p> ${post.article.content }</p>
 						</article>
 						<!-- 글 사진 및 내용 -->
 
-						<article id="itemcomment">
+						<article id="itemcomment"> 
 							<!-- 코멘트 리스트 -->
 							<c:if test="${post.comment != null}">
 								<c:forEach var="comment" items="${post.comment }">
 									<p>
-										<span> <img
-											src="images/profile/sm${comment.userphoto }" width="35px"
-											height="35px"></span> <span> <b>${comment.usernick
-												}</b> ${comment.commentcontent }
-										</span>
+										<span> <img src="images/profile/sm${comment.userphoto }" width="35px" height="35px"></span> 
+										<span> <b>${comment.usernick }</b> ${comment.commentcontent } </span>
 									</p>
 								</c:forEach>
 							</c:if>
@@ -79,31 +74,20 @@
 			</c:forEach>
 			<!-- End of grid blocks -->
 		</ul>
-
 	</div>
 
 		<div class="popup">
 			<div class="bg"></div>
 			<div id="photopage">
 				<div id="name"></div>
-					
-				<div id="photo"><div id="photodetail"></div></div>
-				
+				<div id="photo"><div id="photodetail"></div></div>	
 				<c:if test="${sessionScope.user.userid != null}">
-				<div id="form">
-					<form method="post" action="Comment">
-						<input type="text"name="comment"/>
-						<input type="submit" value="댓글"/> 
-					</form>
-				</div>
+				<div id="form"><form method="post" action="Comment"></form></div>
 				</c:if>
-				
 				<div id="comment"></div>
 			</div>
 		</div>
-
-
-
+		
 </body>
 
 </html>
@@ -142,15 +126,19 @@ $(function($){
 
 	$('.popupTrigger').click(
 			function() {
+				document.body.style.overflow = 'hidden';
 				PopupWindow.addClass('open');
-				$('.bg').css('height', $(document).height());
-				
+				//$('.bg').css('height', $(document).height());
+				PopupWindow.css("top", $(window).scrollTop());
+				 
 				// GET article ID 
 				// 왜 그동안 누른 수만큼 반복이 되는거지..? -> 그건 계속 같은 페이지에 있어서였음.. 주소창에 떠있는 #숫자때문에...
 				$("section.item").click(function() {
 					id = $(this).attr('id');
+					
 					// AJAX 요청
-					$.ajax({
+					$.ajax
+					({
 							url : "AjaxServlet",
 							data : { postid : id },
 							type : "GET",
@@ -166,36 +154,56 @@ $(function($){
 								$("<p id=\"photo_content\">" + data.post.content + "</p>").appendTo('#photo');
 								
 								// form 부분 처리
-								$("<img src=\"images/profile/" + data.loginphoto + "\">").prependTo('#form');
-								$("<input type=\"hidden\" name=\"postid\" value="+ id +" />").prependTo('#form form');
-								
+								$("<img src=\"images/profile/" + data.loginphoto + "\">").appendTo('#form form');
+								$("<input type=\"hidden\" name=\"postid\" value="+ id +" />").appendTo('#form form');
+								$("<input type=\"text\"name=\"comment\"/>").appendTo('#form form');
+								$("<input type=\"submit\" value=\"댓글\"/>").appendTo('#form form');
+
 								// comment 부분 처리
 								$(data.comment).each(function(i, comm) {
 									$("<img src=\"images/profile/" + comm.userphoto + "\">").appendTo('#comment');
 									$("<p>" + comm.usernick + "</p>").appendTo('#comment');
 									$("<p>" + comm.commentcontent + "</p>").appendTo('#comment');
 									$("<p>" + comm.commentdate + "</p>").appendTo('#comment');
-								});
+								});								
+								
+								$('#photo_picture').attr('src','images/photo/' + data.post.photo).load(function(){ 
+									var curheight = ($(this).height() > $(window).height()) ? $('#photopage').height() : $(window).height()-50;
+										$('.bg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
+								}); 
 							},
-							complete : function(xhr, status) { }
+							complete : function(xhr, status) {  }
 					});
 				});
-			});
-	
+			}); //$('.popupTrigger')
+
 		// ESC Event
 		$(document).keydown(function(event) {
 			if (event.keyCode != 27)
 				return true;
 			if (PopupWindow.hasClass('open')) {
 				PopupWindow.removeClass('open');
-				parent.document.location.href = ""; 
+				parent.document.location.href = "";
+				/* $('.popup #name').empty();
+				$('#photodetail').empty();
+				$('p#photo_content').remove();
+				$('.popup #form form').empty();
+				$('.popup #comment').empty(); */
+				document.body.style.overflow = 'visible';
 			}
 			return false;
 		});
+			
 		// Hide Window
 		PopupWindow.find('>.bg').mousedown(function(event) {
 			PopupWindow.removeClass('open');
-			parent.document.location.href = ""; 
+			parent.document.location.href = "";
+				/* $('.popup #name').empty();
+				$('#photodetail').empty();
+				$('p#photo_content').remove();
+				$('.popup #form form').empty();
+				$('.popup #comment').empty(); */			
+			document.body.style.overflow = 'visible';
 			return false;
 		});
 

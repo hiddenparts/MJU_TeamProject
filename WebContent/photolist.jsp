@@ -39,7 +39,7 @@
 						<article id="itemcontents">
 							<!-- 글 사진 및 내용 -->
 							<a href="#${post.article.postid }" class="popupTrigger">
-							<img src="images/photo/sm${post.article.photo }">
+							<img src="images/photo/${post.article.photo }">							
 							<p>${post.article.content }</p>
 							</a>
 						</article>
@@ -50,11 +50,8 @@
 							<c:if test="${post.comment != null}">
 								<c:forEach var="comment" items="${post.comment }">
 									<p>
-										<span> <img
-											src="images/profile/sm${comment.userphoto }" width="35px"
-											height="35px"></span> <span> <b>${comment.usernick
-												}</b> ${comment.commentcontent }
-										</span>
+										<span> <img	src="images/profile/sm${comment.userphoto }" width="35px"	height="35px"></span> 
+										<span> <b>${comment.usernick}</b> ${comment.commentcontent } </span>
 									</p>
 								</c:forEach>
 							</c:if>

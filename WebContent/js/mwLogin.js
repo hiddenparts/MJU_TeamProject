@@ -1,4 +1,4 @@
-jQuery(function($){
+jQuery(function($){	
 	var loginWindow = $('.mwLogin');
 	var login = $('#login');
 	var uid = $('.iText.uid');

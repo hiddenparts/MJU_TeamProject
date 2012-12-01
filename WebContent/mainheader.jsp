@@ -33,7 +33,8 @@
 	            	<span><a href="login?op=logout">로그아웃</a></span>
             	</c:when>
             	<c:otherwise>
-	            	<span><a href="#login" id="loginAnchor" class="loginTrigger" accesskey="L" title="Login">로그인</a></span>
+            	<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger" accesskey="L" title="Login">로그인</a></span> -->
+	            	<span class="loginTrigger">로그인</span>
             		<span><a href="login?op=signup">가입</a></span>
             	</c:otherwise>
             </c:choose>
@@ -66,5 +67,5 @@
 
 </body>
 </html>
-<script>
+<script> 
 </script>

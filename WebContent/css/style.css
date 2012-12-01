@@ -19,7 +19,6 @@ border: 1px solid #dedede;
 -webkit-border-radius: 2px;
 border-radius: 2px;
 display: none; /** Hide items initially to avoid a flicker effect **/
-  cursor: pointer;
 padding: 4px;
 }
 
@@ -72,9 +71,12 @@ padding-top: 2px;
 	clear:both;
 }
 #itemcomment {
-	
-	
-	
+
+}
+
+#itemcontents img:hover,
+#itemcontents img:active {
+	cursor: pointer;
 }
 
 #tiles li #itemcomment > p {
@@ -101,4 +103,3 @@ padding-top: 2px;
 	clear:both;
 	float:right;
 }
-

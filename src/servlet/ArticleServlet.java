@@ -213,7 +213,7 @@ public class ArticleServlet extends HttpServlet {
 				File newFile = new File(imagePath + System.getProperty("file.separator") + changephoto);	
 			    oldFile.renameTo(newFile);
 			    
-			    //리스트에 표시할 폭 200px의 썸네일과 상세보기에 표시할 폭 700px의 썸네일을 만든다
+			    //리스트에 표시할 폭 200px의 썸네일을 만든다..
 				// 이 클래스에 변환할 이미지를 담는다.(이미지는 ParameterBlock을 통해서만 담을수 있다.)
 				ParameterBlock pb = new ParameterBlock();
 				pb.add(imagePath + System.getProperty("file.separator") + changephoto); // 
@@ -229,7 +229,7 @@ public class ArticleServlet extends HttpServlet {
 				// 우리 페이지의 썸네일폭은 200으로 고정이므로 그림을 200에 맞춰서 보정한다. 200보다 작으면 바꾸지 않고 200보다 크면 그림 크기를 변경한다
 				if(tb_width > 200) {
 					tb_width = 200;
-					tb_height = bi.getHeight() / (bi.getWidth() / 200);
+					tb_height = bi.getHeight() * 200 / bi.getWidth();
 				}
 				
 				// thumb라는 이미지 버퍼를 생성, 버퍼의 사이즈는 200*(상대값)으로 설정.
