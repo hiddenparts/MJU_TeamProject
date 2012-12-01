@@ -1,9 +1,9 @@
-.popup{ display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:1000;}
+.popup{ display:none; position:absolute; top:auto; left:auto; width:100%; height:100%; z-index:1000;}
 .popup.open{ display:block;}
 .popup .bg{ position:absolute; top:0; left:0; width:100%; background:#FFF; padding-bottom: 100px; opacity:.5; }
 
 #photopage {
-	position: absolute;
+	position: relative;
 	width:745px;
 	top:10%; 
 	left:29%;
@@ -12,19 +12,12 @@
 	border: 1px;
 	border-style: solid;
 	border-color: #000;
+	z-index:1001;
 }
 
 #photopage p {
  	margin: 0px;
  }
-
-#photopage img {
-	float: left;
-	width: auto;
-	height: 50px;
- 	max-width: 100%;
- 	padding-right: 5px;
-}
 
 #name {
 	height: 50px;
@@ -34,25 +27,35 @@
 	border-bottom-color: #000;
 }
 
+#name img {
+	float: left;
+	width: 50px;
+	height: 50px;
+ 	max-width: 100%;
+ 	padding-right: 5px;
+}
+
 #photo {
 	padding: 20px;
-	width: 700px;
-	height: auto;
 	border-bottom: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #000;
 }
 
-#photo img {
-	width: 700px;
-	background-color: #EEE;
-	height: auto;
-	max-width: 100%;
-}
-
-#photo p#photo_content{
+#photo p {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+#photodetail {
+	background-color: #E9E9E9;
+	position: relative;
+}
+
+#photo_picture > img {
+	left: 50%;
+	margin-left: -175px;
+	max-width: 100%;
 }
 
 #form {	
@@ -74,6 +77,22 @@
 	vertical-align: auto;
 }
 
+#form img {
+	float: left;
+	width: 50px;
+	height: 50px;
+ 	max-width: 100%;
+ 	padding-right: 5px;
+}
+
 #comment {
 	padding: 20px;
+}
+
+#comment img {
+	float: left;
+	width: 50px;
+	height: 50px;
+ 	max-width: 100%;
+ 	padding-right: 5px;
 }

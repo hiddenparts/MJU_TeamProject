@@ -186,7 +186,7 @@ public class ArticleDAO {
 	
 	
 	/* json 테스트용 */
-	public static List<Article> getalllist() throws SQLException, NamingException {
+	public static List<Article> getAllList() throws SQLException, NamingException {
 		List<Article> list = new ArrayList<Article>();
 		
 		Connection conn = null;

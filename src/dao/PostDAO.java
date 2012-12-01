@@ -99,7 +99,67 @@ public class PostDAO {
 		}
 		
 		return result;		
-	}	
+	}
+	
+	public static ArrayList<Post> getAllPage() throws SQLException, NamingException {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;		
+		ArrayList<Comment> comment = new ArrayList<Comment>();
+		
+		DataSource ds = getDataSource();
+		ArrayList<Post> result = new ArrayList<Post>();
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.createStatement();
+			
+	 		// 전체 글  테이블 SELECT.. startPos부터 numItems까지
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from member,article where member.userid = article.userid");
+			
+			// 먼저 글의 목록을 받아온다
+			while(rs.next()) { 
+				result.add(new Post(new Member( rs.getString("userid"),
+												rs.getString("userpassword"),
+												rs.getTimestamp("registerdate"),
+												rs.getString("lastname"),
+												rs.getString("firstname"),
+												rs.getString("nickname"),
+												rs.getString("profilephoto"),
+												rs.getString("gender"),
+												rs.getString("email"),
+												rs.getString("introduce"),
+												rs.getString("website"),
+												rs.getString("info"),
+												rs.getInt("level")),
+									  new Article(rs.getInt("postid"),
+												rs.getString("userid"),
+												rs.getInt("albumid"),
+												rs.getString("photo"),
+												rs.getString("content"),
+												rs.getTimestamp("postdate"),
+												rs.getString("category"),
+												rs.getInt("hits"),
+												rs.getInt("likehits"),
+												rs.getInt("postip")),
+										new ArrayList<Comment>()));
+			}
+			// 글의 목록에 코멘트 리스트를 채워준다.
+			for(int i=0; i < result.size(); i++) {
+				comment = CommentDAO.getCommentList(result.get(i).getArticle().getPostid());			
+				result.get(i).setComment(comment);
+			}
+			
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return result;		
+	}
 	
 	public static Post findByPostID(int id) throws SQLException, NamingException {
 		Connection conn = null;

@@ -1,7 +1,7 @@
 @charset "utf-8"; 
 
 /* Modal Windowed Login */
-.mwLogin{ display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:1000;}
+.mwLogin{ display:none; _position:fixed; position:absolute; top:-200px; left:0; width:100%; height:100%; z-index:1000;}
 .mwLogin.open{ display:block;}
 .mwLogin .bg{ position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
 #login{ position:absolute; width:328px; top:50%; left:50%; padding:28px 28px 0 28px; margin:-150px 0 0 -194px; border:2px solid #555; font-size:12px; font-family:Tahoma, Geneva, sans-serif; line-height:normal; background:#fff; white-space:normal; color:#767676; overflow:auto;}
@@ -13,8 +13,9 @@
 #login .btnLogin{ margin:0 4px 0 0; background-position:left top;}
 #login .btnLogin input{ left:4px; background-position:right top; *vertical-align:top; padding:0 24px 0 36px;}
 #login .item{ position:relative; z-index:2000;}
-#login .iLabel{ display:block; position:static; top:9px; font:bold 11px Tahoma; z-index:2000;}
-#login .iText{ position:relative; display:block; font:bold 11px Tahoma; height:14px; color:#767676; border:1px solid #b7b7b7; border-right-color:#e1e1e1; border-bottom-color:#e1e1e1; background:transparent;}
+#login .iLabel{ display:block; position:static; top:9px; font:bold 11px Tahoma; z-index:2000; color:#AAA;}
+#login .iText{ position:relative; display:block; font:bold 11px Tahoma; height:14px; color:#222; border:1px solid #b7b7b7; border-right-color:#e1e1e1; border-bottom-color:#e1e1e1; background:transparent;}
+#login input[type="submit"] { position:relative; left:260px;}
 #login .help{ position:relative; float:none; display:block; border:0; border-top:1px solid #d9d9d9; background:#fafafa; padding:15px 0; margin:0 -28px; list-style:none; text-align:center; *zoom:1;}
 #login .help li{ display:inline; float:none; border-left:1px solid #c3c3c3 !important; padding:0 6px 0 10px; margin:0; line-height:1;}
 #login .help li.first{ border:0 !important;}

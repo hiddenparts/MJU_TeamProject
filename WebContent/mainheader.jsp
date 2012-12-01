@@ -6,9 +6,11 @@
 		<meta charset="UTF-8">
 		<title>D_2조 팀프로젝트</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 		<link href="css/mwLogin.css" rel="stylesheet">
+		
 		<script src="js/jquery-1.8.2.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/mwLogin.js"></script>
@@ -17,7 +19,8 @@
 
 	<body>
 		<div id="titlebar pull-right">
-            <span>검색</span>
+            <form method="get" action="article">
+            <span> <input name="search" type="text" value="검색"/> </span>
             <span>타이틀로고</span>
             <span>소개</span>
             <c:choose> 
@@ -34,12 +37,7 @@
             		<span><a href="login?op=signup">가입</a></span>
             	</c:otherwise>
             </c:choose>
-            <!--<c:if test="${sessionScope.userid != null}" >
-						<span> 로그인 ID : <c:out value="${sessionScope.userid}"/> </span>
-						</c:if>
-						<c:if test="${sessionScope.userid == null}" >
-						<span> 로그인 아님 </span>
-						</c:if> -->
+						</form>
 			</div>
 
 		<div class="mwLogin"> <!-- class에 open을 추가하면 css에서 display를 none에서 block으로 변경하여 팝업창이 보이게 됨 -->

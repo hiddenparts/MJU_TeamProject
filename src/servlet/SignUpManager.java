@@ -33,9 +33,17 @@ public class SignUpManager extends HttpServlet {
 	public SignUpManager() {
 		
 	}
-		
+	
+	/**
+	 * @param multi : 업로드용 request 객체
+	 * @param response : http의 response
+	 * @param user : 유저정보
+	 * @param imagePath : 사진이 저장될 경로
+	 * @param state : 가입 / 수정 판단
+	 * @return
+	 */
 	public static boolean SignUp(MultipartRequest multi, HttpServletResponse response, Member user, String imagePath, String state) {
-		boolean ret 		= false;
+		boolean ret = false;
 
 		user.setProfilephoto(UploadPhoto(multi, response, imagePath));
 		System.out.println("사진여부 : " + user.getProfilephoto());
@@ -55,6 +63,14 @@ public class SignUpManager extends HttpServlet {
 		return ret;
 	}
 	
+	/**
+	 * 업로드한 사진을 저장하는 함수
+	 * 
+	 * @param multi : 업로드용 request 객체
+	 * @param response : http의 response
+	 * @param imagePath  : 사진이 저장될 경로
+	 * @return
+	 */
 	private static String UploadPhoto(MultipartRequest multi, HttpServletResponse response, String imagePath) {
 		String userid 		= null;	
 		String profilephoto = null;	

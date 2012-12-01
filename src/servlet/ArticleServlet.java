@@ -1,5 +1,8 @@
 package servlet;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -7,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.media.jai.JAI;
+import javax.media.jai.RenderedOp;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,12 +53,12 @@ public class ArticleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-		
+
 		String op = request.getParameter("op");
-		/*Member user = (Member) session.getAttribute("user"); 
-		if(user != null) {
-			String userid = user.getUserid();
-		}*/
+		String search = "";
+		if(request.getParameter("search") != null) {
+			search = request.getParameter("search");
+		}
 		String actionUrl = "";
 		
 		if(op == null) {
@@ -70,8 +76,14 @@ public class ArticleServlet extends HttpServlet {
 			} else if(op.equals("update")) {
 				
 			} else if(op.equals("list")) {
+				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
+				request.setAttribute("posts", posts);
+				
+				actionUrl = "photolist_all.jsp";
+			} else if(search.equals("search")) {
 				PageResult<Post> posts = PostDAO.getPage(1, 10); // 10개를 가져오는거던가..
 				request.setAttribute("posts", posts);
+				
 				actionUrl = "photolist.jsp";
 			}
 		} catch (Exception e) {
@@ -199,7 +211,37 @@ public class ArticleServlet extends HttpServlet {
 				// 파일명 변경
 				File oldFile = new File(imagePath + System.getProperty("file.separator") + photo);
 				File newFile = new File(imagePath + System.getProperty("file.separator") + changephoto);	
-			    oldFile.renameTo(newFile);			
+			    oldFile.renameTo(newFile);
+			    
+			    //리스트에 표시할 폭 200px의 썸네일과 상세보기에 표시할 폭 700px의 썸네일을 만든다
+				// 이 클래스에 변환할 이미지를 담는다.(이미지는 ParameterBlock을 통해서만 담을수 있다.)
+				ParameterBlock pb = new ParameterBlock();
+				pb.add(imagePath + System.getProperty("file.separator") + changephoto); // 
+				
+				RenderedOp rOp = JAI.create("fileload", pb);
+		
+				// 불러온 이미지를 BuffedImage에 담는다.
+				BufferedImage bi = rOp.getAsBufferedImage();
+				// 이미지의 폭과 너비를 저장
+				int tb_width = bi.getWidth(); // 폭
+				int tb_height =  bi.getHeight(); // 너비
+				
+				// 우리 페이지의 썸네일폭은 200으로 고정이므로 그림을 200에 맞춰서 보정한다. 200보다 작으면 바꾸지 않고 200보다 크면 그림 크기를 변경한다
+				if(tb_width > 200) {
+					tb_width = 200;
+					tb_height = bi.getHeight() / (bi.getWidth() / 200);
+				}
+				
+				// thumb라는 이미지 버퍼를 생성, 버퍼의 사이즈는 200*(상대값)으로 설정.
+				BufferedImage thumb = new BufferedImage(tb_width, tb_height, BufferedImage.TYPE_INT_RGB);
+		
+				// 버퍼사이즈 200*(상대값)으로  맞춰  썸네일을 그림
+				Graphics2D g = thumb.createGraphics();
+				g.drawImage(bi, 0, 0, tb_width, tb_height, null);
+		
+				//출력할 위치와 파일이름을 설정하고 섬네일 이미지를 생성한다. 저장하는 타입을 jpg로 설정.
+				File file1 = new File(imagePath + "/sm" + changephoto);
+				ImageIO.write(thumb, "jpg", file1);  
 			}
 		} catch (Exception e) {
 			// 저장에 실패하면 경로를 얻지못했기때문에 null을 리턴

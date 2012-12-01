@@ -19,7 +19,7 @@
 	<div id="list">
 		<ul id="tiles">
 			<!-- These are our grid blocks -->
-			<c:forEach var="post" items="${posts.list }">
+			<c:forEach var="post" items="${posts }">
 				<li>
 					<!-- Start of Article -->
 					<section class="item" id="${post.article.postid }"> 
