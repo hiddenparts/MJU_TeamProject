@@ -15,7 +15,7 @@
 
 	<body>		
 		<div class="container">
-		<div>
+		<div>d
 			<form class="form-horizontal" action="article" method="POST" enctype="multipart/form-data">
 				<fieldset>
 					<legend class="legend">Write</legend>
