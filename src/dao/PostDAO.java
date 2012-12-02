@@ -44,7 +44,7 @@ public class PostDAO {
 			conn = ds.getConnection();
 	 		// 전체 글  테이블 SELECT.. startPos부터 numItems까지
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from member,article order by article.postdate desc limit " + startPos + ", 20");
+			rs = stmt.executeQuery("select DISTINCT * from member,article where  member.userid = article.userid order by article.postdate desc limit " + startPos + ", 20");
 			
 			// 먼저 글의 목록을 받아온다
 			while(rs.next()) { 
