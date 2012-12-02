@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+				 import="bean.Member"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -15,6 +16,7 @@
 
 	<jsp:include page="mainheader.jsp" />
 
+	<!-- 카테고리 -->
 	<nav id="menubar">
 		<ul>
 			<li>전체</li>
@@ -185,10 +187,15 @@ $(function($){
 				}
 
 				// form
-				//var sessionID = <%=session.getAttribute("user") %>;
-				//console.log(sessionID);
+				var sessionID = null;
+				<% Member user = (Member) session.getAttribute("user");
+						String userid= null;
+						if(user != null) { %>
+						sessionID = "<%=user.getUserid() %>"; 
+				<% }	%>
+					//console.log(sessionID);
 				
-/* 				if(sessionScope.user.userid != null) {
+ 				if(sessionID != null) {
 					html += '<article class="itemform">'; 
 					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
 					html += '<form method="post" action="Comment">'; 
@@ -197,7 +204,7 @@ $(function($){
 					html += '</form>'; 
 					html += '</article>'; 
 				}
- */
+ 
 				html += '</section>'; 
 				html += '</li>'; 
 	   } 
@@ -217,12 +224,106 @@ $(function($){
 	   handler.wookmark(options);
 	 };   
 	 
-  // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
-	var id;
+});
+	
+$(document).on('click', '.popupTrigger', function(event){
+	  // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
 	var PopupWindow = $('.popup');
-	var SelectItem;
+	var SelectItem = $(this.parentNode.parentNode);
+	var id;
+	id = SelectItem.attr('id');
+	SelectItem.css("visibility", "hidden");
+	
+	document.body.style.overflow = 'hidden'; // 부모의 스크롤바는 제거한다.
+	PopupWindow.addClass('open');
+	PopupWindow.css("top", $(window).scrollTop());
+	
+	// AJAX 요청
+	$.ajax({
+			url : "AjaxServlet",
+			data : { postid : id , op : "popup"},
+			type : "GET",
+			dataType : "json",
+			success : function(data) {
+					// name 부분 처리
+					$("<img src=\"images/profile/" + data.user.profilephoto + "\">").appendTo('#name');
+					$("<p id=\"name_name\">" + data.user.nickname + "</p>").appendTo('#name');
+					$("<p id=\"name_time\">" + data.article.postdate + "</p>").appendTo('#name');
+					
+					// photo 부분 처리
+					$("<a href=\"images/photo/" + data.article.photo + "\" target=\"_blank\"> <img id=\"photo_picture\" src=\"images/photo/" + data.article.photo + "\"></a>").appendTo('#photodetail');
+					$("<p id=\"photo_content\">" + data.article.content + "</p>").appendTo('#photo');
+					
+					// form 부분 처리
+					$("<img src=\"images/profile/" + data.loginphoto + "\">").appendTo('#form form');
+					$("<input type=\"hidden\" name=\"postid\" value="+ id +" />").appendTo('#form form');
+					$("<input type=\"text\"name=\"comment\"/>").appendTo('#form form');
+					$("<input type=\"submit\" value=\"댓글\"/>").appendTo('#form form');
+	
+					// comment 부분 처리
+					$(data.comment).each(function(i, comm) {
+						$("<img src=\"images/profile/" + comm.userphoto + "\">").appendTo('#comment');
+						$("<p>" + comm.usernick + "</p>").appendTo('#comment');
+						$("<p>" + comm.commentcontent + "</p>").appendTo('#comment');
+						$("<p>" + comm.commentdate + "</p>").appendTo('#comment');
+					});								
+				
+					$('#photo_picture').attr('src','images/photo/' + data.article.photo).load(function(){ 
+						var curheight = ($(this).height() > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
+						
+						//세션이 있는지 확인해서 로그인일때랑 아닐때, 코멘트가 있을때 또 있다면 몇개가 있는지 받아와서 길이를 적절하게 구해줘야한다
+						curheight += (data.comment.length + 1) * 100;
+						console.log(data.comment.length);
+						$('.pbg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
+				}); 
+			},
+			complete : function(xhr, status) {  }
+	});
+	
+	// ESC Event
+	$(document).keydown(function(event) {
+		if (event.keyCode != 27)
+			return true;
+		if (PopupWindow.hasClass('open')) {
+			PopupWindow.removeClass('open');
+			
+			// ajax로 받아온 data를 해제하고 원상복귀 시키는 부분.
+			$('.popup #name').empty();
+			$('#photodetail').empty();
+			$('p#photo_content').remove();
+			$('.popup #form form').empty();
+			$('.popup #comment').empty();
+			
+			SelectItem.css("visibility", "visible");
+			document.body.style.overflow = 'visible';
+		}
+		return false;
+	});
+		
+	// Hide Window
+	PopupWindow.find('>.pbg').mousedown(function(event) {
+		PopupWindow.removeClass('open');
+			
+		// ajax로 받아온 data를 해제하고 원상복귀 시키는 부분.
+				$('.popup #name').empty();
+				$('#photodetail').empty();
+				$('p#photo_content').remove();
+				$('.popup #form form').empty();
+				$('.popup #comment').empty();
+				
+				SelectItem.css("visibility", "visible");
+				document.body.style.overflow = 'visible';
+		return false;
+	});
+	
+/* 	$("section.item").bind('click', function() {
+		SelectItem = $(this);
+		console.log(SelectItem);
+		id = SelectItem.attr('id');
+		alert(id);
+	}); */
 
-	// 아이템을 클릭했을때 뜨는 상세뷰
+	/* 	// 아이템을 클릭했을때 뜨는 상세뷰
 	$('.popupTrigger').click(
 			function() {
 				document.body.style.overflow = 'hidden'; // 부모의 스크롤바는 제거한다.
@@ -316,8 +417,7 @@ $(function($){
 					SelectItem.css("visibility", "visible");
 					document.body.style.overflow = 'visible';
 			return false;
-		});
-
-	});
+		}); */
+});
 </script>
 

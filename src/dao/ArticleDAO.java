@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.naming.*;
@@ -10,7 +9,6 @@ import javax.sql.*;
 
 import bean.Article;
 import bean.Category;
-import bean.Member;
 import bean.PageResult;
 
 public class ArticleDAO {
