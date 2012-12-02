@@ -26,7 +26,11 @@
 
 	<div id="list">
 		<ul id="tiles">
-			<!-- These are our grid blocks -->
+			<!-- 이 위치에 게시물들이 ajax로 채워집니다 -->
+		</ul>
+	</div>
+
+<%-- 			<!-- These are our grid blocks -->
 			<c:forEach var="post" items="${posts }">
 				<li>
 					<!-- Start of Article -->
@@ -79,12 +83,14 @@
 						<!-- 댓글 입력창  -->
 					</section> <!-- End of Article -->
 				</li>
-			</c:forEach>
+			</c:forEach> --%>
 			<!-- End of grid blocks -->
-		</ul>
+
+	<div id="loader">
+		<div id="loaderCircle"></div>
 	</div>
 
-		<div class="popup">
+	<div class="popup">
 			<div class="pbg"></div>
 			<div id="photopage">
 				<div id="name"></div>
@@ -107,25 +113,21 @@ $(function($){
 	var isLoading = false;
 	var handler = null;
   var page = 1;
-	
-  $(document).bind('scroll', onScroll);
   
-	$('#tiles').imagesLoaded(function() {
-		// Prepare layout options.
-		var options = {
-			autoResize : true, // This will auto-update the layout when the browser window is resized.
-			container : $('#list'), // Optional, used for some extra CSS styling
-			offset : 5, // Optional, the distance between grid items
-			itemWidth : 222
-		// Optional, the width of a grid item
-		};
-
-		// Get a reference to your grid items.
-		handler = $('#tiles li');
-
-		// Call the layout function.
-		handler.wookmark(options);
-	});
+	// Prepare layout options.
+	var options = {
+		autoResize : true, // This will auto-update the layout when the browser window is resized.
+		container : $('#list'), // Optional, used for some extra CSS styling
+		offset : 5, // Optional, the distance between grid items
+		itemWidth : 222
+	// Optional, the width of a grid item
+	};
+  
+  //최초의 한번 실행
+  loadData();
+  
+  //스크롤되었을때 함수결합
+  $(document).bind('scroll', onScroll);
 	
 	// 스크롤이 밑에 도착했을때 체크하는 함수
 	function onScroll(event) {
@@ -134,13 +136,87 @@ $(function($){
 	      // Check if we're within 100 pixels of the bottom edge of the broser window.
 	      var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
 	      if(closeToBottom) {
-	    	  alert("바닥도착");
-	        //loadData();
+	        loadData();
 	      }
 	    }
 	  };
-	
-      
+	  
+   function loadData() {
+       isLoading = true;
+       $('#loaderCircle').show();
+       
+       $.ajax({
+         url: "AjaxServlet",
+         dataType: 'json',
+         data: {page: page, op : "page"}, // Page parameter to make sure we load new data
+         success: onLoadData
+       });
+     };	
+     
+   function onLoadData(data) {
+	   isLoading = false;
+	   $('#loaderCircle').hide();
+	   // Increment page index for future calls.
+	   page++;
+
+	   // Create HTML for the images.
+	   var html = '';
+	   var i=0, length=data.post.length, postitem;
+	   
+	   for(; i<length; i++) {
+		   postitem = data.post[i];
+		   html += '<li>'; 
+		   html += '<section class="item" id="' + postitem.article.postid + '">';			 	   
+		   
+		    // photo
+				html += '<article class="itemcontents">'; 
+				html += '<img class="popupTrigger" src="images/photo/sm' + postitem.article.photo + '">'; 
+				html += '<p>' + postitem.article.content + '</p>'; 
+				html += '</article>';
+
+				// comment
+				if(postitem.comment != null) {
+					html += '<article class="itemcomment">'; 
+					$(postitem.comment).each(function(i, comm) {
+						html += '<p><span> <img src="images/profile/sm' + comm.userphoto + '" width="35px" height="35px"></span>';
+						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
+					});
+					html += '</article>'; 
+				}
+
+				// form
+				//var sessionID = <%=session.getAttribute("user") %>;
+				//console.log(sessionID);
+				
+/* 				if(sessionScope.user.userid != null) {
+					html += '<article class="itemform">'; 
+					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
+					html += '<form method="post" action="Comment">'; 
+					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
+					html += '<input type="text" name="comment">'; 
+					html += '</form>'; 
+					html += '</article>'; 
+				}
+ */
+				html += '</section>'; 
+				html += '</li>'; 
+	   } 
+	   
+	   // Add image HTML to the page.
+	   $('#tiles').append(html);
+	   //Apply layout.
+	   applyLayout();
+   };
+   
+   function applyLayout() {
+	   // Clear our previous layout handler.
+	   if(handler) handler.wookmarkClear();
+	   
+	   // Create a new layout handler.
+	   handler = $('#tiles li');
+	   handler.wookmark(options);
+	 };   
+	 
   // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
 	var id;
 	var PopupWindow = $('.popup');
@@ -164,7 +240,7 @@ $(function($){
 					$.ajax
 					({
 							url : "AjaxServlet",
-							data : { postid : id },
+							data : { postid : id , op : "popup"},
 							type : "GET",
 							dataType : "json",
 							success : function(data) {

@@ -25,7 +25,7 @@ public class PostDAO {
 		return (DataSource) envCtx.lookup("jdbc/WebDB");
 	}
 	
-	public static PageResult<Post> getPage(int page, int numItemsInPage) throws SQLException, NamingException {
+	public static ArrayList<Post> getPage(int page) throws SQLException, NamingException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;		
@@ -36,31 +36,19 @@ public class PostDAO {
 		}
 		
 		DataSource ds = getDataSource();
-		PageResult<Post> result = new PageResult<Post>(numItemsInPage, page);
+		ArrayList<Post> result = new ArrayList<Post>();
 		
-		int startPos = (page - 1) * numItemsInPage;
+		int startPos = (page - 1) * 20;
 		
 		try {
 			conn = ds.getConnection();
-			stmt = conn.createStatement();
-			
-			// 총 게시물 수 조사
-	 		rs = stmt.executeQuery("SELECT COUNT(*) FROM article");
-			rs.next();
-			result.setNumItems(rs.getInt(1));
-			
-			rs.close(); 
-			rs = null;
-			stmt.close(); 
-			stmt = null;
-			
 	 		// 전체 글  테이블 SELECT.. startPos부터 numItems까지
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from member,article where member.userid = article.userid limit " + startPos + ", " + numItemsInPage);
+			rs = stmt.executeQuery("select * from member,article order by article.postdate desc limit " + startPos + ", 20");
 			
 			// 먼저 글의 목록을 받아온다
 			while(rs.next()) { 
-				result.getList().add(new Post(new Member( rs.getString("userid"),
+				result.add(new Post(new Member( rs.getString("userid"),
 														rs.getString("userpassword"),
 														rs.getTimestamp("registerdate"),
 														rs.getString("lastname"),
@@ -85,10 +73,11 @@ public class PostDAO {
 														rs.getInt("postip")),
 												new ArrayList<Comment>()));
 			}
+
 			// 글의 목록에 코멘트 리스트를 채워준다.
-			for(int i=0; i < result.getList().size(); i++) {
-				comment = CommentDAO.getCommentList(result.getList().get(i).getArticle().getPostid());			
-				result.getList().get(i).setComment(comment);
+			for(int i=0; i < result.size(); i++) {
+				comment = CommentDAO.getCommentList(result.get(i).getArticle().getPostid());			
+				result.get(i).setComment(comment);
 			}
 			
 		} finally {

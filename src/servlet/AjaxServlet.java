@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -39,23 +40,25 @@ public class AjaxServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		JSONObject rsobj = new JSONObject();
 		Post post = new Post();
+		ArrayList<Post> list = new ArrayList<Post>();
 		
-		//get Post id
-		int postid = -1;
+		// 어떤 명령인지 확인
+		String op = request.getParameter("op");
+		
+		int op_num = -1;
 		try {
-			postid = Integer.parseInt(request.getParameter("postid"));
+			if(op.equals("popup")) {
+				//get Post id
+				op_num = Integer.parseInt(request.getParameter("postid"));
+				System.out.println("post : " + op_num); 
+			} else if(op.equals("page")) {
+				//get Page num
+				op_num = Integer.parseInt(request.getParameter("page"));
+				System.out.println("page : " + op_num);
+			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			postid = -1;
-		}
-		
-		//get Page num
-		int page = -1;
-		try {
-			page = Integer.parseInt(request.getParameter("page"));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			page = -1;
+			op_num = -1;
 		}
 		
 		// 로그인 상태이면 사용자의 정보를 받아온다
@@ -64,28 +67,40 @@ public class AjaxServlet extends HttpServlet {
 			Member user = (Member) session.getAttribute("user");
 			if(user != null) {
 				loginphoto = user.getProfilephoto();
+				rsobj.put("loginphoto", loginphoto);
 			}
 		}
 		
 		try {
-			post = PostDAO.findByPostID(postid);
-			JSONArray comjsar = new JSONArray();
+			if(op.equals("popup")) {
+				post = PostDAO.findByPostID(op_num);
+				JSONArray comjsar = new JSONArray();
+				
+				rsobj.put("user", post.getMember().UsertoJson());
+				rsobj.put("article", post.getArticle().ArtitoJson());
 			
-			//jsar.add(post.getMember().UsertoJson());
-			//jsar.add(post.getArticle().ArtitoJson());
-			
-			rsobj.put("user", post.getMember().UsertoJson());
-			rsobj.put("post", post.getArticle().ArtitoJson());
-			for(int i=0; i<post.getComment().size(); i++) {
-				comjsar.add(post.getComment().get(i).CommenttoJson());
+				for(int i=0; i<post.getComment().size(); i++) {
+					comjsar.add(post.getComment().get(i).CommenttoJson());
+				}
+				rsobj.put("comment", comjsar);
+			} else if(op.equals("page")) {
+				list = PostDAO.getPage(op_num);
+				
+				JSONArray postjsar = new JSONArray();
+				for(int i=0; i<list.size(); i++) {
+					JSONObject subjsobj = new JSONObject();
+					JSONArray comjsar = new JSONArray();
+					subjsobj.put("user", list.get(i).getMember().UsertoJson());
+					subjsobj.put("article", list.get(i).getArticle().ArtitoJson());
+					
+					for(int j=0; j<list.get(i).getComment().size(); j++) {
+						comjsar.add(list.get(i).getComment().get(j).CommenttoJson());
+					}
+					subjsobj.put("comment", comjsar);
+					postjsar.add(subjsobj);
+				}
+				rsobj.put("post", postjsar);
 			}
-			rsobj.put("comment", comjsar);
-			rsobj.put("loginphoto", loginphoto);
-			/*List<Article> list = ArticleDAO.getalllist();
-			
-			for(int i=0; i<list.size(); i++) {
-				jsar.add(list.get(i).ArtitoJson());
-			}*/
 		} catch (Exception e) {
 			System.out.println(e);
 			rsobj.put("ERROR", e.getMessage());

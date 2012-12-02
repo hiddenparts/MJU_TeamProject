@@ -82,10 +82,10 @@ public class ArticleServlet extends HttpServlet {
 				
 				actionUrl = "photolist_all.jsp";
 			} else if(search.equals("search")) {
-				PageResult<Post> posts = PostDAO.getPage(1, 10); // 10개를 가져오는거던가..
-				request.setAttribute("posts", posts);
+				//PageResult<Post> posts = PostDAO.getPage(1, 10); // 10개를 가져오는거던가..
+				//request.setAttribute("posts", posts);
 				
-				actionUrl = "photolist.jsp";
+				//actionUrl = "photolist.jsp";
 			}
 		} catch (Exception e) {
 			System.out.println(e);
