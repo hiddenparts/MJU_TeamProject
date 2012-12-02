@@ -65,10 +65,10 @@ public class ArticleServlet extends HttpServlet {
 			op = "list";
 		}
 
+		
 		try {
+			Category list = ArticleDAO.getlist(); // 카테고리 리스트를 받아옴
 			if(op.equals("write")) { 
-				Category list = ArticleDAO.getlist(); // 카테고리 리스트를 받아옴
-
 				request.setAttribute("method", "POST");
 				request.setAttribute("article", new Article());
 				request.setAttribute("category", list);
@@ -78,6 +78,7 @@ public class ArticleServlet extends HttpServlet {
 			} else if(op.equals("list")) {
 				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
 				request.setAttribute("posts", posts);
+				request.setAttribute("category", list);
 				
 				actionUrl = "photolist_all.jsp";
 			} else if(search.equals("search")) {

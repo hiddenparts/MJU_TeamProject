@@ -116,7 +116,7 @@ public class PostDAO {
 			
 	 		// 전체 글  테이블 SELECT.. startPos부터 numItems까지
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from member,article where member.userid = article.userid");
+			rs = stmt.executeQuery("select * from member,article where member.userid = article.userid order by article.postdate desc");
 			
 			// 먼저 글의 목록을 받아온다
 			while(rs.next()) { 

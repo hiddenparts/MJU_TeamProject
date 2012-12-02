@@ -49,6 +49,15 @@ public class AjaxServlet extends HttpServlet {
 			postid = -1;
 		}
 		
+		//get Page num
+		int page = -1;
+		try {
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			page = -1;
+		}
+		
 		// 로그인 상태이면 사용자의 정보를 받아온다
 		String loginphoto = "";
 		if(session != null) {
@@ -60,7 +69,6 @@ public class AjaxServlet extends HttpServlet {
 		
 		try {
 			post = PostDAO.findByPostID(postid);
-			
 			JSONArray comjsar = new JSONArray();
 			
 			//jsar.add(post.getMember().UsertoJson());
@@ -85,7 +93,6 @@ public class AjaxServlet extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(rsobj.toJSONString());
-		
 	}
 
 	/**

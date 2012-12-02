@@ -8,13 +8,23 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/photo.css" rel="stylesheet">		
 	<script src="js/jquery-1.8.2.js"></script>
+	<script src="js/jquery.wookmark.js"></script>
+	<script src="js/jquery.imagesloaded.js"></script>
+
 </head>
 
 <body>
 
 	<jsp:include page="mainheader.jsp" />
 
-	<nav id="menubar">메뉴바</nav>
+	<nav id="menubar">
+		<ul>
+			<li>전체</li>
+			<c:forEach var="cate" items="${category.list}">
+			<li>${cate}</li>
+			</c:forEach>
+		</ul>	
+	</nav>
 
 	<div id="list">
 		<ul id="tiles">
@@ -23,8 +33,8 @@
 				<li>
 					<!-- Start of Article -->
 					<section class="item" id="${post.article.postid }"> 
-						<header>
-							<!-- 작성자 정보 -->
+						<!--  <header class="itemauthor"> 12/02 일단 작성자를 메인리스트에서는 표시하지 않기로 함..
+							<!-- 작성자 정보 -- >
 							<p>
 								<span> 
 									<img src="images/profile/sm${post.member.profilephoto }" width="35px" height="35px"> 
@@ -33,17 +43,17 @@
 									<b>${post.member.nickname }</b>
 								</span>
 							</p>
-						</header>
+						</header> -->
 						<!-- 작성자 정보 -->
 
-						<article id="itemcontents">
+						<article class="itemcontents">
 							<!-- 글 사진 및 내용 -->
 							<img class="popupTrigger" src="images/photo/sm${post.article.photo }" >
 							<p> ${post.article.content }</p>
 						</article>
 						<!-- 글 사진 및 내용 -->
 
-						<article id="itemcomment"> 
+						<article class="itemcomment"> 
 							<!-- 코멘트 리스트 -->
 							<c:if test="${post.comment != null}">
 								<c:forEach var="comment" items="${post.comment }">
@@ -56,7 +66,7 @@
 						</article>
 						<!-- 코멘트 리스트 -->
 
-						<article id="itemform">
+						<article class="itemform">
 							<!-- 댓글 입력창 -->
 							<c:if test="${sessionScope.user.userid != null}">
 								<span><img class="media-object"
@@ -77,7 +87,7 @@
 	</div>
 
 		<div class="popup">
-			<div class="bg"></div>
+			<div class="pbg"></div>
 			<div id="photopage">
 				<div id="name"></div>
 				<div id="photo"><div id="photodetail"></div></div>	
@@ -92,49 +102,63 @@
 
 </html>
 
-<!-- Include the plug-in -->
-<script src="js/jquery.wookmark.js"></script>
-
-<!-- Include the imagesLoaded plug-in -->
-<script src="js/jquery.imagesloaded.js"></script>
-
-<!-- Once the page is loaded, initialize the plug-in. -->
 <script type="text/javascript">
 $(function($){
-
+	var isLoading = false;
+	var handler = null;
+  var page = 1;
+	
+  $(document).bind('scroll', onScroll);
+  
 	$('#tiles').imagesLoaded(function() {
 		// Prepare layout options.
 		var options = {
 			autoResize : true, // This will auto-update the layout when the browser window is resized.
 			container : $('#list'), // Optional, used for some extra CSS styling
-			offset : 2, // Optional, the distance between grid items
-			itemWidth : 210
+			offset : 5, // Optional, the distance between grid items
+			itemWidth : 222
 		// Optional, the width of a grid item
 		};
 
 		// Get a reference to your grid items.
-		var handler = $('#tiles li');
+		handler = $('#tiles li');
 
 		// Call the layout function.
 		handler.wookmark(options);
 	});
 	
+	// 스크롤이 밑에 도착했을때 체크하는 함수
+	function onScroll(event) {
+	    // Only check when we're not still waiting for data.
+	    if(!isLoading) {
+	      // Check if we're within 100 pixels of the bottom edge of the broser window.
+	      var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
+	      if(closeToBottom) {
+	    	  //alert("바닥도착");
+	        //loadData();
+	      }
+	    }
+	  };
+	
+      
+  // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
 	var id;
-	// show pop-up -----------------
 	var PopupWindow = $('.popup');
-	// Show Hide
+	var SelectItem;
 
+	// 아이템을 클릭했을때 뜨는 상세뷰
 	$('.popupTrigger').click(
 			function() {
-				document.body.style.overflow = 'hidden';
+				document.body.style.overflow = 'hidden'; // 부모의 스크롤바는 제거한다.
 				PopupWindow.addClass('open');
-				//$('.bg').css('height', $(document).height());
 				PopupWindow.css("top", $(window).scrollTop());
 				 
 				// GET article ID 
-				// 왜 그동안 누른 수만큼 반복이 되는거지..? -> 그건 계속 같은 페이지에 있어서였음.. 주소창에 떠있는 #숫자때문에...
+				// 왜 그동안 누른 수만큼 반복이 되는거지..? -> 그건 계속 같은 페이지에 있어서였음.. 주소창에 떠있는 #숫자때문에... 인줄 알았는데 여전히 반복됨...
 				$("section.item").click(function() {
-					id = $(this).attr('id');
+					SelectItem = $(this);
+					id = SelectItem.attr('id');
+					SelectItem.css("visibility", "hidden");
 					
 					// AJAX 요청
 					$.ajax
@@ -169,12 +193,13 @@ $(function($){
 								
 								$('#photo_picture').attr('src','images/photo/' + data.post.photo).load(function(){ 
 									var curheight = ($(this).height() > $(window).height()) ? $('#photopage').height() : $(window).height()-50;
-										$('.bg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
+										$('.pbg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
 								}); 
 							},
 							complete : function(xhr, status) {  }
 					});
 				});
+
 			}); //$('.popupTrigger')
 
 		// ESC Event
@@ -183,27 +208,37 @@ $(function($){
 				return true;
 			if (PopupWindow.hasClass('open')) {
 				PopupWindow.removeClass('open');
-				parent.document.location.href = "";
-				/* $('.popup #name').empty();
+				//parent.document.location.href = "";
+ 				$('.popup #name').empty();
 				$('#photodetail').empty();
 				$('p#photo_content').remove();
 				$('.popup #form form').empty();
-				$('.popup #comment').empty(); */
+				$('.popup #comment').empty();
+				
+				$("section.item").unbind(); // id 가져온 값을 여기서 해제시켜서 값 반복을 막는다.
+				
+				SelectItem.css("visibility", "visible");
 				document.body.style.overflow = 'visible';
 			}
 			return false;
 		});
 			
 		// Hide Window
-		PopupWindow.find('>.bg').mousedown(function(event) {
+		PopupWindow.find('>.pbg').mousedown(function(event) {
 			PopupWindow.removeClass('open');
-			parent.document.location.href = "";
-				/* $('.popup #name').empty();
-				$('#photodetail').empty();
-				$('p#photo_content').remove();
-				$('.popup #form form').empty();
-				$('.popup #comment').empty(); */			
-			document.body.style.overflow = 'visible';
+			//parent.document.location.href = "";
+				
+			// ajax로 받아온 data를 해제하고 원상복귀 시키는 부분.
+					$('.popup #name').empty();
+					$('#photodetail').empty();
+					$('p#photo_content').remove();
+					$('.popup #form form').empty();
+					$('.popup #comment').empty();
+					
+					$("section.item").unbind(); // id 가져온 값을 여기서 해제시켜서 값 반복을 막는다.
+					
+					SelectItem.css("visibility", "visible");
+					document.body.style.overflow = 'visible';
 			return false;
 		});
 

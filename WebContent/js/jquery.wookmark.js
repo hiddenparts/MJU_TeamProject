@@ -120,7 +120,7 @@ $.fn.wookmark = function(options) {
         item = column[k];
         item.css({
           left: (i*columnWidth + offset)+'px',
-          top: heights[i]+'px'
+          top: heights[i] + 'px'
         });
         heights[i] += item.outerHeight() + this.wookmarkOptions.offset;
         
