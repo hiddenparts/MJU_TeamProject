@@ -8,8 +8,6 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/photo.css" rel="stylesheet">		
 	<script src="js/jquery-1.8.2.js"></script>
-	<script src="js/jquery.wookmark.js"></script>
-	<script src="js/jquery.imagesloaded.js"></script>
 
 </head>
 
@@ -102,6 +100,8 @@
 
 </html>
 
+<script src="js/jquery.wookmark.js"></script>
+<script src="js/jquery.imagesloaded.js"></script>
 <script type="text/javascript">
 $(function($){
 	var isLoading = false;
@@ -134,7 +134,7 @@ $(function($){
 	      // Check if we're within 100 pixels of the bottom edge of the broser window.
 	      var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
 	      if(closeToBottom) {
-	    	  //alert("바닥도착");
+	    	  alert("바닥도착");
 	        //loadData();
 	      }
 	    }
