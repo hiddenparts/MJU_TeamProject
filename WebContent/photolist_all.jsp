@@ -26,7 +26,7 @@
 	<!-- 카테고리 -->
 	<nav id="menubar">
 		<ul>
-			<li>전체</li>
+			<li><a href="article">전체</a></li>
 			<c:forEach var="cate" items="${category.list}">
 			<li>${cate}</li>
 			</c:forEach>
@@ -218,19 +218,26 @@ $(function($){
 	   
 	   // Add image HTML to the page.
 	   $('#tiles').append(html);
-	   //Apply layout.
-	   applyLayout();
-   };
-   
-   function applyLayout() {
-	   // Clear our previous layout handler.
-	   if(handler) handler.wookmarkClear();
 	   
-	   // Create a new layout handler.
-	   handler = $('#tiles li');
-	   handler.wookmark(options);
-	 };   
-	 
+	   //Apply layout.
+		 $('#tiles').imagesLoaded(function() {
+		      // Get a reference to your grid items.
+		      var handler = $('#tiles li');
+		      
+		      // Call the layout function.
+		      handler.wookmark(options);
+		      
+		      // Capture clicks on grid items.
+		      handler.click(function(){
+		        // Randomize the height of the clicked item.
+		        var newHeight = $('img', this).height() + Math.round(Math.random()*300+30);
+		        $(this).css('height', newHeight+'px');
+		        
+		        // Update the layout.
+		        handler.wookmark();
+		      });
+		    });
+   };  
 });
 	
 $(document).on('click', '.popupTrigger', function(event){
