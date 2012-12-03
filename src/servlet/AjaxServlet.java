@@ -46,15 +46,22 @@ public class AjaxServlet extends HttpServlet {
 		String op = request.getParameter("op");
 		
 		int op_num = -1;
+		int op_num1 = -1;
 		try {
 			if(op.equals("popup")) {
 				//get Post id
 				op_num = Integer.parseInt(request.getParameter("postid"));
-				System.out.println("post : " + op_num); 
+				//System.out.println("post : " + op_num); 
 			} else if(op.equals("page")) {
 				//get Page num
 				op_num = Integer.parseInt(request.getParameter("page"));
-				System.out.println("page : " + op_num);
+				//System.out.println("page : " + op_num);
+			} else if(op.equals("category")) {
+				//get category
+				op_num = Integer.parseInt(request.getParameter("page"));
+				//System.out.println("page : " + op_num);
+				op_num1 = Integer.parseInt(request.getParameter("cate"));
+				//System.out.println("cate : " + op_num1);
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -85,6 +92,23 @@ public class AjaxServlet extends HttpServlet {
 				rsobj.put("comment", comjsar);
 			} else if(op.equals("page")) {
 				list = PostDAO.getPage(op_num);
+				
+				JSONArray postjsar = new JSONArray();
+				for(int i=0; i<list.size(); i++) {
+					JSONObject subjsobj = new JSONObject();
+					JSONArray comjsar = new JSONArray();
+					subjsobj.put("user", list.get(i).getMember().UsertoJson());
+					subjsobj.put("article", list.get(i).getArticle().ArtitoJson());
+					
+					for(int j=0; j<list.get(i).getComment().size(); j++) {
+						comjsar.add(list.get(i).getComment().get(j).CommenttoJson());
+					}
+					subjsobj.put("comment", comjsar);
+					postjsar.add(subjsobj);
+				}
+				rsobj.put("post", postjsar);
+			} else if(op.equals("category")) {
+				list = PostDAO.getCategoryPage(op_num, op_num1);
 				
 				JSONArray postjsar = new JSONArray();
 				for(int i=0; i<list.size(); i++) {

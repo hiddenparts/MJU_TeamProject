@@ -27,8 +27,8 @@
 	<nav id="menubar">
 		<ul>
 			<li><a href="article">전체</a></li>
-			<c:forEach var="cate" items="${category.list}">
-			<li><a href="article?op=category&cate=${cate}">${cate}</a>${cate}</li>
+			<c:forEach var="cate" items="${category.list}" varStatus="status">
+			<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
 			</c:forEach>
 		</ul>	
 	</nav>
@@ -172,10 +172,22 @@ $(function($){
 	   var html = '';
 	   var i=0, length=data.post.length, postitem;
 	   
+
+		var sessionID = null;
+			<% Member user = (Member) session.getAttribute("user");
+					String userid= null;
+					if(user != null) { %>
+					sessionID = "<%=user.getUserid() %>"; 
+			<% }	%>
+				//console.log(sessionID);
+	   
 	   for(; i<length; i++) {
 		   postitem = data.post[i];
 		   html += '<li>'; 
-		   html += '<section class="item" id="' + postitem.article.postid + '">';			 	   
+		   html += '<section class="item" id="' + postitem.article.postid + '">';
+		   if(sessionID != null && sessionID == postitem.article.userid) {
+		   	html += '<img class="delete" src="images/delete.png">';
+		   }
 		   
 		    // photo
 				html += '<article class="itemcontents">'; 
@@ -192,16 +204,8 @@ $(function($){
 					});
 					html += '</article>'; 
 				}
-
-				// form
-				var sessionID = null;
-				<% Member user = (Member) session.getAttribute("user");
-						String userid= null;
-						if(user != null) { %>
-						sessionID = "<%=user.getUserid() %>"; 
-				<% }	%>
-					//console.log(sessionID);
 				
+				// form
  				if(sessionID != null) {
 					html += '<article class="itemform">'; 
 					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 

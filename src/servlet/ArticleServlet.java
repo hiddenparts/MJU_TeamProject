@@ -56,13 +56,23 @@ public class ArticleServlet extends HttpServlet {
 
 		String op = request.getParameter("op");
 		String search = "";
+		String actionUrl = "";
+		int category_num = -1;
+		
+		try {
+			if(op == null) {
+				op = "list";
+			} else if(op.equals("category")) {
+				category_num = Integer.parseInt(request.getParameter("cate"));
+				System.out.println("category_num : " + category_num);
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			category_num = -1;
+		}
+		
 		if(request.getParameter("search") != null) {
 			search = request.getParameter("search");
-		}
-		String actionUrl = "";
-		
-		if(op == null) {
-			op = "list";
 		}
 
 		
@@ -86,11 +96,19 @@ public class ArticleServlet extends HttpServlet {
 				//request.setAttribute("posts", posts);
 				
 				//actionUrl = "photolist.jsp";
+			} else if(op.equals("category")) {
+				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
+				request.setAttribute("posts", posts);
+				request.setAttribute("category", list);
+				request.setAttribute("cate_num", category_num);
+				
+				actionUrl = "photolist.jsp";
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		
+		//response.sendRedirect(actionUrl);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
 		dispatcher.forward(request, response);
 
