@@ -117,3 +117,17 @@ padding-top: 5px;
 margin: 0 auto;
   background-image: url('../images/loader.gif');
 }
+
+.deleteon {
+	visibility: hidden;
+	left: 190px;
+	top: 5px;
+	position: absolute;
+}
+.deleteon.on{
+	visibility: visible;
+}
+.deleteon:active,
+.deleteon:hover {
+	cursor: pointer;
+}

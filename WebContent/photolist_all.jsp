@@ -172,7 +172,6 @@ $(function($){
 	   var html = '';
 	   var i=0, length=data.post.length, postitem;
 	   
-
 		var sessionID = null;
 			<% Member user = (Member) session.getAttribute("user");
 					String userid= null;
@@ -184,10 +183,10 @@ $(function($){
 	   for(; i<length; i++) {
 		   postitem = data.post[i];
 		   html += '<li>'; 
-		   html += '<section class="item" id="' + postitem.article.postid + '">';
 		   if(sessionID != null && sessionID == postitem.article.userid) {
-		   	html += '<img class="delete" src="images/delete.png">';
-		   }
+			   	html += '<img class="deleteon" src="images/delete.png">';
+			 }
+		   html += '<section class="item" id="' + postitem.article.postid + '">';
 		   
 		    // photo
 				html += '<article class="itemcontents">'; 
@@ -280,7 +279,7 @@ $(document).on('click', '.popupTrigger', function(event){
 						var curheight = ($(this).height() > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
 						
 						//세션이 있는지 확인해서 로그인일때랑 아닐때, 코멘트가 있을때 또 있다면 몇개가 있는지 받아와서 길이를 적절하게 구해줘야한다
-						curheight += (data.comment.length + 1) * 100;
+						curheight += (data.comment.length + 1) * 50;
 						console.log(data.comment.length);
 						$('.pbg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
 				}); 
@@ -323,8 +322,64 @@ $(document).on('click', '.popupTrigger', function(event){
 				document.body.style.overflow = 'visible';
 		return false;
 	});
-	
-/* 	$("section.item").bind('click', function() {
+});
+
+// 글을 지우기 위해 icon을 띄우는 부분 
+// 마우스오버, 엔터, 리브, 아웃 모두에 걸어주고, 깜빡임을 방지하기 위해 icon자체에도 마우스 이벤트를 걸어줘야한다.
+$(document).on('mouseover', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').addClass('on');
+});
+
+$(document).on('mouseenter', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').addClass('on');
+	//console.log($(SelectItem).find('>.deleteon'));
+});
+
+$(document).on('mouseleave', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').removeClass('on');
+});
+
+$(document).on('mouseout', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').removeClass('on');
+});
+
+$(document).on('mouseenter', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.addClass('on');
+});
+
+$(document).on('mouseover', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.addClass('on');
+});
+
+$(document).on('mouseleave', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.removeClass('on');
+});
+
+$(document).on('mouseout', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.removeClass('on');
+});
+
+// 삭제처리
+$(document).on('click', '.deleteon', function(event){
+	var SelectItem = this.nextSibling;
+	var id = $(SelectItem).attr('id');
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		location = 'article?op=delete&id=' + id;
+	}
+	return false;
+});
+
+</script>
+
+<!-- /* 	$("section.item").bind('click', function() {
 		SelectItem = $(this);
 		console.log(SelectItem);
 		id = SelectItem.attr('id');
@@ -425,7 +480,5 @@ $(document).on('click', '.popupTrigger', function(event){
 					SelectItem.css("visibility", "visible");
 					document.body.style.overflow = 'visible';
 			return false;
-		}); */
-});
-</script>
+		}); */ -->
 

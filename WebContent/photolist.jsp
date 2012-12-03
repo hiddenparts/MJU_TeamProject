@@ -132,48 +132,52 @@ $(function($){
 	   var html = '';
 	   var i=0, length=data.post.length, postitem;
 	   
-	   for(; i<length; i++) {
-		   postitem = data.post[i];
-		   html += '<li>'; 
-		   html += '<section class="item" id="' + postitem.article.postid + '">';			 	   
-		   
-		    // photo
-				html += '<article class="itemcontents">'; 
-				html += '<img class="popupTrigger" src="images/photo/sm' + postitem.article.photo + '">'; 
-				html += '<p>' + postitem.article.content + '</p>'; 
-				html += '</article>';
-
-				// comment
-				if(postitem.comment != null) {
-					html += '<article class="itemcomment">'; 
-					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img src="images/profile/sm' + comm.userphoto + '" width="35px" height="35px"></span>';
-						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
-					});
-					html += '</article>'; 
-				}
-
-				// form
 				var sessionID = null;
 				<% Member user = (Member) session.getAttribute("user");
+						String userid= null;
 						if(user != null) { %>
 						sessionID = "<%=user.getUserid() %>"; 
 				<% }	%>
 					//console.log(sessionID);
-				
- 				if(sessionID != null) {
-					html += '<article class="itemform">'; 
-					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
-					html += '<form method="post" action="Comment">'; 
-					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
-					html += '<input type="text" name="comment">'; 
-					html += '</form>'; 
-					html += '</article>'; 
-				}
- 
-				html += '</section>'; 
-				html += '</li>'; 
-	   } 
+		   
+		   for(; i<length; i++) {
+			   postitem = data.post[i];
+			   html += '<li>'; 
+			   if(sessionID != null && sessionID == postitem.article.userid) {
+				   	html += '<img class="deleteon" src="images/delete.png">';
+				 }
+			   html += '<section class="item" id="' + postitem.article.postid + '">';
+			   
+			    // photo
+					html += '<article class="itemcontents">'; 
+					html += '<img class="popupTrigger" src="images/photo/sm' + postitem.article.photo + '">'; 
+					html += '<p>' + postitem.article.content + '</p>'; 
+					html += '</article>';
+		
+					// comment
+					if(postitem.comment != null) {
+						html += '<article class="itemcomment">'; 
+						$(postitem.comment).each(function(i, comm) {
+							html += '<p><span> <img src="images/profile/sm' + comm.userphoto + '" width="35px" height="35px"></span>';
+							html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
+						});
+						html += '</article>'; 
+					}
+					
+					// form
+						if(sessionID != null) {
+						html += '<article class="itemform">'; 
+						html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
+						html += '<form method="post" action="Comment">'; 
+						html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
+						html += '<input type="text" name="comment">'; 
+						html += '</form>'; 
+						html += '</article>'; 
+					}
+		
+					html += '</section>'; 
+					html += '</li>'; 
+		   } 
 	   
 	   // Add image HTML to the page.
 	   $('#tiles').append(html);
@@ -235,7 +239,7 @@ $(document).on('click', '.popupTrigger', function(event){
 						var curheight = ($(this).height() > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
 						
 						//세션이 있는지 확인해서 로그인일때랑 아닐때, 코멘트가 있을때 또 있다면 몇개가 있는지 받아와서 길이를 적절하게 구해줘야한다
-						curheight += (data.comment.length + 1) * 100;
+						curheight += (data.comment.length + 1) * 75;
 						console.log(data.comment.length);
 						$('.pbg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
 				}); 
@@ -279,6 +283,59 @@ $(document).on('click', '.popupTrigger', function(event){
 		return false;
 	});
 
+});
+
+//글을 지우기 위해 icon을 띄우는 부분 
+//마우스오버, 엔터, 리브, 아웃 모두에 걸어주고, 깜빡임을 방지하기 위해 icon자체에도 마우스 이벤트를 걸어줘야한다.
+$(document).on('mouseover', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').addClass('on');
+});
+
+$(document).on('mouseenter', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').addClass('on');
+	//console.log($(SelectItem).find('>.deleteon'));
+});
+
+$(document).on('mouseleave', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').removeClass('on');
+});
+
+$(document).on('mouseout', '.popupTrigger', function(event){
+	var SelectItem = $(this.parentNode.parentNode.parentNode);
+	$(SelectItem).find('>.deleteon').removeClass('on');
+});
+
+$(document).on('mouseenter', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.addClass('on');
+});
+
+$(document).on('mouseover', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.addClass('on');
+});
+
+$(document).on('mouseleave', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.removeClass('on');
+});
+
+$(document).on('mouseout', '.deleteon', function(event){
+	var SelectItem = $(this);
+	SelectItem.removeClass('on');
+});
+
+//삭제처리
+$(document).on('click', '.deleteon', function(event){
+	var SelectItem = this.nextSibling;
+	var id = $(SelectItem).attr('id');
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		location = 'article?op=delete&id=' + id;
+	}
+	return false;
 });
 </script>
 

@@ -57,25 +57,28 @@ public class ArticleServlet extends HttpServlet {
 		String op = request.getParameter("op");
 		String search = "";
 		String actionUrl = "";
-		int category_num = -1;
+		int cg_num = -1, op_num = -1;
+		boolean ret = false;
 		
 		try {
 			if(op == null) {
 				op = "list";
 			} else if(op.equals("category")) {
-				category_num = Integer.parseInt(request.getParameter("cate"));
-				System.out.println("category_num : " + category_num);
+				cg_num = Integer.parseInt(request.getParameter("cate"));
+				System.out.println("category_num : " + cg_num);
+			} else if(op.equals("delete")) {
+				op_num = Integer.parseInt(request.getParameter("id"));
+				System.out.println("id : " + op_num);
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			category_num = -1;
+			op_num = -1;
 		}
 		
 		if(request.getParameter("search") != null) {
 			search = request.getParameter("search");
 		}
 
-		
 		try {
 			Category list = ArticleDAO.getlist(); // 카테고리 리스트를 받아옴
 			if(op.equals("write")) { 
@@ -100,18 +103,29 @@ public class ArticleServlet extends HttpServlet {
 				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
 				request.setAttribute("posts", posts);
 				request.setAttribute("category", list);
-				request.setAttribute("cate_num", category_num);
-				
+				request.setAttribute("cate_num", cg_num);
+
 				actionUrl = "photolist.jsp";
+			} else if(op.equals("delete")) {
+				ret = PostDAO.remove(op_num);
+				if(ret) {
+					System.out.println(op_num + "번째 글 삭제성공");
+				} else {
+					System.out.println(op_num + "번째 글 삭제실패");
+				}
+				actionUrl = "";
+				//actionUrl = "article?op=category&cate=" + cg_num;
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		
-		//response.sendRedirect(actionUrl);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
-		dispatcher.forward(request, response);
-
+		if(op.equals("delete")) {
+				response.sendRedirect(actionUrl);
+		} else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
+			dispatcher.forward(request, response);
+		}
 	}
 
 	private boolean isUploadMode(MultipartRequest request) {
