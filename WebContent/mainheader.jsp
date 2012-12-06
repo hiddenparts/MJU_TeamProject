@@ -1,28 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div id="titlebar">
-	<form method="get" action="article">
-		<span> <input name="search" type="text" value="검색" />
-		</span> <span>타이틀로고</span> <span>소개</span>
-		<c:choose>
-			<c:when test="${sessionScope.user.userid != null}">
-				<span> <a href="article?op=write">글쓰기</a>
+	<div class="LiquidContainer" style="width: 1170px;">
+		<div id="Search">
+			<form method="get" action="article">
+				<span> <input name="search" type="text" value="검색" /><input type="image" src="images/search.gif" title="검색버튼"/>
 				</span>
-				<span> [ <img class="media-object"
-					src="images/profile/sm${sessionScope.user.profilephoto}"
-					width="35px" height="35px" /> <a
-					href="login?op=update&id=${sessionScope.user.nickname}">${sessionScope.user.nickname}님</a>
-					]
-				</span>
-				<span><a href="login?op=logout">로그아웃</a></span>
-			</c:when>
-			<c:otherwise>
-				<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger">로그인</a></span> -->
-				<span class="loginTrigger" accesskey="L" title="로그인">로그인</span>
-				<span><a href="login?op=signup">가입</a></span>
-			</c:otherwise>
-		</c:choose>
-	</form>
+			</form>
+		</div>
+		<span><a href="main.jsp" id="logo"><img src="images/logo1.gif" alt="logo"></a></span> 
+		<div id="Navigation"> 
+			<span>소개</span>
+			<c:choose>
+				<c:when test="${sessionScope.user.userid != null}">
+					<span> <a href="article?op=write">글쓰기</a>
+					</span>
+					<span> [ <img class="media-object"
+						src="images/profile/sm${sessionScope.user.profilephoto}"
+						width="35px" height="35px" /> <a
+						href="login?op=update&id=${sessionScope.user.nickname}">${sessionScope.user.nickname}님</a>
+						]
+					</span>
+					<span><a href="login?op=logout">로그아웃</a></span>
+				</c:when>
+				<c:otherwise>
+					<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger">로그인</a></span> -->
+					<span class="loginTrigger" accesskey="L" title="로그인">로그인</span>
+					<span><a href="login?op=signup">가입</a></span>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
 </div>
 
 <div class="mwLogin">

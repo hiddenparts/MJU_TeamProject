@@ -9,7 +9,7 @@
 	    <link rel="stylesheet" type="text/css" href="css/main.css">
       <link rel="stylesheet" href="css/style.css">
     </head>
-    <body>
+    <body id="page">
     <% RequestDispatcher dispatcher = request.getRequestDispatcher("/article?op=list");
 			 dispatcher.forward(request, response); %>
     </body>
