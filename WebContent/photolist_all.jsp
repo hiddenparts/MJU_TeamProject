@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -107,6 +107,13 @@ $(function($){
 	      }
 	    }
 	  };
+	  
+	  $('#cate_all').click(function() { 
+		  $(this).children().slideDown('fast').show(); 
+		  $(this).hover(function() { }, function(){  
+		    	$(this).children().slideUp('slow');
+		  });
+		});
 	  
    function loadData() {
        isLoading = true;

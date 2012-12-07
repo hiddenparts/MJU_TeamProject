@@ -25,7 +25,6 @@
 					<span><a href="login?op=logout">로그아웃</a></span>
 				</c:when>
 				<c:otherwise>
-					<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger">로그인</a></span> -->
 					<span class="loginTrigger" accesskey="L" title="로그인">로그인</span>
 					<span><a href="login?op=signup">가입</a></span>
 				</c:otherwise>
@@ -63,3 +62,9 @@
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript">
+$('input[name="search"]').click(function() {
+	$(this).val("");
+});
+</script>

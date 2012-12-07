@@ -123,6 +123,20 @@ form {
 	-webkit-box-shadow: inset 0 1px #fff, 0 1px 3px rgba(34, 25, 25, 0.4);
 	padding: 5px 0;
 }
+
+#cate_all {
+
+}
+
+#cate_list {
+	position: absolute;
+	display: none;
+	background-color: #FFF;
+	width: 120px;
+	height: 100px;
+	left: 46%;
+}
+
 .HeaderContainer li {
 	position: relative;
 	display: inline;
