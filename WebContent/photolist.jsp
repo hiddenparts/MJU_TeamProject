@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,10 +30,10 @@
 			<c:forEach var="cate" items="${category.list}" varStatus="status">
 				<c:choose>
 	        <c:when test="${cate_num == status.index + 1}">
-						<li><b><a href="article?op=category&cate=${status.index + 1}">${cate}</a></b></li>
+						<li><b><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></b></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
+						<li><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></li>
 					</c:otherwise>
 				</c:choose>
 				

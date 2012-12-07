@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
 	<div id="list">
 		<ul id="tiles">
 			<!-- 이 위치에 게시물들이 ajax로 채워집니다 -->
-		</ul>
+		</ul> 
 	</div>
 
 	<div id="loader">
