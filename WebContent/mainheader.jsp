@@ -35,12 +35,13 @@
 </div>
 
 	<div id="modallogin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<form class="form-horizontal" method="post" action="login">
+		<form class="form-horizontal" method="post" action="login" enctype="multipart/form-data">
+			<input type="hidden" name="_method" value="login">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 				<blockquote>
-					<p>Administrator</p>
-					
+					<p>Log-in</p>
+					<small>명터레스트의 모든 서비스를 이용하기 위해서는 로그인이 필요합니다.</small>
 				</blockquote>
 			</div>
 			<div class="modal-body">

@@ -148,7 +148,7 @@ $(function($){
 				if(postitem.comment != null) {
 					html += '<article class="itemcomment">'; 
 					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '></span>';
+						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '"></span>';
 						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
 					});
 					html += '</article>'; 
@@ -332,7 +332,6 @@ $(document).on('click', '.popupTrigger', function(event){
 						
 						doodler.rePaint(); // 다시 그리기
 					});
-					
 					
 					img.src = "images/photo/" + data.article.photo;
 			},
