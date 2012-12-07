@@ -40,7 +40,7 @@
 	<div id="list">
 		<ul id="tiles">
 			<!-- 이 위치에 게시물들이 ajax로 채워집니다 -->
-		</ul>
+		</ul> 
 	</div>
 
 	<div id="loader">
