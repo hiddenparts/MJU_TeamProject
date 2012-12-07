@@ -147,7 +147,7 @@ $(function($){
 				if(postitem.comment != null) {
 					html += '<article class="itemcomment">'; 
 					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img src="images/profile/sm' + comm.userphoto + '" width="35px" height="35px"></span>';
+						html += '<p><span> <img class="profile-size" src="images/profile/sm' + comm.userphoto + '></span>';
 						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
 					});
 					html += '</article>'; 
