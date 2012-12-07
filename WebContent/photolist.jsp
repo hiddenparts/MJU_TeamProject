@@ -25,7 +25,7 @@
 
 	<!-- 카테고리 -->
 	<nav id="menubar">
-		<ul>
+		<ul class="LiquidContainer HeaderContainer" style="width: 1170px;">
 			<li><a href="article">전체</a></li>
 			<c:forEach var="cate" items="${category.list}" varStatus="status">
 				<c:choose>
