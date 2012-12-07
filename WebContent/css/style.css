@@ -274,8 +274,8 @@ margin: 0 auto;
 
 .deleteon {
 	visibility: hidden;
-	left: 190px;
-	top: 5px;
+	left: 199px;
+	top: 6px;
 	position: absolute;
 }
 .deleteon.on{
