@@ -93,7 +93,6 @@ function DoodleView(canvas, ownerID, shapes)
 	{
 		var shapeList = new Array();
 		for(var i=0 ; i<shapes.length ; i++){
-		console.log(ownerID + "/ " +shapes[i].shapeOwnerID);
 			if(shapes[i].shapeOwnerID == ownerID)
 			{
 				shapeList.push(shapes[i]);
