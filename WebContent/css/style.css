@@ -37,7 +37,7 @@ form {
 	top: 0;
 	right: 0;
 	left: 0;
-	height: 60px;
+	height: 55px;
 	background-color: #FAF7F7;
 }
 
@@ -106,7 +106,7 @@ form {
 #menubar {	
 	position: fixed;
 	z-index: 101;
-	top: 60px;
+	top: 55px;
 	padding-top: 0px;
 	right: 0;
 	left: 0;
