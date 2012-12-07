@@ -5,7 +5,8 @@
 	<div class="LiquidContainer" style="width: 1170px;">
 		<div id="Search">
 			<form method="get" action="article">
-				<span> <input name="search" type="text" value="검색" /><input type="image" src="images/search.gif" title="검색버튼"/>
+				<span> <input name="search" type="text" value="검색" />
+					<input type="image" id="searchbtn" src="images/search.gif" title="검색버튼"/>
 				</span>
 			</form>
 		</div>
