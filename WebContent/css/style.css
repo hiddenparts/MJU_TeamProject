@@ -121,9 +121,13 @@ form {
 	text-align: -webkit-match-parent;
 }
 
-.profile-size {
+.profile-size1 {
 	width: 20px;
 	height: 20px;
+}
+.profile-size2 {
+	width: 30px;
+	height: 30px;
 }
 /**
  * Grid container
