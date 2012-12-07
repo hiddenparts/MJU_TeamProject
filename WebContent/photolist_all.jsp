@@ -29,10 +29,10 @@
 
 	<!-- 카테고리 -->
 	<nav id="menubar">
-		<ul>
+		<ul class="LiquidContainer HeaderContainer" style="width: 1170px;">
 			<li><a href="article">전체</a></li>
 			<c:forEach var="cate" items="${category.list}" varStatus="status">
-			<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
+			<li><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></li>
 			</c:forEach>
 		</ul>	
 	</nav>
