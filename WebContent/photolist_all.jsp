@@ -68,7 +68,15 @@
 <script src="js/jquery.wookmark.js"></script>
 <script src="js/jquery.imagesloaded.js"></script>
 <script type="text/javascript">
+
 var sessionID = null; // 전역 세션아이디
+
+<% Member user = (Member) session.getAttribute("user");
+	String userid= null;
+	if(user != null) { %>
+		sessionID = "<%=user.getUserid() %>"; 
+<% }	%>
+
 $(function($){
 	var isLoading = false;
 	var handler = null;
@@ -121,13 +129,6 @@ $(function($){
 	   // Create HTML for the images.
 	   var html = '';
 	   var i=0, length=data.post.length, postitem;
-	   
-			<% Member user = (Member) session.getAttribute("user");
-					String userid= null;
-					if(user != null) { %>
-					sessionID = "<%=user.getUserid() %>"; 
-			<% }	%>
-				//console.log(sessionID);
 	   
 	   for(; i<length; i++) {
 		   postitem = data.post[i];
@@ -216,7 +217,10 @@ $(document).on('click', '.popupTrigger', function(event){
 					$('<img src=\"images/profile/' + data.user.profilephoto + '\">').appendTo('#name');
 					$('<p id=\"name_name\">' + data.user.nickname + '</p>').appendTo('#name');
 					$('<p id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
-					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림\">').appendTo('#name');
+					
+					if(sessionID != null) {
+						$('<input id=\"savedraw\" type=\"button\" value=\"댓그림\">').appendTo('#name');
+					}
 					
 					// photo 부분 처리
 					$('<canvas id=\"photo_picture\"></canvas>').appendTo('#photodetail');
@@ -284,7 +288,7 @@ $(document).on('click', '.popupTrigger', function(event){
 						var shapelist = doodler.getOwnerShapes(sessionID);
 						console.log(shapelist);
 						if(shapelist == null || shapelist.length == 0) {
-							alert("그림부터 그려 병시나 김민성이냐");	
+							alert("그림을 그려주세요");	
 							return;
 						}
 							$.ajax({
@@ -364,24 +368,24 @@ $(document).on('click', '.popupTrigger', function(event){
 
 // 글을 지우기 위해 icon을 띄우는 부분 
 // 마우스오버, 엔터, 리브, 아웃 모두에 걸어주고, 깜빡임을 방지하기 위해 icon자체에도 마우스 이벤트를 걸어줘야한다.
-$(document).on('mouseover', '.popupTrigger', function(event){
-	var SelectItem = $(this.parentNode.parentNode.parentNode);
+$(document).on('mouseover', '.itemcontents', function(event){
+	var SelectItem = $(this.parentNode.parentNode);
 	$(SelectItem).find('>.deleteon').addClass('on');
 });
 
-$(document).on('mouseenter', '.popupTrigger', function(event){
-	var SelectItem = $(this.parentNode.parentNode.parentNode);
+$(document).on('mouseenter', '.itemcontents', function(event){
+	var SelectItem = $(this.parentNode.parentNode);
 	$(SelectItem).find('>.deleteon').addClass('on');
 	//console.log($(SelectItem).find('>.deleteon'));
 });
 
-$(document).on('mouseleave', '.popupTrigger', function(event){
-	var SelectItem = $(this.parentNode.parentNode.parentNode);
+$(document).on('mouseleave', '.itemcontents', function(event){
+	var SelectItem = $(this.parentNode.parentNode);
 	$(SelectItem).find('>.deleteon').removeClass('on');
 });
 
-$(document).on('mouseout', '.popupTrigger', function(event){
-	var SelectItem = $(this.parentNode.parentNode.parentNode);
+$(document).on('mouseout', '.itemcontents', function(event){
+	var SelectItem = $(this.parentNode.parentNode);
 	$(SelectItem).find('>.deleteon').removeClass('on');
 });
 
