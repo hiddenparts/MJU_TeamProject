@@ -129,10 +129,11 @@ form {
 }
 
 #menubar li {
-	display: list-item;
 	text-align: -webkit-match-parent;
 }
-
+#menubar .nav {
+	font-weight: normal;
+}
 .profile-size1 {
 	width: 20px;
 	height: 20px;
