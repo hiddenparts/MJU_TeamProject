@@ -29,12 +29,16 @@
 
 	<!-- 카테고리 -->
 	<nav id="menubar">
-		<ul>
-			<li><a href="article">전체</a></li>
-			<c:forEach var="cate" items="${category.list}" varStatus="status">
-			<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
-			</c:forEach>
-		</ul>	
+		<div id="cate_all">카테고리
+			<div id="cate_list">
+				<ul>
+					<li><a href="article">전체</a></li>
+					<c:forEach var="cate" items="${category.list}" varStatus="status">
+					<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>		
 	</nav>
 
 	<div id="list">
@@ -107,6 +111,13 @@ $(function($){
 	      }
 	    }
 	  };
+	  
+	  $('#cate_all').click(function() { 
+		  $(this).children().slideDown('fast').show(); 
+		  $(this).hover(function() { }, function(){  
+		    	$(this).children().slideUp('slow');
+		  });
+		});
 	  
    function loadData() {
        isLoading = true;
