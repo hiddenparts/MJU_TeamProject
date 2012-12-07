@@ -30,10 +30,10 @@
 			<c:forEach var="cate" items="${category.list}" varStatus="status">
 				<c:choose>
 	        <c:when test="${cate_num == status.index + 1}">
-						<li><b><a href="article?op=category&cate=${status.index + 1}">${cate}</a></b></li>
+						<li><b><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></b></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
+						<li><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></li>
 					</c:otherwise>
 				</c:choose>
 				
