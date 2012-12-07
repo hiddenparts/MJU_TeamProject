@@ -65,7 +65,7 @@ form {
 }
 #Search {
 	float: left;
-	margin: 10px 0 0;
+	margin: 13px 0 0;
 }
 #Search input {
 	float: left;
@@ -104,7 +104,7 @@ form {
 	position: relative;
 	float: right;
 	z-index: 200;
-	top: 10px;
+	top: 13px;
 }
 #menubar {	
 	position: fixed;
