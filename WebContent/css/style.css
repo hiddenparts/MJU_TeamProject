@@ -59,13 +59,13 @@ form {
 	position: absolute;
 	width: 150px;
 	height: 40px;
-	top: 9px;
+	top: 5px;
 	left: 50%;
 	margin-left: -50px;
 }
 #Search {
 	float: left;
-	margin: 8px 0 0;
+	margin: 10px 0 0;
 }
 #Search a {
 	float: left;
@@ -92,6 +92,7 @@ form {
 	position: relative;
 	float: right;
 	z-index: 200;
+	top: 10px;
 }
 #menubar {	
 	position: fixed;
