@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public class AjaxServlet extends HttpServlet {
 			if(op.equals("popup")) {
 				post = PostDAO.findByPostID(op_num);
 				JSONArray comjsar = new JSONArray();
+				JSONArray grajsar = new JSONArray();
 				
 				rsobj.put("user", post.getMember().UsertoJson());
 				rsobj.put("article", post.getArticle().ArtitoJson());
@@ -89,7 +91,11 @@ public class AjaxServlet extends HttpServlet {
 				for(int i=0; i<post.getComment().size(); i++) {
 					comjsar.add(post.getComment().get(i).CommenttoJson());
 				}
+				for(int i=0; i<post.getGraffiti().size(); i++) {
+					grajsar.add(post.getGraffiti().get(i).GraffititoJson());
+				}
 				rsobj.put("comment", comjsar);
+				rsobj.put("graffiti", grajsar);
 			} else if(op.equals("page")) {
 				list = PostDAO.getPage(op_num);
 				
@@ -138,7 +144,44 @@ public class AjaxServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		boolean ret 		= false;
+		JSONObject rsobj = new JSONObject();
+		Graffiti graffiti = new Graffiti();
+		
+		// Get Graffiti items 
+		request.setCharacterEncoding("utf-8");
+		 
+		int postid = Integer.parseInt(request.getParameter("Postid"));
+		String userid = request.getParameter("userid");
+		// Get DrawPoints
+		String shapes = request.getParameter("Shapes");
+		//System.out.println(shapes);
+		
+		// Set Graffiti items
+		graffiti.setPostid(postid);
+		graffiti.setUserid(userid);
+		graffiti.setGraffitipath(shapes);
+		graffiti.setGraffititdate(new Timestamp(System.currentTimeMillis()));
+		graffiti.setGraffitiip(123456789);		
+		
+		try {
+			ret = GraffitiDAO.create(graffiti);
+			if(ret) {
+				System.out.println(userid + "님의 그림저장 성공");
+				rsobj.put("result", "ok");
+			} else {
+				System.out.println(userid + "님의 그림저장 실패");
+				rsobj.put("result", "no");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e);
+		}
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(rsobj.toJSONString());
 	}
 
 }

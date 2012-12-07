@@ -220,9 +220,6 @@ public class ArticleServlet extends HttpServlet {
 		String curTimeStr 	= Long.toString(System.currentTimeMillis()); //use Unix Time
 	
 		try {
-			// 이미지 업로드
-			photo = multi.getParameter("images/photo");
-			
 			// 업로드 된 이미지 이름 얻어옴!
 			Enumeration files 	= multi.getFileNames();
 			String 		file 	= (String) files.nextElement();

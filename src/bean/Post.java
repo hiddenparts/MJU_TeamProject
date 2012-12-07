@@ -16,25 +16,29 @@ public class Post implements Serializable {
 	private Member member;
 	private Article article;
 	private ArrayList<Comment> comment;
+	private ArrayList<Graffiti> graffiti;
 	// 댓그림 빈
 	
 	public Post() {		
 	}
 
-	public Post(Member member, Article article, ArrayList<Comment> comment) {
+	public Post(Member member, Article article, ArrayList<Comment> comment, ArrayList<Graffiti> graffiti) {
 		super();
 		this.article = article;
 		this.member = member;
 		this.comment = comment;
+		this.graffiti = graffiti;
 	}
 	
 	public Article getArticle() { return article; }
 	public Member getMember() { return member; }
 	public ArrayList<Comment> getComment() { return comment; }
+	public ArrayList<Graffiti> getGraffiti() { return graffiti; }
 	
 	public void setArticle(Article article) { this.article = article; }
 	public void setMember(Member member) { this.member = member; }
 	public void setComment(ArrayList<Comment> comment) { this.comment = comment; }
+	public void setGraffiti(ArrayList<Graffiti> graffiti) { this.graffiti = graffiti; }
 	
 	//json 형태로 출력
 	public JSONObject PosttoJson() {

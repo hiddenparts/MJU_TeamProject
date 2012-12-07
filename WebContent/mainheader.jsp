@@ -36,12 +36,12 @@
 				<input type="hidden" name="_method" value="login">
 				<legend>Login</legend>
 				<div class="item">
-					<label for="uid" class="iLabel">ID</label><input name="userid"
-						type="text" value="" id="uid" class="iText uid" />
+					<label for="uid" class="iLabel">ID</label>
+					<input name="userid" type="text" value="" id="uid" class="iText uid" />
 				</div>
 				<div class="item">
-					<label for="upw" class="iLabel">PASSWORD</label><input name="pwd"
-						type="password" value="" id="upw" class="iText upw" />
+					<label for="upw" class="iLabel">PASSWORD</label>
+					<input name="pwd" type="password" value="" id="upw" class="iText upw" />
 				</div>
 				<div>
 					<input name="접속" type="submit" value="로그인" />

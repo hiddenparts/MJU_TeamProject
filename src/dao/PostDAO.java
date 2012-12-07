@@ -30,6 +30,7 @@ public class PostDAO {
 		Statement stmt = null;
 		ResultSet rs = null;		
 		ArrayList<Comment> comment = new ArrayList<Comment>();
+		ArrayList<Graffiti> graffiti = new ArrayList<Graffiti>();
 		
 		if (page <= 0) {
 			page = 1;
@@ -71,15 +72,17 @@ public class PostDAO {
 														rs.getInt("hits"),
 														rs.getInt("likehits"),
 														rs.getInt("postip")),
-												new ArrayList<Comment>()));
+												new ArrayList<Comment>(),
+												new ArrayList<Graffiti>()));
 			}
 
 			// 글의 목록에 코멘트 리스트를 채워준다.
 			for(int i=0; i < result.size(); i++) {
 				comment = CommentDAO.getCommentList(result.get(i).getArticle().getPostid());			
 				result.get(i).setComment(comment);
+				graffiti = GraffitiDAO.getGraffitiList(result.get(i).getArticle().getPostid());
+				result.get(i).setGraffiti(graffiti);
 			}
-			
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
@@ -90,11 +93,13 @@ public class PostDAO {
 		return result;		
 	}
 	
+	/* 지금은 쓰지않는 모든 게시물 가져오는 메소드 */
 	public static ArrayList<Post> getAllPage() throws SQLException, NamingException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;		
 		ArrayList<Comment> comment = new ArrayList<Comment>();
+		ArrayList<Graffiti> graffiti = new ArrayList<Graffiti>();
 		
 		DataSource ds = getDataSource();
 		ArrayList<Post> result = new ArrayList<Post>();
@@ -132,12 +137,15 @@ public class PostDAO {
 												rs.getInt("hits"),
 												rs.getInt("likehits"),
 												rs.getInt("postip")),
-										new ArrayList<Comment>()));
+									new ArrayList<Comment>(),
+									new ArrayList<Graffiti>()));
 			}
 			// 글의 목록에 코멘트 리스트를 채워준다.
 			for(int i=0; i < result.size(); i++) {
 				comment = CommentDAO.getCommentList(result.get(i).getArticle().getPostid());			
 				result.get(i).setComment(comment);
+				graffiti = GraffitiDAO.getGraffitiList(result.get(i).getArticle().getPostid());
+				result.get(i).setGraffiti(graffiti);
 			}
 			
 		} finally {
@@ -150,11 +158,13 @@ public class PostDAO {
 		return result;		
 	}
 	
+	/* 각 카테고리에 대해 20개씩 글을 가져오는 메소드 */
 	public static ArrayList<Post> getCategoryPage(int page, int cate_num) throws SQLException, NamingException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;		
 		ArrayList<Comment> comment = new ArrayList<Comment>();
+		ArrayList<Graffiti> graffiti = new ArrayList<Graffiti>();
 		
 		DataSource ds = getDataSource();
 		ArrayList<Post> result = new ArrayList<Post>();
@@ -198,12 +208,15 @@ public class PostDAO {
 												rs.getInt("hits"),
 												rs.getInt("likehits"),
 												rs.getInt("postip")),
-										new ArrayList<Comment>()));
+										new ArrayList<Comment>(),
+										new ArrayList<Graffiti>()));
 			}
 			// 글의 목록에 코멘트 리스트를 채워준다.
 			for(int i=0; i < result.size(); i++) {
 				comment = CommentDAO.getCommentList(result.get(i).getArticle().getPostid());			
 				result.get(i).setComment(comment);
+				graffiti = GraffitiDAO.getGraffitiList(result.get(i).getArticle().getPostid());
+				result.get(i).setGraffiti(graffiti);
 			}
 			
 		} finally {
@@ -216,11 +229,13 @@ public class PostDAO {
 		return result;		
 	}
 	
+	/* 아이디에 해당하는 글을 가져오는 메소드 */
 	public static Post findByPostID(int id) throws SQLException, NamingException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ArrayList<Comment> comment = new ArrayList<Comment>();
+		ArrayList<Graffiti> graffiti = new ArrayList<Graffiti>();
 		
 		Post post = new Post();
 		DataSource ds = getDataSource();
@@ -258,12 +273,14 @@ public class PostDAO {
 											rs.getInt("hits"),
 											rs.getInt("likehits"),
 											rs.getInt("postip")),
-									new ArrayList<Comment>());
+									new ArrayList<Comment>(),
+									new ArrayList<Graffiti>());
 			}
 			
 			comment = CommentDAO.getCommentList(id);			
 			post.setComment(comment);
-			
+			graffiti = GraffitiDAO.getGraffitiList(id);
+			post.setGraffiti(graffiti);			
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
