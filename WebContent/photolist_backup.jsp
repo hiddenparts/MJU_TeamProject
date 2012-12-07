@@ -4,7 +4,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/photo.css" rel="stylesheet">		
 	<script src="js/jquery-1.8.2.js"></script>
