@@ -192,11 +192,13 @@ $(function($){
 	
 $(document).on('click', '.popupTrigger', function(event){
 	  // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
+	var doodler;
 	var PopupWindow = $('.popup');
 	var SelectItem = $(this.parentNode.parentNode);
 	var id;
 	var toolHtml = '';
 	var listHtml = '';
+	var graffitilist;
 	id = SelectItem.attr('id');
 	SelectItem.css("visibility", "hidden");
 	
@@ -258,6 +260,7 @@ $(document).on('click', '.popupTrigger', function(event){
 					});		
 
 					// List 부분처리
+					graffitilist = data.graffiti;
 					listHtml += '<ul>';
 					$(data.graffiti).each(function(i, grafi) {
 						listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
@@ -270,15 +273,16 @@ $(document).on('click', '.popupTrigger', function(event){
 					});
 					listHtml += '</ul>';
 					$('#drawlist').append(listHtml);
-					
-					var doodler = new DoodleView(canvas, sessionID);
+
+					doodler = new DoodleView(canvas, sessionID);
 					doodler.setEditable(true);
 					doodler.setBrush('type1_10_red');
 				
 					img.onload = function(){ 
 						$(canvas).attr('width', 700);
 						$(canvas).attr('height', 700 * (img.height / img.width));
-						var curheight = (img.height > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
+						//var curheight = (img.height > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
+						var curheight = $('#photopage').height();
 						
 						//세션이 있는지 확인해서 로그인일때랑 아닐때, 코멘트가 있을때 또 있다면 몇개가 있는지 받아와서 길이를 적절하게 구해줘야한다
 						curheight += (data.comment.length + 1) * 50;
@@ -302,7 +306,6 @@ $(document).on('click', '.popupTrigger', function(event){
 					
 					$('#savedraw').bind('click', function() {
 						var shapelist = doodler.getOwnerShapes(sessionID);
-						console.log(shapelist);
 						if(shapelist == null || shapelist.length == 0) {
 							alert("그림을 그려주세요");	
 							return;
@@ -325,14 +328,25 @@ $(document).on('click', '.popupTrigger', function(event){
 					});
 					
 					$('.viewcheck').click(function() {
-						/* var list = $(this).parent().parent();
-						console.log($(list));
-						console.log(list.children.length); */
-						$(this).each(function(i, e) {
-							console.log($(this));
-							console.log(this);
-							alert(i);
-						});
+						var list = $(this).parent().parent();
+						var listnum = $(list).children().length;
+						var checked = 0;
+						var arr = [];
+						
+						console.log(graffitilist);
+						for(var i=0; i<listnum; i++) {
+							var listitem = $(list).children()[i];
+							if($(listitem).find('.viewcheck').is(':checked')) {
+								var draw = graffitilist[i];
+								arr = arr.concat(JSON.parse(draw.graffitipath)); // 체크된 번째 그림을 가져온다
+							}
+						}
+						console.log(arr);
+						if(arr.length != 0) {
+							doodler.jsonToShapes(arr); 
+						}
+						
+						doodler.rePaint(); // 다시 그리기
 					});
 					
 					
