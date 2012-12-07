@@ -14,7 +14,7 @@
 	box-shadow: 0 3px 8px rgba(34, 25, 25, 0.4);
 }
 
-	#photopage {
+#photopage {
 	position: absolute;
 	width: 745px;
 	left: 29%;
@@ -116,7 +116,7 @@
 	top: 142px;
 	width: 280px;
 	background-color: white;
-	border: 1px;
+	border: 0px;
 	border-style: solid;
 	border-color: white;
 	box-shadow: 0 3px 8px rgba(34, 25, 25, 0.4);
