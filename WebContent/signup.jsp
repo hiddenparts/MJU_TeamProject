@@ -7,9 +7,14 @@
 	<meta charset="UTF-8">
 	<title>회원가입</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/base.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link href="css/mwLogin.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/photo.css" rel="stylesheet">	
+	
 	<script src="js/jquery-1.8.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/mwLogin.js"></script>
 </head>
 <body>
  

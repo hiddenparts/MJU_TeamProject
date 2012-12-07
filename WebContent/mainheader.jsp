@@ -25,7 +25,8 @@
 					<span><a href="login?op=logout">로그아웃</a></span>
 				</c:when>
 				<c:otherwise>
-					<span class="loginTrigger" accesskey="L" title="로그인">로그인</span>
+					<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger">로그인</a></span> -->
+					<a href="#modallogin" role="button" data-toggle="modal" accesskey="L" title="로그인">Login</a>
 					<span><a href="login?op=signup">가입</a></span>
 				</c:otherwise>
 			</c:choose>
@@ -33,38 +34,38 @@
 	</div>
 </div>
 
-<div class="mwLogin">
-	<!-- class에 open을 추가하면 css에서 display를 none에서 block으로 변경하여 팝업창이 보이게 됨 -->
-	<div class="bg"></div>
-	<div id="login" class="gLogin">
-		<a href="#loginAnchor" class="close" title="닫기">X</a>
-		<form id="gLogin" class="gLogin" method="post" action="login"
-			enctype="multipart/form-data">
-			<fieldset>
-				<input type="hidden" name="_method" value="login">
-				<legend>Login</legend>
-				<div class="item">
-					<label for="uid" class="iLabel">ID</label>
-					<input name="userid" type="text" value="" id="uid" class="iText uid" />
+	<div id="modallogin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<form class="form-horizontal" method="post" action="login">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<blockquote>
+					<p>Administrator</p>
+					
+				</blockquote>
+			</div>
+			<div class="modal-body">
+				<div class="control-group">
+					<label class="control-label" for="idform">ID</label>
+					<div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-user"></i></span>
+							<input class="span3" name="userid" type="text" id="idform">
+						</div>
+					</div>
 				</div>
-				<div class="item">
-					<label for="upw" class="iLabel">PASSWORD</label>
-					<input name="pwd" type="password" value="" id="upw" class="iText upw" />
+				<div class="control-group">
+					<label class="control-label" for="pwform">Password</label>
+					<div class="controls">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-lock"></i></span>
+							<input class="span3" name="pwd" type="password" type="text" id="pwform">
+						</div>
+					</div>
 				</div>
-				<div>
-					<input name="접속" type="submit" value="로그인" />
-				</div>
-				<ul class="help">
-					<li class="first"><a href="#">아이디/비밀번호 찾기</a></li>
-					<li><a href="#">회원 가입</a></li>
-				</ul>
-			</fieldset>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">닫기</button>
+				<input type="submit" class="btn btn-primary"  value="로그인">
+			</div>
 		</form>
 	</div>
-</div>
-
-<script type="text/javascript">
-$('input[name="search"]').click(function() {
-	$(this).val("");
-});
-</script>

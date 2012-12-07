@@ -3,25 +3,28 @@
 .popup .pbg{ position:absolute; top:0; left:0; width:100%; background:#FFF; padding-bottom: 50px; opacity:.9; }
 
 #drawtool {
-	position: absolute;
-	width:100px;
-	left:20%;
-	background-color: #FFF;
+	position: fixed;
+	top: 50px;
+	width: 100px;
+	left: 20%;
+	background-color: white;
 	border: 1px;
 	border-style: solid;
-	border-color: #000;
+	border-color: white;
+	box-shadow: 0 3px 8px rgba(34, 25, 25, 0.4);
 }
 
-#photopage {
+	#photopage {
 	position: absolute;
-	width:745px;
-	left:29%;
-	background-color: #FFF;
+	width: 745px;
+	left: 29%;
+	background-color: white;
 	border: 1px;
 	border-style: solid;
-	border-color: #000;
+	border-color: white;
 	margin-top: 50px;
-	margin-bottom: 50px; 
+	margin-bottom: 50px;
+	box-shadow: 0 3px 8px rgba(34, 25, 25, 0.4);
 }
 
 #photopage p {
@@ -33,7 +36,7 @@
 	padding: 20px;
 	border-bottom: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #000;
+	border-bottom-color: #D1CDCD;
 }
 
 #name img {
@@ -48,7 +51,7 @@
 	padding: 20px;
 	border-bottom: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #000;
+	border-bottom-color: #D1CDCD;
 }
 
 #photo p {
@@ -72,7 +75,7 @@
 	padding: 20px;
 	border-bottom: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #000;
+	border-bottom-color: #D1CDCD;
 }
 
 #form input[type="text"] {
@@ -108,13 +111,15 @@
 }
 
 #drawlist {
-	position: absolute;
-	width:300px;
-	left:70%;
-	background-color: #FFF;
+	position: fixed;
+	left: 7%;
+	top: 142px;
+	width: 280px;
+	background-color: white;
 	border: 1px;
 	border-style: solid;
-	border-color: #000;
+	border-color: white;
+	box-shadow: 0 3px 8px rgba(34, 25, 25, 0.4);
 }
 
 #drawlist img {
@@ -122,3 +127,4 @@
 	height: 35px;
  	max-width: 100%;
  	padding-right: 5px;
+ }
