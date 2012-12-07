@@ -29,6 +29,7 @@
 
 	<!-- 카테고리 -->
 	<nav id="menubar">
+<<<<<<< HEAD
 		<div id="cate_all">카테고리
 			<div id="cate_list">
 				<ul>
@@ -39,6 +40,14 @@
 				</ul>
 			</div>
 		</div>		
+=======
+		<ul class="LiquidContainer HeaderContainer" style="width: 1170px;">
+			<li><a href="article">전체</a></li>
+			<c:forEach var="cate" items="${category.list}" varStatus="status">
+			<li><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></li>
+			</c:forEach>
+		</ul>	
+>>>>>>> d3316d1461fc095134489f050fb4fdd250d573aa
 	</nav>
 
 	<div id="list">
@@ -159,7 +168,7 @@ $(function($){
 				if(postitem.comment != null) {
 					html += '<article class="itemcomment">'; 
 					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img class="profile-size" src="images/profile/sm' + comm.userphoto + '></span>';
+						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '></span>';
 						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
 					});
 					html += '</article>'; 
@@ -168,7 +177,7 @@ $(function($){
 				// form
  				if(sessionID != null) {
 					html += '<article class="itemform">'; 
-					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
+					html += '<span><img class="profile-size2" src="images/profile/sm${sessionScope.user.profilephoto}"/></span>'; 
 					html += '<form method="post" action="Comment">'; 
 					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
 					html += '<input type="text" name="comment">'; 

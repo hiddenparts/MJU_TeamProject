@@ -19,7 +19,7 @@
 			<form class="form-horizontal" action="article" method="POST" enctype="multipart/form-data">
 				<fieldset>
 					<legend class="legend">Write</legend>
-					<p> ${sessionScope.usernickname}님 글쓰기 모드 </p>
+				<!--  	<p> ${sessionScope.usernickname}님 글쓰기 모드 </p> -->
 					<c:if test="${method == 'PUT'}">
           	<input type="hidden" name="_method" value="PUT"/>
           	<input type="hidden" name="postid" value="${article.postid }"/>

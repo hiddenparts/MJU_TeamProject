@@ -5,8 +5,8 @@
 	<div class="LiquidContainer" style="width: 1170px;">
 		<div id="Search">
 			<form method="get" action="article">
-				<span> <input name="search" type="text" value="검색" style="margin-bottom: 0px;"/>
-					<input type="image" id="searchbtn" src="images/search.gif" title="검색버튼"/>
+				<span> <input name="search" type="text" value="검색"/>
+					<a id="query_button" href="#" class="lg"><img src="images/search.gif" alt=""></a>
 				</span>
 			</form>
 		</div>
@@ -16,7 +16,7 @@
 				<c:when test="${sessionScope.user.userid != null}">
 					<span> <a href="article?op=write">글쓰기</a>
 					</span>
-					<span> [ <img class="profile-size"
+					<span> [ <img class="profile-size1"
 						src="images/profile/sm${sessionScope.user.profilephoto}"
 						width="35px" height="35px" /> <a
 						href="login?op=update&id=${sessionScope.user.nickname}">${sessionScope.user.nickname}님</a>
