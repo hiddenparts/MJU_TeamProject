@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -108,6 +108,13 @@ $(function($){
 	    }
 	  };
 	  
+	  $('#cate_all').click(function() { 
+		  $(this).children().slideDown('fast').show(); 
+		  $(this).hover(function() { }, function(){  
+		    	$(this).children().slideUp('slow');
+		  });
+		});
+	  
    function loadData() {
        isLoading = true;
        $('#loaderCircle').show();
@@ -148,8 +155,8 @@ $(function($){
 				if(postitem.comment != null) {
 					html += '<article class="itemcomment">'; 
 					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '></span>';
-						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
+						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '"></span>';
+						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>';
 					});
 					html += '</article>'; 
 				}
@@ -160,7 +167,7 @@ $(function($){
 					html += '<span><img class="profile-size2" src="images/profile/sm${sessionScope.user.profilephoto}"/></span>'; 
 					html += '<form method="post" action="Comment">'; 
 					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
-					html += '<input type="text" name="comment">'; 
+					html += '<input required type="text" name="comment">'; 
 					html += '</form>'; 
 					html += '</article>'; 
 				}
@@ -231,18 +238,24 @@ $(document).on('click', '.popupTrigger', function(event){
 					$('<p id=\"photo_content\">' + data.article.content + '</p>').appendTo('#photo');
 					
 					// form 부분 처리
-					$('<img src=\"images/profile/' + data.loginphoto + '\">').appendTo('#form form');
-					$('<input type=\"hidden\" name=\"postid\" value=' + id + ' />').appendTo('#form form');
-					$('<input type=\"text\"name=\"comment\"/>').appendTo('#form form');
-					$('<input type=\"submit\" value=\"댓글\"/>').appendTo('#form form');
+					if(sessionID != null) {
+						$('<img src=\"images/profile/' + data.loginphoto + '\">').appendTo('#form form');
+						$('<input type=\"hidden\" name=\"postid\" value=' + id + ' />').appendTo('#form form');
+						$('<input required type=\"text\"name=\"comment\"/>').appendTo('#form form');
+						$('<input type=\"submit\" value=\"댓글\"/>').appendTo('#form form');
+					}
 	
 					// comment 부분 처리
 					$(data.comment).each(function(i, comm) {
-						$('<img src=\"images/profile/' + comm.userphoto + '\">').appendTo('#comment');
-						$('<p>' + comm.usernick + '</p>').appendTo('#comment');
-						$('<p>' + comm.commentcontent + '</p>').appendTo('#comment');
-						$('<p>' + comm.commentdate + '</p>').appendTo('#comment');
-					});			
+						$('<div class=\"commentitem'+ i + '\"></div>').appendTo('#comment');
+						$('<img src=\"images/profile/' + comm.userphoto + '\">').appendTo('.commentitem' + i);
+						$('<p>' + comm.usernick + '</p>').appendTo('.commentitem' + i);
+						$('<p>' + comm.commentcontent + '</p>').appendTo('.commentitem' + i);
+						$('<p>' + comm.commentdate + '</p>').appendTo('.commentitem' + i);
+						if(sessionID == comm.userid) {
+							$('<button class=\"btn btn-mini btn-danger comment\" type=\"button\" value=\"'+ comm.commentid +'\">삭제</button>').appendTo('.commentitem' + i);
+						}
+					});		
 
 					// List 부분처리
 					listHtml += '<ul>';
@@ -250,6 +263,9 @@ $(document).on('click', '.popupTrigger', function(event){
 						listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
 						listHtml += '<img src=\"images/profile/' + grafi.userphoto + '\">';
 						listHtml += grafi.usernick + grafi.graffititdate;
+						if(sessionID == grafi.userid) {
+							listHtml += '<button class=\"btn btn-mini btn-danger graffiti\" type=\"button\" value=\"'+ grafi.graffitiid +'\">삭제</button>'
+						}
 						listHtml += '</div></li>';
 					});
 					listHtml += '</ul>';
@@ -409,7 +425,7 @@ $(document).on('mouseout', '.deleteon', function(event){
 	SelectItem.removeClass('on');
 });
 
-// 삭제처리
+// 글 삭제처리
 $(document).on('click', '.deleteon', function(event){
 	var SelectItem = this.nextSibling;
 	var id = $(SelectItem).attr('id');
@@ -419,4 +435,62 @@ $(document).on('click', '.deleteon', function(event){
 	return false;
 });
 
+//글에서 엔터키로 코멘트 작성
+$(document).on('keydown', 'input[type="text"]', function(e) {
+	if(e.keyCode == 13) {
+		if($(this).val() == null || $(this).val() == "") {
+			alert("내용을 입력하세요");
+			return false;
+		}
+	}
+	else return;
+});
+
+$(document).on('click', '.btn.btn-mini.btn-danger.comment', function(e) {
+	var id = $(this).val();
+	
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		$(this).parent().remove();
+ 		$.ajax({
+			url : "Comment",
+			data : { id : id, op : "remove_comment"},
+			type : "GET",
+			dataType : "json",
+			success : function(data) { 
+					if(data.result == 'ok') { 
+						alert("삭제하였습니다.");
+					}
+					else if(data.result == 'no') {
+						alert("삭제에 실패하였습니다");
+					}
+			},
+			error : function() { alert("삭제실패"); }
+		}); 
+	}
+	return false;
+});
+
+$(document).on('click', '.btn.btn-mini.btn-danger.graffiti', function(e) {
+	var id = $(this).val();
+	
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		$(this).parent().parent().remove();
+  		$.ajax({
+			url : "Comment",
+			data : { id : id, op : "remove_graffiti"},
+			type : "GET",
+			dataType : "json",
+			success : function(data) { 
+					if(data.result == 'ok') { 
+						alert("삭제하였습니다.");
+					}
+					else if(data.result == 'no') {
+						alert("삭제에 실패하였습니다");
+					}
+			},
+			error : function() { alert("삭제실패"); }
+		}); 
+	}
+	return false;
+});
 </script>
