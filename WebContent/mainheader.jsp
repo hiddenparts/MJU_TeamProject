@@ -10,8 +10,8 @@
 				</span>
 			</form>
 		</div>
-		<span><a href="main.jsp" id="logo"><img src="images/logo1.gif" alt="logo"></a></span> 
-		<div id="Navigation"> 
+		<span><a href="" id="logo"><img src="images/logo1.gif" alt="logo"></a></span>
+		<div id="Navigation">
 			<span>소개</span>
 			<c:choose>
 				<c:when test="${sessionScope.user.userid != null}">
