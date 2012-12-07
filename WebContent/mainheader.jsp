@@ -16,7 +16,7 @@
 				<c:when test="${sessionScope.user.userid != null}">
 					<span> <a href="article?op=write">글쓰기</a>
 					</span>
-					<span> [ <img class="profile-size"
+					<span> [ <img class="profile-size1"
 						src="images/profile/sm${sessionScope.user.profilephoto}"
 						width="35px" height="35px" /> <a
 						href="login?op=update&id=${sessionScope.user.nickname}">${sessionScope.user.nickname}님</a>

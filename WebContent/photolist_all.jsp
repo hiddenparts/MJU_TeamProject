@@ -148,7 +148,7 @@ $(function($){
 				if(postitem.comment != null) {
 					html += '<article class="itemcomment">'; 
 					$(postitem.comment).each(function(i, comm) {
-						html += '<p><span> <img class="profile-size" src="images/profile/sm' + comm.userphoto + '></span>';
+						html += '<p><span> <img class="profile-size2" src="images/profile/sm' + comm.userphoto + '></span>';
 						html += '<span> <b>' + comm.usernick + '</b>' + comm.commentcontent + '</span></p>'; 
 					});
 					html += '</article>'; 
@@ -157,7 +157,7 @@ $(function($){
 				// form
  				if(sessionID != null) {
 					html += '<article class="itemform">'; 
-					html += '<span><img src="images/profile/sm${sessionScope.user.profilephoto}" width="35px" height="35px" /></span>'; 
+					html += '<span><img class="profile-size2" src="images/profile/sm${sessionScope.user.profilephoto}"/></span>'; 
 					html += '<form method="post" action="Comment">'; 
 					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
 					html += '<input type="text" name="comment">'; 
