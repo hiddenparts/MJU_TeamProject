@@ -91,4 +91,31 @@ public class GraffitiDAO {
 		
 		return (result == 1);
 	}
+	
+	public static boolean remove(int id) throws NamingException, SQLException {
+		int result;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("DELETE FROM graffiti WHERE graffitiid=?");
+			stmt.setInt(1, id);
+
+			// 수행
+			result = stmt.executeUpdate();
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+
+		return (result == 1);		
+	}
 }

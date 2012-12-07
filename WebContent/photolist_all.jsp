@@ -160,7 +160,7 @@ $(function($){
 					html += '<span><img class="profile-size2" src="images/profile/sm${sessionScope.user.profilephoto}"/></span>'; 
 					html += '<form method="post" action="Comment">'; 
 					html += '<input type="hidden" name="postid" value="' + postitem.article.postid +'"/>'; 
-					html += '<input type="text" name="comment">'; 
+					html += '<input required  type="text" name="comment">'; 
 					html += '</form>'; 
 					html += '</article>'; 
 				}
@@ -206,57 +206,65 @@ $(document).on('click', '.popupTrigger', function(event){
 			type : "GET",
 			dataType : "json",
 			success : function(data) {
-					// DrawTool 부분 처리
-					toolHtml += '<ul>';
-					toolHtml += '<li>색깔</li>';
-					toolHtml += '<li>펜</li>';
-					toolHtml += '<li>텍스트</li>';
-					toolHtml += '<li>도형</li>';
-					toolHtml += '</ul>';
-					$('#drawtool').append(toolHtml);
-					
-					// name 부분 처리
-					$('<img src=\"images/profile/' + data.user.profilephoto + '\">').appendTo('#name');
-					$('<p id=\"name_name\">' + data.user.nickname + '</p>').appendTo('#name');
-					$('<p id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
-					
-					if(sessionID != null) {
-						$('<input id=\"savedraw\" type=\"button\" value=\"댓그림\">').appendTo('#name');
-					}
-					
-					// photo 부분 처리
-					$('<canvas id=\"photo_picture\"></canvas>').appendTo('#photodetail');
-					var canvas = $('#photo_picture').get(0);
-					var context = canvas.getContext('2d');
-					var img = new Image();
-					
-					$('<p id=\"photo_content\">' + data.article.content + '</p>').appendTo('#photo');
-					
-					// form 부분 처리
+				// DrawTool 부분 처리
+				toolHtml += '<ul>';
+				toolHtml += '<li>색깔</li>';
+				toolHtml += '<li>펜</li>';
+				toolHtml += '<li>텍스트</li>';
+				toolHtml += '<li>도형</li>';
+				toolHtml += '</ul>';
+				$('#drawtool').append(toolHtml);
+
+				// name 부분 처리
+				$('<img src=\"images/profile/' + data.user.profilephoto + '\">').appendTo('#name');
+				$('<p id=\"name_name\">' + data.user.nickname + '</p>').appendTo('#name');
+				$('<p id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
+
+				if(sessionID != null) {
+					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림\">').appendTo('#name');
+				}
+
+				// photo 부분 처리
+				$('<canvas id=\"photo_picture\"></canvas>').appendTo('#photodetail');
+				var canvas = $('#photo_picture').get(0);
+				var context = canvas.getContext('2d');
+				var img = new Image();
+
+				$('<p id=\"photo_content\">' + data.article.content + '</p>').appendTo('#photo');
+
+				// form 부분 처리
+				if(sessionID != null) {
 					$('<img src=\"images/profile/' + data.loginphoto + '\">').appendTo('#form form');
 					$('<input type=\"hidden\" name=\"postid\" value=' + id + ' />').appendTo('#form form');
-					$('<input type=\"text\"name=\"comment\"/>').appendTo('#form form');
+					$('<input required type=\"text\"name=\"comment\"/>').appendTo('#form form');
 					$('<input type=\"submit\" value=\"댓글\"/>').appendTo('#form form');
-	
-					// comment 부분 처리
-					$(data.comment).each(function(i, comm) {
-						$('<img src=\"images/profile/' + comm.userphoto + '\">').appendTo('#comment');
-						$('<p>' + comm.usernick + '</p>').appendTo('#comment');
-						$('<p>' + comm.commentcontent + '</p>').appendTo('#comment');
-						$('<p>' + comm.commentdate + '</p>').appendTo('#comment');
-					});			
+				}
 
-					// List 부분처리
-					graffitilist = data.graffiti;
-					listHtml += '<ul>';
-					$(data.graffiti).each(function(i, grafi) {
-						listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
-						listHtml += '<img src=\"images/profile/' + grafi.userphoto + '\">';
-						listHtml += grafi.usernick + grafi.graffititdate;
-						listHtml += '</div></li>';
-					});
-					listHtml += '</ul>';
-					$('#drawlist').append(listHtml);
+				// comment 부분 처리
+				$(data.comment).each(function(i, comm) {
+					$('<div class=\"commentitem'+ i + '\"></div>').appendTo('#comment');
+					$('<img src=\"images/profile/' + comm.userphoto + '\">').appendTo('.commentitem' + i);
+					$('<p>' + comm.usernick + '</p>').appendTo('.commentitem' + i);
+					$('<p>' + comm.commentcontent + '</p>').appendTo('.commentitem' + i);
+					$('<p>' + comm.commentdate + '</p>').appendTo('.commentitem' + i);
+					if(sessionID == comm.userid) {
+						$('<button class=\"btn btn-mini btn-danger comment\" type=\"button\" value=\"'+ comm.commentid +'\">삭제</button>').appendTo('.commentitem' + i);
+					}
+				});		
+
+				// List 부분처리
+				listHtml += '<ul>';
+				$(data.graffiti).each(function(i, grafi) {
+					listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
+					listHtml += '<img src=\"images/profile/' + grafi.userphoto + '\">';
+					listHtml += grafi.usernick + grafi.graffititdate;
+					if(sessionID == grafi.userid) {
+						listHtml += '<button class=\"btn btn-mini btn-danger graffiti\" type=\"button\" value=\"'+ grafi.graffitiid +'\">삭제</button>'
+					}
+					listHtml += '</div></li>';
+				});
+				listHtml += '</ul>';
+				$('#drawlist').append(listHtml);
 
 					doodler = new DoodleView(canvas, sessionID);
 					doodler.setEditable(true);
@@ -432,4 +440,64 @@ $(document).on('click', '.deleteon', function(event){
 	return false;
 });
 
+//엔터쳐서 빈칸 생기는 거 방지
+$(document).on('keydown', 'input[type="text"]', function(e) {
+	if(e.keyCode == 13) {
+		if($(this).val() == null || $(this).val() == "") {
+			alert("내용을 입력하세요");
+			return false;
+		}
+	}
+	else return;
+});
+
+//ajax로 코멘트 삭제
+$(document).on('click', '.btn.btn-mini.btn-danger.comment', function(e) {
+	var id = $(this).val();
+
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		$(this).parent().remove();
+ 		$.ajax({
+			url : "Comment",
+			data : { id : id, op : "remove_comment"},
+			type : "GET",
+			dataType : "json",
+			success : function(data) { 
+					if(data.result == 'ok') { 
+						alert("삭제하였습니다.");
+					}
+					else if(data.result == 'no') {
+						alert("삭제에 실패하였습니다");
+					}
+			},
+			error : function() { alert("삭제실패"); }
+		}); 
+	}
+	return false;
+});
+
+// ajax로 댓그림삭제
+$(document).on('click', '.btn.btn-mini.btn-danger.graffiti', function(e) {
+	var id = $(this).val();
+
+	if (confirm("정말로 삭제하시겠습니까?")) {
+		$(this).parent().parent().remove();
+  		$.ajax({
+			url : "Comment",
+			data : { id : id, op : "remove_graffiti"},
+			type : "GET",
+			dataType : "json",
+			success : function(data) { 
+					if(data.result == 'ok') { 
+						alert("삭제하였습니다.");
+					}
+					else if(data.result == 'no') {
+						alert("삭제에 실패하였습니다");
+					}
+			},
+			error : function() { alert("삭제실패"); }
+		}); 
+	}
+	return false;
+});
 </script>
