@@ -29,25 +29,12 @@
 
 	<!-- 카테고리 -->
 	<nav id="menubar">
-<<<<<<< HEAD
-		<div id="cate_all">카테고리
-			<div id="cate_list">
-				<ul>
-					<li><a href="article">전체</a></li>
-					<c:forEach var="cate" items="${category.list}" varStatus="status">
-					<li><a href="article?op=category&cate=${status.index + 1}">${cate}</a></li>
-					</c:forEach>
-				</ul>
-			</div>
-		</div>		
-=======
 		<ul class="LiquidContainer HeaderContainer" style="width: 1170px;">
 			<li><a href="article">전체</a></li>
 			<c:forEach var="cate" items="${category.list}" varStatus="status">
 			<li><a href="article?op=category&cate=${status.index + 1}" class="nav">${cate}</a></li>
 			</c:forEach>
 		</ul>	
->>>>>>> d3316d1461fc095134489f050fb4fdd250d573aa
 	</nav>
 
 	<div id="list">
