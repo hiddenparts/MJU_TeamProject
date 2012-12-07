@@ -5,15 +5,19 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>새글 작성</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-		<link href="css/base.css" rel="stylesheet">
+		<link href="css/mwLogin.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/photo.css" rel="stylesheet">	
+	
 		<script src="js/jquery-1.8.2.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/mwLogin.js"></script>
 	</head>
 
-	<body>		
+	<body>
+		<jsp:include page="mainheader.jsp" />		
 		<div class="container">
 		<div>
 			<form class="form-horizontal" action="article" method="POST" enctype="multipart/form-data">
@@ -26,7 +30,7 @@
        		</c:if>
 					
 					<div class="control-group">
-						<label class="control-label" for="photo">사진</label>
+						<label class="control-label" for="photo"><i class="icon-picture"></i>사진</label>
 						<div class="controls">
 							<input type="file" name="photo">
 							<c:if test="&{article.photo} != null}">
@@ -37,14 +41,14 @@
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="introduce">내용</label>
+						<label class="control-label" for="introduce"><i class="icon-pencil"></i>내용</label>
 						<div class="controls">
 							<textarea rows="5" name="content">${article.content }</textarea>
 						</div>
 					</div>
 					
 					<div class="control-group">
-						<label class="control-label">폴더</label>
+						<label class="control-label"><i class="icon-folder-close"></i>폴더</label>
 						<div class="controls">
 						<select name="folder">
 							<option value="folder1">폴더1</option>
@@ -54,7 +58,7 @@
 					</div>
 					
 					<div class="control-group">
-						<label class="control-label">카테고리</label>
+						<label class="control-label"><i class=" icon-search"></i>카테고리</label>
 						<div class="controls">
 						<select name="category">
 							<c:forEach var="cate" items="${category.list}">
@@ -73,7 +77,7 @@
 	  						<input type="submit" class="btn btn-primary" value="수정">
 	  					</c:otherwise>
   					</c:choose>
-  				<a href="javascript:history.go(-1);" class="btn">취소</a>
+  				<a href="javascript:history.go(-1);" class="btn btn-danger">취소</a>
 					</div>
 				</fieldset>
 			</form>
