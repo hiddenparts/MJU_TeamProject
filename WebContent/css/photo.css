@@ -115,7 +115,8 @@ button.btn.btn-mini.btn-danger.comment {
 	left: 90%;
 }
 button.btn.btn-mini.btn-danger.graffiti {
-	margin-bottom: 3px;
+	float: right;
+	margin-top: 5px;
 }
 .viewcheck {
 	float: left;
