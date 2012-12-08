@@ -222,8 +222,8 @@ $(document).on('click', '.popupTrigger', function(event){
 
 				// name 부분 처리
 				$('<img src=\"images/profile/' + data.user.profilephoto + '\">').appendTo('#name');
-				$('<p id=\"name_name\">' + data.user.nickname + '</p>').appendTo('#name');
-				$('<p id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
+				$('<b><p id=\"name_name\">' + data.user.nickname + '</p></b>').appendTo('#name');
+				$('<p style="font-size:10pt" id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
 
 				if(sessionID != null) {
 					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
@@ -249,9 +249,9 @@ $(document).on('click', '.popupTrigger', function(event){
 				$(data.comment).each(function(i, comm) {
 					$('<div class=\"commentitem'+ i + '\"></div>').appendTo('#comment');
 					$('<img src=\"images/profile/' + comm.userphoto + '\">').appendTo('.commentitem' + i);
-					$('<p>' + comm.usernick + '</p>').appendTo('.commentitem' + i);
-					$('<p>' + comm.commentcontent + '</p>').appendTo('.commentitem' + i);
-					$('<p>' + comm.commentdate + '</p>').appendTo('.commentitem' + i);
+					$('<b><p>' + comm.usernick + '</p></b>').appendTo('.commentitem' + i);
+					$('<p style="font-size:12pt">' + comm.commentcontent + '</p>').appendTo('.commentitem' + i);
+					$('<p style="font-size:10pt">' + comm.commentdate + '</p>').appendTo('.commentitem' + i);
 					if(sessionID == comm.userid) {
 						$('<button class=\"btn btn-mini btn-danger comment\" type=\"button\" value=\"'+ comm.commentid +'\">삭제</button>').appendTo('.commentitem' + i);
 					}
@@ -263,7 +263,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				$(data.graffiti).each(function(i, grafi) {
 					listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
 					listHtml += '<img src=\"images/profile/' + grafi.userphoto + '\">';
-					listHtml += grafi.usernick + grafi.graffititdate;
+					listHtml += '<b>' + grafi.usernick + '</b>' + grafi.graffititdate;
 					if(sessionID == grafi.userid) {
 						listHtml += '<button class=\"btn btn-mini btn-danger graffiti\" type=\"button\" value=\"'+ grafi.graffitiid +'\">삭제</button>'
 					}

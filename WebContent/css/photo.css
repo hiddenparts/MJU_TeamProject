@@ -115,9 +115,7 @@ button.btn.btn-mini.btn-danger.comment {
 	left: 90%;
 }
 button.btn.btn-mini.btn-danger.graffiti {
-	position: relative;
-	left: 5%;
-	margin-bottom: 6px;
+	margin-bottom: 3px;
 }
 .viewcheck {
 	float: left;
@@ -126,7 +124,7 @@ button.btn.btn-mini.btn-danger.graffiti {
 	position: fixed;
 	right: 72%;
 	top: 50px;
-	width: 280px;
+	width: 300px;
 	background-color: white;
 	border: 0px;
 	border-style: solid;
