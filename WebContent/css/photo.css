@@ -146,6 +146,7 @@ button.btn.btn-mini.btn-danger.graffiti {
 	width: 100px;
 	color: #332E2E;
 	background-color: white;
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#FAC),to(#F88));
 	background-image: -webkit-linear-gradient(top,#FAC,#F88);
 	background-image: -o-linear-gradient(top,#FAC,#F88);
 	background-image: linear-gradient(to bottom,#FAC,#F88);
