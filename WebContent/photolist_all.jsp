@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
-	<title>D_2조 팀프로젝트</title>
+	<title>Myoungterest</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -221,7 +221,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				$('<p id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
 
 				if(sessionID != null) {
-					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림\">').appendTo('#name');
+					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
 				}
 
 				// photo 부분 처리

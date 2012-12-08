@@ -153,14 +153,16 @@ margin: 0;
  * Grid items
  */
 #tiles li {
-width: 200px;
-background-color: #ffffff;
-border: 1px solid #dedede;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-border-radius: 2px;
-display: none; /** Hide items initially to avoid a flicker effect **/
-padding: 10px;
+	width: 200px;
+	background-color: #ffffff;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	display: none; /** Hide items initially to avoid a flicker effect **/
+	padding: 10px;
+	box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+	-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+	-webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
 #tiles li img {
@@ -207,7 +209,7 @@ padding-top: 91px;
 	clear:both;
 }
 .itemcomment {
-
+	font-size: 9px;
 }
 
 .itemcontents img:hover,
@@ -217,12 +219,17 @@ padding-top: 91px;
 
 #tiles li .itemcomment > p {
 	display: block;
-	clear:both;	
+	clear: both;
 	height: 30px;
+	margin: 0 -10px;
+	padding: 5px 9px;
+	border-top: 1px solid #D9D4D4;
 }
-
 #tiles li .itemcomment > p > span {
-	float:left;
+	float: left;
+	overflow: hidden;
+	border-bottom-width: 0;
+	word-wrap: break-word;
 }
 
 .itemform > span {
