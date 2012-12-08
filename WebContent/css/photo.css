@@ -114,6 +114,14 @@ button.btn.btn-mini.btn-danger.comment {
 	bottom: 40px;
 	left: 90%;
 }
+button.btn.btn-mini.btn-danger.graffiti {
+	position: relative;
+	left: 5%;
+	margin-bottom: 6px;
+}
+.viewcheck {
+	float: left;
+}
 #drawlist {
 	position: fixed;
 	right: 72%;
@@ -139,58 +147,57 @@ button.btn.btn-mini.btn-danger.comment {
  }
  
  .colorpicker#type1_10_black {
-	width: 75px;
+	width: 100px;
 	height: 25px;
 	background-color: black;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_white {
-	width: 75px;
+	width: 100px;
 	height: 25px;
 	background-color: white;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_red {
-	width: 75px;
+	width: 100px;
 	height: 25px;
 	background-color: red;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_green {
-	width: 75px;
+	width: 100px;
 	height: 25px;
-	background-color: green;
+	background-color: #090;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_blue {
-	width: 75px;
+	width: 100px;
 	height: 25px;
-	background-color: blue;
+	background-color: #039;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_purple {
-	width: 75px;
+	width: 100px;
 	height: 25px;
-	background-color: purple;
+	background-color: #90C;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_lime {
-	width: 75px;
+	width: 100px;
 	height: 25px;
-	background-color: lime;
+	background-color: #CF3;
 	cursor: pointer;
 }
 
 .colorpicker#type1_10_orange {
-	width: 75px;
+	width: 100px;
 	height: 25px;
-	background-color: orange;
+	background-color: #F30;
 	cursor: pointer;
-}
 }
