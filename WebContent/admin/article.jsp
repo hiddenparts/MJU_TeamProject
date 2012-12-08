@@ -68,7 +68,8 @@
 
     <jsp:include page="page.jsp">
       <jsp:param name="currentPage" value="${posts.page}"/>
-      <jsp:param name="url" value="article"/>
+      <jsp:param name="url" value="admin"/>
+      <jsp:param name="page" value="op=article&page"/>
       <jsp:param name="startPage" value="${posts.startPageNo}"/>
       <jsp:param name="endPage" value="${posts.endPageNo}"/>
       <jsp:param name="numPages" value="${posts.numPages}"/>

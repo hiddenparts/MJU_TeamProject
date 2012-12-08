@@ -233,6 +233,7 @@ public class PostDAO {
 	public static Post findByPostID(int id) throws SQLException, NamingException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		Statement st = null;
 		ResultSet rs = null;
 		ArrayList<Comment> comment = new ArrayList<Comment>();
 		ArrayList<Graffiti> graffiti = new ArrayList<Graffiti>();
@@ -242,6 +243,12 @@ public class PostDAO {
 		
 		try {
 			conn = ds.getConnection();
+			
+			st = conn.createStatement();
+			st.executeUpdate("update article set hits = hits + 1 where article.postid = " + id); // 조회수 1증가
+
+			st.close();
+			st = null;
 			
 			stmt = conn.prepareStatement("select DISTINCT * from article, member where article.postid = ? and article.userid = member.userid");
 			stmt.setInt(1, id);
@@ -281,7 +288,10 @@ public class PostDAO {
 			post.setComment(comment);
 			graffiti = GraffitiDAO.getGraffitiList(id);
 			post.setGraffiti(graffiti);			
+		} catch(Exception e) { 
+			e.printStackTrace();
 		} finally {
+		
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
 			if (stmt != null) try{stmt.close();} catch(SQLException e) {}

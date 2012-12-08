@@ -61,7 +61,7 @@ function DoodleView(canvas, ownerID, shapes)
 		shapeOwnerID	:	ownerID,
 		shapeType		:	null,
 		points			:	[],
-		drawType		:	0
+		drawType		:	1
 	};
 	
 	// 오버로딩
@@ -93,6 +93,8 @@ function DoodleView(canvas, ownerID, shapes)
 	{
 		var shapeList = new Array();
 		for(var i=0 ; i<shapes.length ; i++){
+			//console.log(i);
+			//console.log(shapes[i]);
 			if(shapes[i].shapeOwnerID == ownerID)
 			{
 				shapeList.push(shapes[i]);

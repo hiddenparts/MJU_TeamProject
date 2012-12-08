@@ -70,6 +70,7 @@
     <jsp:include page="page.jsp">
       <jsp:param name="currentPage" value="${users.page}"/>
       <jsp:param name="url" value="admin"/>
+      <jsp:param name="page" value="page"/>
       <jsp:param name="startPage" value="${users.startPageNo}"/>
       <jsp:param name="endPage" value="${users.endPageNo}"/>
       <jsp:param name="numPages" value="${users.numPages}"/>

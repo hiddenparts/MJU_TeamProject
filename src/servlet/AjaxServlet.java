@@ -14,6 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import sun.org.mozilla.javascript.internal.json.JsonParser;
 
 import bean.*;
 
@@ -147,6 +152,9 @@ public class AjaxServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		boolean ret 		= false;
 		JSONObject rsobj = new JSONObject();
+		
+		Object obj = null;
+		JSONObject shape = new JSONObject();
 		Graffiti graffiti = new Graffiti();
 		
 		// Get Graffiti items 
@@ -154,9 +162,27 @@ public class AjaxServlet extends HttpServlet {
 		 
 		int postid = Integer.parseInt(request.getParameter("Postid"));
 		String userid = request.getParameter("userid");
+		
 		// Get DrawPoints
-		String shapes = request.getParameter("Shapes");
-		//System.out.println(shapes);
+		String shapes = request.getParameter("Shapes");		
+		try {
+			obj = JSONValue.parseWithException(request.getParameter("Shapes"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		// parsing JSON context
+		JSONArray shapearr = (JSONArray)obj;
+		for(int i=0; i<shapearr.size(); i++) {
+			System.out.println(i);
+			shape = (JSONObject)shapearr.get(i);
+			System.out.println(shape.get("drawType"));
+			System.out.println(shape.get("shapeOwnerID"));
+			System.out.println(shape.get("points"));
+			System.out.println(shape.get("shapeType"));
+		}
+		
 		
 		// Set Graffiti items
 		graffiti.setPostid(postid);

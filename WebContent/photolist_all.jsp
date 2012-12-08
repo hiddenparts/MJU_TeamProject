@@ -253,6 +253,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				});		
 
 				// List 부분처리
+				graffitilist = data.graffiti;
 				listHtml += '<ul>';
 				$(data.graffiti).each(function(i, grafi) {
 					listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
@@ -298,10 +299,12 @@ $(document).on('click', '.popupTrigger', function(event){
 					
 					$('#savedraw').bind('click', function() {
 						var shapelist = doodler.getOwnerShapes(sessionID);
+						console.log(shapelist);
 						if(shapelist == null || shapelist.length == 0) {
 							alert("그림을 그려주세요");	
 							return;
 						}
+						
 							$.ajax({
 								url : "AjaxServlet",
 								data : { Shapes : JSON.stringify(shapelist), Postid : id, userid : sessionID},
@@ -322,20 +325,22 @@ $(document).on('click', '.popupTrigger', function(event){
 					$('.viewcheck').click(function() {
 						var list = $(this).parent().parent();
 						var listnum = $(list).children().length;
-						var checked = 0;
 						var arr = [];
-						
-						console.log(graffitilist);
+						var checked=0;
+
 						for(var i=0; i<listnum; i++) {
 							var listitem = $(list).children()[i];
+							
 							if($(listitem).find('.viewcheck').is(':checked')) {
 								var draw = graffitilist[i];
 								arr = arr.concat(JSON.parse(draw.graffitipath)); // 체크된 번째 그림을 가져온다
+								checked += 1;
 							}
+							
 						}
-						console.log(arr);
+						
 						if(arr.length != 0) {
-							doodler.jsonToShapes(arr); 
+								doodler.jsonToShapes(arr);
 						}
 						
 						doodler.rePaint(); // 다시 그리기
