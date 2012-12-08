@@ -208,14 +208,14 @@ $(document).on('click', '.popupTrigger', function(event){
 			success : function(data) {
 				// DrawTool 부분 처리
 				toolHtml += '<ul>';
-				toolHtml += '<li class="colorpicker" id="type1_10_black">검은색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_white">흰색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_red">빨간색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_green">초록색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_blue">파란색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_purple">보라색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_lime">라임색</li>';
-				toolHtml += '<li class="colorpicker" id="type1_10_orange">주황색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_black"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_white"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_red"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_green"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_blue"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_purple"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_lime"></li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_orange"></li>';
 				
 				toolHtml += '</ul>';
 				$('#drawtool').append(toolHtml);

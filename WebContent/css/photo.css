@@ -137,3 +137,60 @@ button.btn.btn-mini.btn-danger.comment {
  	height: 28px;
  	padding: 0 5px;
  }
+ 
+ .colorpicker#type1_10_black {
+	width: 75px;
+	height: 25px;
+	background-color: black;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_white {
+	width: 75px;
+	height: 25px;
+	background-color: white;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_red {
+	width: 75px;
+	height: 25px;
+	background-color: red;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_green {
+	width: 75px;
+	height: 25px;
+	background-color: green;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_blue {
+	width: 75px;
+	height: 25px;
+	background-color: blue;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_purple {
+	width: 75px;
+	height: 25px;
+	background-color: purple;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_lime {
+	width: 75px;
+	height: 25px;
+	background-color: lime;
+	cursor: pointer;
+}
+
+.colorpicker#type1_10_orange {
+	width: 75px;
+	height: 25px;
+	background-color: orange;
+	cursor: pointer;
+}
+}
