@@ -6,7 +6,7 @@
 	position: fixed;
 	top: 50px;
 	width: 100px;
-	left: 20%;
+	right: 72%;
 	background-color: white;
 	border: 1px;
 	border-style: solid;
@@ -99,7 +99,7 @@
 }
 
 #comment {
-	padding: 20px;
+	padding: 10px 20px;
 }
 
 #comment img {
@@ -109,10 +109,14 @@
  	max-width: 100%;
  	padding-right: 5px;
 }
-
+button.btn.btn-mini.btn-danger.comment {
+	position: absolute;
+	top: 93.5%;
+	right: 10%;
+}
 #drawlist {
 	position: fixed;
-	left: 7%;
+	right: 72%;
 	top: 142px;
 	width: 280px;
 	background-color: white;
