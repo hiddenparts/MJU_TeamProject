@@ -208,10 +208,15 @@ $(document).on('click', '.popupTrigger', function(event){
 			success : function(data) {
 				// DrawTool 부분 처리
 				toolHtml += '<ul>';
-				toolHtml += '<li>색깔</li>';
-				toolHtml += '<li>펜</li>';
-				toolHtml += '<li>텍스트</li>';
-				toolHtml += '<li>도형</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_black">검은색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_white">흰색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_red">빨간색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_green">초록색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_blue">파란색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_purple">보라색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_lime">라임색</li>';
+				toolHtml += '<li class="colorpicker" id="type1_10_orange">주황색</li>';
+				
 				toolHtml += '</ul>';
 				$('#drawtool').append(toolHtml);
 
@@ -253,6 +258,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				});		
 
 				// List 부분처리
+				graffitilist = data.graffiti;
 				listHtml += '<ul>';
 				$(data.graffiti).each(function(i, grafi) {
 					listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
@@ -266,10 +272,12 @@ $(document).on('click', '.popupTrigger', function(event){
 				listHtml += '</ul>';
 				$('#drawlist').append(listHtml);
 
+					// canvas 생성
 					doodler = new DoodleView(canvas, sessionID);
 					doodler.setEditable(true);
 					doodler.setBrush('type1_10_red');
 				
+					// 이미지 로딩이 끝나면 하는 처리
 					img.onload = function(){ 
 						$(canvas).attr('width', 700);
 						$(canvas).attr('height', 700 * (img.height / img.width));
@@ -294,14 +302,18 @@ $(document).on('click', '.popupTrigger', function(event){
 						}
 						
 						doodler.rePaint();
-					};
+					};// 이미지 로딩이 끝나면 하는 처리
 					
+					// save 버튼을 눌렀을때 댓그림 저장하기
 					$('#savedraw').bind('click', function() {
-						var shapelist = doodler.getOwnerShapes(sessionID);
+						//var shapelist = doodler.getOwnerShapes(sessionID);
+						var shapelist = doodler.curShapes();
+						console.log(shapelist);
 						if(shapelist == null || shapelist.length == 0) {
-							alert("그림을 그려주세요");	
+							alert("그림이 없습니다");	
 							return;
 						}
+						
 							$.ajax({
 								url : "AjaxServlet",
 								data : { Shapes : JSON.stringify(shapelist), Postid : id, userid : sessionID},
@@ -310,6 +322,7 @@ $(document).on('click', '.popupTrigger', function(event){
 								success : function(data) { 
 										if(data.result == 'ok') { 
 											alert("저장성공"); 
+											doodler.curShapesReset();
 										}
 										else if(data.result == 'no') {
 											alert("저장실패");
@@ -317,29 +330,37 @@ $(document).on('click', '.popupTrigger', function(event){
 								},
 								error : function() { alert("전송실패"); }
 							});
-					});
+					});// save 버튼을 눌렀을때 댓그림 저장하기
 					
+					// 체크된 그림만 보여주기
 					$('.viewcheck').click(function() {
 						var list = $(this).parent().parent();
 						var listnum = $(list).children().length;
-						var checked = 0;
 						var arr = [];
-						
-						console.log(graffitilist);
+						var checked=0;
+
 						for(var i=0; i<listnum; i++) {
 							var listitem = $(list).children()[i];
+							
 							if($(listitem).find('.viewcheck').is(':checked')) {
 								var draw = graffitilist[i];
 								arr = arr.concat(JSON.parse(draw.graffitipath)); // 체크된 번째 그림을 가져온다
+								checked += 1;
 							}
+							
 						}
-						console.log(arr);
+						
 						if(arr.length != 0) {
-							doodler.jsonToShapes(arr); 
+								doodler.jsonToShapes(arr);
 						}
 						
 						doodler.rePaint(); // 다시 그리기
-					});
+					}); // 체크된 그림만 보여주기
+					
+				$('.colorpicker').click(function() {
+						var color = $(this).attr('id');
+						doodler.setBrush(color);
+				});
 					
 					img.src = "images/photo/" + data.article.photo;
 			},
@@ -500,4 +521,5 @@ $(document).on('click', '.btn.btn-mini.btn-danger.graffiti', function(e) {
 	}
 	return false;
 });
+
 </script>

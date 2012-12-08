@@ -14,6 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import sun.org.mozilla.javascript.internal.json.JsonParser;
 
 import bean.*;
 
@@ -147,6 +152,9 @@ public class AjaxServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		boolean ret 		= false;
 		JSONObject rsobj = new JSONObject();
+		
+		Object obj = null;
+		JSONObject shape = new JSONObject();
 		Graffiti graffiti = new Graffiti();
 		
 		// Get Graffiti items 
@@ -155,8 +163,7 @@ public class AjaxServlet extends HttpServlet {
 		int postid = Integer.parseInt(request.getParameter("Postid"));
 		String userid = request.getParameter("userid");
 		// Get DrawPoints
-		String shapes = request.getParameter("Shapes");
-		//System.out.println(shapes);
+		String shapes = request.getParameter("Shapes");		
 		
 		// Set Graffiti items
 		graffiti.setPostid(postid);
