@@ -225,7 +225,7 @@ $(document).on('click', '.popupTrigger', function(event){
 					$("<img src=\"images/profile/" + data.loginphoto + "\">").appendTo('#form form');
 					$("<input type=\"hidden\" name=\"postid\" value="+ id +" />").appendTo('#form form');
 					$("<input type=\"text\"name=\"comment\"/>").appendTo('#form form');
-					$("<input type=\"submit\" value=\"댓글\"/>").appendTo('#form form');
+					$("<input type=\"submit\" class=\"btn btn-primary\" value=\"댓글\"/>").appendTo('#form form');
 	
 					// comment 부분 처리
 					$(data.comment).each(function(i, comm) {
