@@ -110,9 +110,9 @@
  	padding-right: 5px;
 }
 button.btn.btn-mini.btn-danger.comment {
-	position: absolute;
-	top: 93.5%;
-	right: 10%;
+	position: relative;
+	bottom: 40px;
+	left: 90%;
 }
 #drawlist {
 	position: fixed;
