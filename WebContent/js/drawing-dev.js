@@ -55,6 +55,7 @@ function DoodleView(canvas, ownerID, shapes)
 	var lastPoint = null;
 	var touchSupported = Modernizr.touch;
 	var shapeStack = new Array();
+	var tempshape = new Array();
 	
 	var currentShape = 
 	{
@@ -93,15 +94,26 @@ function DoodleView(canvas, ownerID, shapes)
 	{
 		var shapeList = new Array();
 		for(var i=0 ; i<shapes.length ; i++){
-			//console.log(i);
-			//console.log(shapes[i]);
 			if(shapes[i].shapeOwnerID == ownerID)
 			{
 				shapeList.push(shapes[i]);
+				console.log(shapes[i]);
 			}
 		}
 			
 		return shapeList;
+	}
+	
+	this.curShapes = function()
+	{
+		if(tempshape.length != 0) {
+			return tempshape;
+		}
+		else return null;
+	}
+	
+	this.curShapesReset = function() {
+		tempshape = new Array();
 	}
 	
 	// 마우스 포인트 위치 정규화
@@ -300,6 +312,7 @@ function DoodleView(canvas, ownerID, shapes)
 				
 				// 최적화 후 다시그리기
 				currentShape.points = pointsNormalize(simplify(currentShape.points, 0.5, true));
+				tempshape.push(deepCopy(currentShape));
 				shapes.push(deepCopy(currentShape));
 				reDraw();
 				
@@ -307,6 +320,8 @@ function DoodleView(canvas, ownerID, shapes)
 				currentShape.points=[];
 			}
 		}
+//		console.log("tempshape");
+//		console.log(tempshape);
 	}
 	
 	// 마우스 이벤트 핸들러 등록
