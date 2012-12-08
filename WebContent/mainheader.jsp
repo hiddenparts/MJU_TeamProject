@@ -70,3 +70,9 @@
 			</div>
 		</form>
 	</div>
+<script>
+
+$('input[name="search"]').click( function() {
+	$(this).val("");
+});
+</script>
