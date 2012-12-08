@@ -132,3 +132,8 @@ button.btn.btn-mini.btn-danger.comment {
  	max-width: 100%;
  	padding-right: 5px;
  }
+ #savedraw {
+ 	float: right;
+ 	height: 28px;
+ 	padding: 0 5px;
+ }
