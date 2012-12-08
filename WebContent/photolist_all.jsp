@@ -222,7 +222,7 @@ $(document).on('click', '.popupTrigger', function(event){
 
 				// name 부분 처리
 				$('<img src=\"images/profile/' + data.user.profilephoto + '\">').appendTo('#name');
-				$('<b><p id=\"name_name\">' + data.user.nickname + '</p></b>').appendTo('#name');
+				$('<b><p style="font-size:12pt" id=\"name_name\">' + data.user.nickname + '</p></b>').appendTo('#name');
 				$('<p style="font-size:10pt" id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
 
 				if(sessionID != null) {
