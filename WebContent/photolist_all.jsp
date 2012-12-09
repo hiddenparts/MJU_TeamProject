@@ -244,7 +244,7 @@ $(document).on('click', '.popupTrigger', function(event){
 					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
 				}
 				if(sessionID == data.user.userid) {
-					$('<button class="btn btn-mini" type="button">수정</button>').appendTo('#name');
+					$('<button class="btn btn-mini modify" type="button">수정</button>').appendTo('#name');
 				}
 
 				// photo 부분 처리
@@ -321,7 +321,7 @@ $(document).on('click', '.popupTrigger', function(event){
 						doodler.rePaint();
 					};// 이미지 로딩이 끝나면 하는 처리
 					
-					$('.btn.btn-mini').bind('click', function() {
+					$('.btn.btn-mini.modify').bind('click', function() {
 						location = 'article?op=update&id=' + id;
 					});
 					
