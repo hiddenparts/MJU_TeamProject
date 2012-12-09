@@ -241,7 +241,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				$('<p style="font-size:10pt" id=\"name_time\">' + data.article.postdate + '</p>').appendTo('#name');
 
 				if(sessionID != null) {
-					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
+					$('<input id=\"savedraw\" class=\"btn btn-primary\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
 				}
 				if(sessionID == data.user.userid) {
 					$('<button class="btn btn-mini modify" type="button">수정</button>').appendTo('#name');
