@@ -299,12 +299,11 @@ $(document).on('click', '.popupTrigger', function(event){
 					img.onload = function(){ 
 						$(canvas).attr('width', 700);
 						$(canvas).attr('height', 700 * (img.height / img.width));
-						//var curheight = (img.height > $(window).height()-100) ? $('#photopage').height() : $(window).height()-100;
-						var curheight = $('#photopage').height();
+						var curheight = ($('#photopage').height() > $(window).height()) ? $('#photopage').height()-50 : $(window).height()-100;
+						//var curheight = $('#photopage').height();
 						
 						//세션이 있는지 확인해서 로그인일때랑 아닐때, 코멘트가 있을때 또 있다면 몇개가 있는지 받아와서 길이를 적절하게 구해줘야한다
 						curheight += (data.comment.length + 1) * 50;
-						//console.log(data.comment.length);
 						$('.pbg').css('height', curheight); //console.log('width: ', $(this).width(), ' height: ', $(this).height());
 						
 						doodler.setBackground(img.src);

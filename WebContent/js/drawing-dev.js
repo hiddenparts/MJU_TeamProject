@@ -256,11 +256,6 @@ function DoodleView(canvas, ownerID, shapes)
 		
 		// 모든 요소를 그립니다.
 		drawShapes(shapes);
-		console.log("shapes");
-		console.log(shapes);
-		/*for(var i=0; i<shapes.length; i++) {
-			console.log(shapes[i]);
-		}*/
 	}
 	
 	// canvas의 Mouse Down 이벤트 입니다.
