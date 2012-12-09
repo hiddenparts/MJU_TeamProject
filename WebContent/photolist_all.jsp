@@ -39,17 +39,6 @@
 
 	<div id="list">
 		<ul id="tiles">
-				<!-- 이 위치에 고정되어 보이는 Item입니다. -->
-				<li>
-					<section class="item"> 
-						<header>
-							이제 시작해보세요
-						</header>
-						<article id="itemcontents">
-						당신의 사진들 </br>	명터레스트는 어쩌고 </br> 당신의 영감을 어쩌고</br>  이곳을 통해 어쩌고 </br> 수민아 채워봐 어쩌고</br>  	잘 채우고 잘 꾸미면 간지날꺼야  </br>	부탁함 ㅋㅋ</br>고정되어서 안움직이는 칸</br>
-						</article> 
-					</section>
-				</li>
 			<!-- 이 위치에 게시물들이 ajax로 채워집니다 -->
 		</ul> 
 	</div>
