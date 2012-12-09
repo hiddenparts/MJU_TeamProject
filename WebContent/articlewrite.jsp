@@ -29,16 +29,16 @@
           	<input type="hidden" name="postid" value="${article.postid }"/>
        		</c:if>
 					
+					<c:if test="${article.photo == null}">
 					<div class="control-group">
 						<label class="control-label" for="photo"><i class="icon-picture"></i>사진</label>
 						<div class="controls">
 							<input type="file" name="photo">
-							<c:if test="&{article.photo} != null}">
-								<p>등록된 사진 <c:out value="${article.photo}"/> 이 있습니다.</p> 
-							</c:if>
+								<%-- <p>등록된 사진 <c:out value="${article.photo}"/> 이 있습니다.</p> --%> 
 							<p>사진의 크기는 최대 5MB까지 가능합니다.</p>
 						</div>
 					</div>
+					</c:if>
 
 					<div class="control-group">
 						<label class="control-label" for="introduce"><i class="icon-pencil"></i>내용</label>
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 					
-					<div class="control-group">
+					<!-- <div class="control-group">
 						<label class="control-label"><i class="icon-folder-close"></i>폴더</label>
 						<div class="controls">
 						<select name="folder">
@@ -55,7 +55,7 @@
 							<option value="folder2">폴더2</option>
 						</select>
 						</div>
-					</div>
+					</div> -->
 					
 					<div class="control-group">
 						<label class="control-label"><i class=" icon-search"></i>카테고리</label>

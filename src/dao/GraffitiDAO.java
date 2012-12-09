@@ -58,7 +58,7 @@ public class GraffitiDAO {
 		return list;
 	}
 	
-	public static boolean create(Graffiti graffiti) throws SQLException, NamingException {
+	public static int create(Graffiti graffiti) throws SQLException, NamingException {
 		int result;
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -82,6 +82,22 @@ public class GraffitiDAO {
 
 			// 수행
 			result = stmt.executeUpdate();
+			if(result == 1) {
+				stmt.close();
+				stmt = null;
+				
+				stmt = conn.prepareStatement("select graffiti.graffitiid from graffiti where graffiti.graffititdate = ?");
+				stmt.setTimestamp(1, graffiti.getGraffititdate());
+				
+				rs = stmt.executeQuery();
+				
+				rs.next();
+				result = rs.getInt(1);
+				
+				System.out.println(result);
+			} else {
+				result = -1;
+			}
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
@@ -89,7 +105,7 @@ public class GraffitiDAO {
 			if (conn != null) try{conn.close();} catch(SQLException e) {}
 		}
 		
-		return (result == 1);
+		return result;
 	}
 	
 	public static boolean remove(int id) throws NamingException, SQLException {

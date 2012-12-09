@@ -49,10 +49,10 @@ public class CommentServlet extends HttpServlet {
 			}
 
 			if(ret) {
-				System.out.println(id + "번 삭제성공");
+				//System.out.println(id + "번 삭제성공");
 				rsobj.put("result", "ok");
 			} else {
-				System.out.println(id + "번 삭제실패");
+				//System.out.println(id + "번 삭제실패");
 				rsobj.put("result", "no");
 			}
 		} catch (Exception e) {

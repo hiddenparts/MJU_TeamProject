@@ -62,8 +62,12 @@ function DoodleView(canvas, ownerID, shapes)
 		shapeOwnerID	:	ownerID,
 		shapeType		:	null,
 		points			:	[],
-		drawType		:	1
+		drawType		:	0
 	};
+	
+	this.setdrawType = function() {
+		currentShape.drawType += 1;
+	}
 	
 	// 오버로딩
 	if(arguments.length == 3)
@@ -252,6 +256,11 @@ function DoodleView(canvas, ownerID, shapes)
 		
 		// 모든 요소를 그립니다.
 		drawShapes(shapes);
+		console.log("shapes");
+		console.log(shapes);
+		/*for(var i=0; i<shapes.length; i++) {
+			console.log(shapes[i]);
+		}*/
 	}
 	
 	// canvas의 Mouse Down 이벤트 입니다.
@@ -320,8 +329,6 @@ function DoodleView(canvas, ownerID, shapes)
 				currentShape.points=[];
 			}
 		}
-//		console.log("tempshape");
-//		console.log(tempshape);
 	}
 	
 	// 마우스 이벤트 핸들러 등록
@@ -391,6 +398,18 @@ function DoodleView(canvas, ownerID, shapes)
 		this.removeText();
 		shapeStack = new Array();
 		reDraw();	
+	}
+	
+	// canvas를 비웁니다.
+	this.clearscr = function()
+	{		
+		// canvas를 먼저 지웁니다.
+		canvasContext.clearRect(0, 0, $(canvasObject).width(), $(canvasObject).height());
+		
+		// 배경이미지가 있다면 먼저 그립니다.
+		if(photo != null && photoDataUrl!=null){
+			canvasContext.drawImage(photo, 0, 0, $(canvasObject).width(), $(canvasObject).height());
+		}
 	}
 	
 	this.redo = function(){
@@ -475,6 +494,19 @@ function DoodleView(canvas, ownerID, shapes)
 	
 	this.isEmpty = function(){
 		return (shapes.length == 0) ? true : false;	
+	}
+	
+	this.removeshape = function(index) {
+		var num=0;
+		for(var i=0 ; i<shapes.length ; i++){
+			if(shapes[i].drawType == index)
+			{
+				num += 1;	
+			}
+		}
+		
+		shapes.splice(index, index+num);
+		return shapes;
 	}
 
 }

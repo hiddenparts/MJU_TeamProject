@@ -4,11 +4,9 @@
 <div id="titlebar">
 	<div class="LiquidContainer" style="width: 1170px;">
 		<div id="Search">
-			<form method="get" action="article">
-				<span> <input name="search" type="text" value="검색"/>
-					<a id="query_button" href="#" class="lg"><img src="images/search.gif" alt=""></a>
+				<span> <input required name="search" type="text" value="검색"/>
+					<a id="query_button" class="lg"><img src="images/search.gif" alt=""></a>
 				</span>
-			</form>
 		</div>
 		<span><a href="main.jsp" id="logo"><img src="images/logo1.gif" alt="logo"></a></span>
 		<div id="Navigation">
@@ -25,7 +23,6 @@
 					<span><a href="login?op=logout">로그아웃</a></span>
 				</c:when>
 				<c:otherwise>
-					<!-- <span><a href="#login" id="loginAnchor" class="loginTrigger">로그인</a></span> -->
 					<a href="#modallogin" role="button" data-toggle="modal" accesskey="L" title="로그인">Login</a>
 					<span><a href="login?op=signup">가입</a></span>
 				</c:otherwise>
@@ -75,4 +72,54 @@
 $('input[name="search"]').click( function() {
 	$(this).val("");
 });
+
+$('input[name="search"]').keyup( function(e) {
+	if(e.keyCode == 13) $('#query_button').click();
+	else return;
+});
+
+$('#query_button').click( function() {
+	var text = $('input[name="search"]').val();
+	if(text.length <= 0) {
+		alert("검색어를 입력하지 않으셨습니다.");
+		return;
+	}
+	else {
+		location = 'article?op=search&search=' + text;
+	}
+});
+
+$(document).on('keydown', 'input[name="userid"]', function(e) {
+//$('input[name="userid"]').keyup( function(e) {
+	if(e.keyCode == 13){
+		$('.btn.btn-primary').click();
+	}
+/* 		if(e.keyCode == 13){
+			var id = $(this).val();
+			alert(id);	
+			if(text.length <= 0) {
+				alert("아이디를 입력해주세요");
+				return false;
+			} else {
+				var pw = $('#pwform').val();
+				if(pw.length <= 0) {
+					alert("비밀번호를 입력해주세요");
+					return false;
+			} else {
+				$('.btn.btn-primary').click();
+				}
+			}
+		}
+		else return false; */
+});
+
+$(document).on('keydown', 'input[name="pwd"]', function(e) {
+	if(e.keyCode == 13){
+		$('.btn.btn-primary').click();
+	}
+});
+
+
+
+
 </script>

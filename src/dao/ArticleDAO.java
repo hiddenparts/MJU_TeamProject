@@ -180,7 +180,43 @@ public class ArticleDAO {
 	}
 	/* 글삭제 부분 */
 	/* 글찾기 부분 */
-	
+	public static Article findbyId(int postid) throws SQLException, NamingException {
+		Article post = new Article();
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;		
+
+		DataSource ds = getDataSource();
+
+		try {
+			conn = ds.getConnection();
+			
+			stmt = conn.prepareStatement("SELECT * FROM article WHERE article.postid = ?");
+			stmt.setInt(1, postid);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				post = new Article(rs.getInt("postid"),
+									rs.getString("userid"),
+									rs.getInt("albumid"),
+									rs.getString("photo"),
+									rs.getString("content"),
+									rs.getTimestamp("postdate"),
+									rs.getString("category"),
+									rs.getInt("hits"),
+									rs.getInt("likehits"),
+									rs.getInt("postip"));
+			}
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return post;		
+	}
 	
 	
 	/* json 테스트용 */

@@ -47,6 +47,7 @@ public class AjaxServlet extends HttpServlet {
 		JSONObject rsobj = new JSONObject();
 		Post post = new Post();
 		ArrayList<Post> list = new ArrayList<Post>();
+		String searchtext = null;
 		
 		// 어떤 명령인지 확인
 		String op = request.getParameter("op");
@@ -56,19 +57,19 @@ public class AjaxServlet extends HttpServlet {
 		try {
 			if(op.equals("popup")) {
 				//get Post id
-				op_num = Integer.parseInt(request.getParameter("postid"));
-				//System.out.println("post : " + op_num); 
+				op_num = Integer.parseInt(request.getParameter("postid"));//System.out.println("post : " + op_num); 
 			} else if(op.equals("page")) {
 				//get Page num
-				op_num = Integer.parseInt(request.getParameter("page"));
-				//System.out.println("page : " + op_num);
+				op_num = Integer.parseInt(request.getParameter("page"));//System.out.println("page : " + op_num);
 			} else if(op.equals("category")) {
 				//get category
-				op_num = Integer.parseInt(request.getParameter("page"));
-				//System.out.println("page : " + op_num);
-				op_num1 = Integer.parseInt(request.getParameter("cate"));
-				//System.out.println("cate : " + op_num1);
-			}
+				op_num = Integer.parseInt(request.getParameter("page"));//System.out.println("page : " + op_num);
+				op_num1 = Integer.parseInt(request.getParameter("code"));//System.out.println("cate : " + op_num1);
+			} else if(op.equals("search")) {
+				//get category
+				op_num = Integer.parseInt(request.getParameter("page"));	//System.out.println("page : " + op_num);
+				searchtext = request.getParameter("code");
+			} 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			op_num = -1;
@@ -118,8 +119,12 @@ public class AjaxServlet extends HttpServlet {
 					postjsar.add(subjsobj);
 				}
 				rsobj.put("post", postjsar);
-			} else if(op.equals("category")) {
-				list = PostDAO.getCategoryPage(op_num, op_num1);
+			} else if(op.equals("category") || op.equals("search")) {
+				if (op.equals("category")) {
+					list = PostDAO.getCategoryPage(op_num, op_num1);
+				} else if ( op.equals("search")) {
+					list = PostDAO.getSearchResult(op_num, searchtext);
+				}
 				
 				JSONArray postjsar = new JSONArray();
 				for(int i=0; i<list.size(); i++) {
@@ -135,7 +140,7 @@ public class AjaxServlet extends HttpServlet {
 					postjsar.add(subjsobj);
 				}
 				rsobj.put("post", postjsar);
-			}
+			}			
 		} catch (Exception e) {
 			System.out.println(e);
 			rsobj.put("ERROR", e.getMessage());
@@ -150,8 +155,9 @@ public class AjaxServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		boolean ret 		= false;
+		int ret = -1;
 		JSONObject rsobj = new JSONObject();
+		Timestamp curtime = new Timestamp(System.currentTimeMillis());
 		
 		Object obj = null;
 		JSONObject shape = new JSONObject();
@@ -169,20 +175,23 @@ public class AjaxServlet extends HttpServlet {
 		graffiti.setPostid(postid);
 		graffiti.setUserid(userid);
 		graffiti.setGraffitipath(shapes);
-		graffiti.setGraffititdate(new Timestamp(System.currentTimeMillis()));
+		graffiti.setGraffititdate(curtime);
 		graffiti.setGraffitiip(123456789);		
 		
 		try {
-			ret = GraffitiDAO.create(graffiti);
-			if(ret) {
-				System.out.println(userid + "님의 그림저장 성공");
+			ret = GraffitiDAO.create(graffiti); // 리턴값은  그글의 아이디
+			if(ret != -1) {
+				System.out.println(userid + "님의 그림저장 성공" + ret + "번낙서");
 				rsobj.put("result", "ok");
+				rsobj.put("graffitidate", curtime.toString());
+				rsobj.put("graffitiid", ret);
+				
 			} else {
 				System.out.println(userid + "님의 그림저장 실패");
 				rsobj.put("result", "no");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 			System.out.println(e);
 		}
 		

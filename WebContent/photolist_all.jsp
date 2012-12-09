@@ -16,9 +16,9 @@
 	
 	<script src="js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="js/common-dev.js"></script>
-<script type="text/javascript" src="js/simplify-min.js"></script>
-<script type="text/javascript" src="js/modernizr.custom.js"></script>
-<script type="text/javascript" src="js/drawing-dev.js"></script>
+	<script type="text/javascript" src="js/simplify-min.js"></script>
+	<script type="text/javascript" src="js/modernizr.custom.js"></script>
+	<script type="text/javascript" src="js/drawing-dev.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/mwLogin.js"></script>
 </head>
@@ -39,6 +39,17 @@
 
 	<div id="list">
 		<ul id="tiles">
+				<!-- 이 위치에 고정되어 보이는 Item입니다. -->
+				<li>
+					<section class="item"> 
+						<header>
+							이제 시작해보세요
+						</header>
+						<article id="itemcontents">
+						당신의 사진들 </br>	명터레스트는 어쩌고 </br> 당신의 영감을 어쩌고</br>  이곳을 통해 어쩌고 </br> 수민아 채워봐 어쩌고</br>  	잘 채우고 잘 꾸미면 간지날꺼야  </br>	부탁함 ㅋㅋ</br>고정되어서 안움직이는 칸</br>
+						</article> 
+					</section>
+				</li>
 			<!-- 이 위치에 게시물들이 ajax로 채워집니다 -->
 		</ul> 
 	</div>
@@ -70,11 +81,14 @@
 <script type="text/javascript">
 
 var sessionID = null; // 전역 세션아이디
+var sessionNick = null; // 전역 세션아이디
+var sessionPhoto = null; // 전역 세션아이디
 
 <% Member user = (Member) session.getAttribute("user");
-	String userid= null;
 	if(user != null) { %>
-		sessionID = "<%=user.getUserid() %>"; 
+		sessionID = "<%=user.getUserid() %>";
+		sessionNick = "<%=user.getNickname() %>";
+		sessionPhoto = "<%=user.getProfilephoto() %>";
 <% }	%>
 
 $(function($){
@@ -182,10 +196,11 @@ $(function($){
 		 });
    };  
 });
-	
+
+var doodler = null;
 $(document).on('click', '.popupTrigger', function(event){
 	  // 아이템을 클릭했을때 뜨는 상세뷰 준비 =======================================================================================
-	var doodler;
+
 	var PopupWindow = $('.popup');
 	var SelectItem = $(this.parentNode.parentNode);
 	var id;
@@ -228,6 +243,9 @@ $(document).on('click', '.popupTrigger', function(event){
 				if(sessionID != null) {
 					$('<input id=\"savedraw\" type=\"button\" value=\"댓그림 저장\">').appendTo('#name');
 				}
+				if(sessionID == data.user.userid) {
+					$('<button class="btn btn-mini" type="button">수정</button>').appendTo('#name');
+				}
 
 				// photo 부분 처리
 				$('<canvas id=\"photo_picture\"></canvas>').appendTo('#photodetail');
@@ -261,7 +279,7 @@ $(document).on('click', '.popupTrigger', function(event){
 				graffitilist = data.graffiti;
 				listHtml += '<ul>';
 				$(data.graffiti).each(function(i, grafi) {
-					listHtml += '<li><input class="viewcheck" type="checkbox" name="view" checked><div>';
+					listHtml += '<li id="'+i+'"><input class="viewcheck" type="checkbox" name="view" checked><div>';
 					listHtml += '<img src=\"images/profile/' + grafi.userphoto + '\">';
 					listHtml += grafi.usernick + grafi.graffititdate;
 					if(sessionID == grafi.userid) {
@@ -275,7 +293,7 @@ $(document).on('click', '.popupTrigger', function(event){
 					// canvas 생성
 					doodler = new DoodleView(canvas, sessionID);
 					doodler.setEditable(true);
-					doodler.setBrush('type1_10_red');
+					doodler.setBrush('type1_10_black');
 				
 					// 이미지 로딩이 끝나면 하는 처리
 					img.onload = function(){ 
@@ -304,32 +322,45 @@ $(document).on('click', '.popupTrigger', function(event){
 						doodler.rePaint();
 					};// 이미지 로딩이 끝나면 하는 처리
 					
+					$('.btn.btn-mini').bind('click', function() {
+						location = 'article?op=update&id=' + id;
+					});
+					
 					// save 버튼을 눌렀을때 댓그림 저장하기
-					$('#savedraw').bind('click', function() {
-						//var shapelist = doodler.getOwnerShapes(sessionID);
+					$('#savedraw').bind('click', function() {	//var shapelist = doodler.getOwnerShapes(sessionID);
 						var shapelist = doodler.curShapes();
-						console.log(shapelist);
 						if(shapelist == null || shapelist.length == 0) {
 							alert("그림이 없습니다");	
 							return;
 						}
 						
-							$.ajax({
-								url : "AjaxServlet",
-								data : { Shapes : JSON.stringify(shapelist), Postid : id, userid : sessionID},
-								type : "POST",
-								dataType : "json",
-								success : function(data) { 
-										if(data.result == 'ok') { 
-											alert("저장성공"); 
-											doodler.curShapesReset();
-										}
-										else if(data.result == 'no') {
-											alert("저장실패");
-										}
-								},
-								error : function() { alert("전송실패"); }
-							});
+						$.ajax({
+							url : "AjaxServlet",
+							data : { Shapes : JSON.stringify(shapelist), Postid : id, userid : sessionID},
+							type : "POST",
+							dataType : "json",
+							success : function(data) { 
+									if(data.result == 'ok') { 
+										alert("저장성공"); 
+										doodler.curShapesReset();
+										doodler.setdrawType();
+										
+ 										var html = "";
+										html += '<ul><li><input class="viewcheck" type="checkbox" name="view" checked><div>';
+										html += '<img src=\"images/profile/' + sessionPhoto + '\">';
+										html += sessionNick + data.graffitidate;
+										html += '<button class=\"btn btn-mini btn-danger graffiti\" type=\"button\" value=\"'+ data.graffitiid +'\">삭제</button>'
+										html += '</div></li></ul>';
+										$('#drawlist').append(html);
+									}
+									else if(data.result == 'no') {
+										alert("저장실패");
+									}
+							},
+							error : function(xhr, status, error) {
+								alert("전송실패"); },
+							complete : function() { }
+						});
 					});// save 버튼을 눌렀을때 댓그림 저장하기
 					
 					// 체크된 그림만 보여주기
@@ -344,23 +375,26 @@ $(document).on('click', '.popupTrigger', function(event){
 							
 							if($(listitem).find('.viewcheck').is(':checked')) {
 								var draw = graffitilist[i];
-								arr = arr.concat(JSON.parse(draw.graffitipath)); // 체크된 번째 그림을 가져온다
+								arr = arr.concat(JSON.parse(draw.graffitipath)); // 체크된 순서의 그림만 가져온다
 								checked += 1;
+							}	
+						}
+						
+						if(checked != 0) {								
+							if(arr.length != 0) {
+									doodler.jsonToShapes(arr);
 							}
-							
+							doodler.rePaint(); // 다시 그리기
+						} else {
+							doodler.clearscr(); // 하나도 선택된게 없으면 깔끔하게 비우기
 						}
-						
-						if(arr.length != 0) {
-								doodler.jsonToShapes(arr);
-						}
-						
-						doodler.rePaint(); // 다시 그리기
 					}); // 체크된 그림만 보여주기
 					
-				$('.colorpicker').click(function() {
-						var color = $(this).attr('id');
-						doodler.setBrush(color);
-				});
+					// 색바꾸기
+					$('.colorpicker').click(function() {
+							var color = $(this).attr('id');
+							doodler.setBrush(color);
+					});
 					
 					img.src = "images/photo/" + data.article.photo;
 			},
@@ -372,6 +406,7 @@ $(document).on('click', '.popupTrigger', function(event){
 		if (event.keyCode != 27)
 			return true;
 		if (PopupWindow.hasClass('open')) {
+			SelectItem.css("visibility", "visible");
 			PopupWindow.removeClass('open');
 			
 			// ajax로 받아온 data를 해제하고 원상복귀 시키는 부분.
@@ -383,7 +418,6 @@ $(document).on('click', '.popupTrigger', function(event){
 			$('.popup #comment').empty();
 			$('#drawlist').empty();
 			
-			SelectItem.css("visibility", "visible");
 			document.body.style.overflow = 'visible';
 		}
 		return false;
@@ -392,6 +426,7 @@ $(document).on('click', '.popupTrigger', function(event){
 	// Hide Window
 	PopupWindow.find('>.pbg').mousedown(function(event) {
 		PopupWindow.removeClass('open');
+		SelectItem.css("visibility", "visible");
 			
 		// ajax로 받아온 data를 해제하고 원상복귀 시키는 부분.
 			$('.popup #name').empty();
@@ -401,11 +436,11 @@ $(document).on('click', '.popupTrigger', function(event){
 			$('.popup #form form').empty();
 			$('.popup #comment').empty();
 			$('#drawlist').empty();
-				
-				SelectItem.css("visibility", "visible");
-				document.body.style.overflow = 'visible';
+	
+			document.body.style.overflow = 'visible';
 		return false;
 	});
+		
 });
 
 // 글을 지우기 위해 icon을 띄우는 부분 
@@ -497,10 +532,14 @@ $(document).on('click', '.btn.btn-mini.btn-danger.comment', function(e) {
 	return false;
 });
 
-// ajax로 댓그림삭제
+ //ajax로 댓그림삭제
 $(document).on('click', '.btn.btn-mini.btn-danger.graffiti', function(e) {
 	var id = $(this).val();
-
+	var num = $(this).parent().parent().attr('id');
+	
+	//console.log($(this).parent().parent());
+	//console.log(num);
+	
 	if (confirm("정말로 삭제하시겠습니까?")) {
 		$(this).parent().parent().remove();
   		$.ajax({
@@ -511,15 +550,18 @@ $(document).on('click', '.btn.btn-mini.btn-danger.graffiti', function(e) {
 			success : function(data) { 
 					if(data.result == 'ok') { 
 						alert("삭제하였습니다.");
+						parent.document.location.href = "";
+/* 						doodler.removeshape(num);
+						doodler.rePaint(); */
 					}
 					else if(data.result == 'no') {
 						alert("삭제에 실패하였습니다");
 					}
 			},
 			error : function() { alert("삭제실패"); }
-		}); 
+		});  		
 	}
 	return false;
-});
+});	// ajax로 댓그림삭제  
 
 </script>

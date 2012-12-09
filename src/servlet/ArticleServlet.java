@@ -31,6 +31,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.ArticleDAO;
+import dao.MemberDAO;
 import dao.PostDAO;
 
 
@@ -53,7 +54,8 @@ public class ArticleServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-
+		
+		request.setCharacterEncoding("utf-8");
 		String op = request.getParameter("op");
 		String search = "";
 		String actionUrl = "";
@@ -64,11 +66,14 @@ public class ArticleServlet extends HttpServlet {
 			if(op == null) {
 				op = "list";
 			} else if(op.equals("category")) {
-				cg_num = Integer.parseInt(request.getParameter("cate"));
-				System.out.println("category_num : " + cg_num);
-			} else if(op.equals("delete")) {
-				op_num = Integer.parseInt(request.getParameter("id"));
-				System.out.println("id : " + op_num);
+				cg_num = Integer.parseInt(request.getParameter("cate")); //System.out.println("category_num : " + cg_num);
+			} else if(op.equals("delete") || op.equals("update")) {
+				op_num = Integer.parseInt(request.getParameter("id")); //System.out.println("id : " + op_num);
+			} else if(op.equals("search")) {
+				search = request.getParameter("search"); //	System.out.println(search);
+				byte b[] = search.getBytes("ISO-8859-1");
+				search = new String(b, "UTF-8");
+
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -77,6 +82,7 @@ public class ArticleServlet extends HttpServlet {
 		
 		if(request.getParameter("search") != null) {
 			search = request.getParameter("search");
+			op = "search";
 		}
 
 		try {
@@ -87,21 +93,24 @@ public class ArticleServlet extends HttpServlet {
 				request.setAttribute("category", list);
 				actionUrl = "articlewrite.jsp";
 			} else if(op.equals("update")) {
+				Article post = ArticleDAO.findbyId(op_num);
+				request.setAttribute("article", post);
+				request.setAttribute("method", "PUT");
+				request.setAttribute("category", list);
 				
+				actionUrl = "articlewrite.jsp";
 			} else if(op.equals("list")) {
-				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
-				request.setAttribute("posts", posts);
 				request.setAttribute("category", list);
 				
 				actionUrl = "photolist_all.jsp";
-			} else if(search.equals("search")) {
-				//PageResult<Post> posts = PostDAO.getPage(1, 10); // 10개를 가져오는거던가..
-				//request.setAttribute("posts", posts);
-				
-				//actionUrl = "photolist.jsp";
+			} else if(op.equals("search")) {
+				request.setAttribute("op", "search");
+				request.setAttribute("search", search);
+				request.setAttribute("category", list);
+			
+				actionUrl = "photolist.jsp";
 			} else if(op.equals("category")) {
-				ArrayList<Post> posts = PostDAO.getAllPage(); // 모든 글 가져오기
-				request.setAttribute("posts", posts);
+				request.setAttribute("op", "category");
 				request.setAttribute("category", list);
 				request.setAttribute("cate_num", cg_num);
 
@@ -114,7 +123,6 @@ public class ArticleServlet extends HttpServlet {
 					System.out.println(op_num + "번째 글 삭제실패");
 				}
 				actionUrl = "";
-				//actionUrl = "article?op=category&cate=" + cg_num;
 			}
 		} catch (Exception e) {
 			System.out.println(e);
