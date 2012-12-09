@@ -6,5 +6,5 @@ CREATE TABLE `graffiti` (
   `graffititdate` datetime NOT NULL,
   `graffitiip` int(4) unsigned NOT NULL,
   PRIMARY KEY (`graffitiid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
